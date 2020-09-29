@@ -1,5 +1,6 @@
 import React from 'react';
-import LoginContainer from 'containers/LoginContainer';
+import Container from '@material-ui/core/Container';
+import LoginContainer from 'containers/login/LoginContainer';
 
 function loginPage() {
   return (
