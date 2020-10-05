@@ -1,5 +1,4 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 
 import Avatar from '@material-ui/core/Avatar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -40,13 +39,6 @@ const useStyles = makeStyles((theme) => ({
 
 function LoginContainer() {
   const classes = useStyles();
-  const history = useHistory();
-
-  const eventHandler = {
-    handleKakaoLoginClick: () => {
-      history.go('/api/oauth2/authorize/kakao');
-    },
-  };
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -60,12 +52,15 @@ function LoginContainer() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <img
-            className={classes.kakao_login}
-            src={require('styles/images/kakao_login_medium_wide.png')}
-            onClick={eventHandler.handleKakaoLoginClick}
-            alt="카카오 로그인"
-          />
+          <a
+            href={`http://${process.env.REACT_APP_SERVER_IP}:${process.env.REACT_APP_SERVER_PORT}/oauth2/authorizatuon/kakao`}
+          >
+            <img
+              className={classes.kakao_login}
+              src={require('styles/images/kakao_login_medium_wide.png')}
+              alt="카카오 로그인"
+            />
+          </a>
         </div>
       </Grid>
     </Grid>
