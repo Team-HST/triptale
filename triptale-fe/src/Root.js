@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import store from 'store';
 import App from 'components/App';
-import './styles/triptale.css';
+import './styles/css/triptale.css';
 
 function Root() {
   return (
