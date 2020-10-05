@@ -14,11 +14,11 @@
 
 
 ## \# Project structure
-#### [triptale-be](https://github.com/Team-HST/learning-hub/tree/master/learning-hub-be)
+#### [triptale-be](https://github.com/Team-HST/triptale/tree/develop/triptale-be)
 - Spring Boot + JPA
 - MySQL
 
-#### [triptale-fe](https://github.com/Team-HST/learning-hub/tree/master/learning-hub-fe)
+#### [triptale-fe](https://github.com/Team-HST/triptale/tree/develop/triptale-fe)
 - React.js  
 - Design / https://material-ui.com/
 
