@@ -1,7 +1,9 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Route, Switch } from 'react-router-dom';
-import { loginPage } from 'pages';
+import { loginPage, MainPage } from 'pages';
+
+import OAuth2Route from './OAuth2Route';
 
 function App() {
   return (
@@ -11,8 +13,9 @@ function App() {
         <title>Hello TripTale</title>
       </Helmet>
       <Switch>
-        <Route path="/" component={loginPage}></Route>
-        <Route path="/login" exact component={loginPage}></Route>
+        <OAuth2Route path="/login-callback" component={MainPage}></OAuth2Route>
+        <Route exact path="/" component={loginPage}></Route>
+        <Route exact path="/login" component={loginPage}></Route>
       </Switch>
     </React.Fragment>
   );
