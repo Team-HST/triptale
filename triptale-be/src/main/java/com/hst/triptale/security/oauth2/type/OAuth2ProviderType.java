@@ -1,7 +1,6 @@
-package com.hst.triptale.oauth2.type;
+package com.hst.triptale.security.oauth2.type;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -10,7 +9,7 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 
-import com.hst.triptale.oauth2.model.OAuthAttributes;
+import com.hst.triptale.security.oauth2.model.OAuthAttributes;
 import com.hst.triptale.utils.EnumUtils;
 
 /**
@@ -49,7 +48,7 @@ public enum OAuth2ProviderType {
 
 	private static final Map<String, OAuth2ProviderType> FINDER = EnumUtils.asMap(OAuth2ProviderType.class,
 		OAuth2ProviderType::getRegistrationId);
-	private static final String DEFAULT_LOGIN_REDIRECT_URL = "{baseUrl}/login/oauth2/code/{registrationId}";
+	private static final String DEFAULT_LOGIN_REDIRECT_URL = "{baseUrl}/api/oauth2/processing/{registrationId}";
 
 	private String registrationId;
 	private ClientAuthenticationMethod method;

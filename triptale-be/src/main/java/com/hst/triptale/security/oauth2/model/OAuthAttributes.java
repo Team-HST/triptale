@@ -1,4 +1,4 @@
-package com.hst.triptale.oauth2.model;
+package com.hst.triptale.security.oauth2.model;
 
 import java.util.Map;
 

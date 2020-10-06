@@ -1,4 +1,4 @@
-package com.hst.triptale.oauth2.service;
+package com.hst.triptale.security.oauth2;
 
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -8,9 +8,8 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import com.hst.triptale.oauth2.model.OAuthAttributes;
-import com.hst.triptale.oauth2.type.OAuth2ProviderType;
-import com.hst.triptale.user.entity.User;
+import com.hst.triptale.security.oauth2.model.OAuthAttributes;
+import com.hst.triptale.security.oauth2.type.OAuth2ProviderType;
 import com.hst.triptale.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -38,4 +37,5 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 		userService.saveOrUpdateByOAuth(oAuthAttributes);
 		return oAuth2User;
 	}
+
 }

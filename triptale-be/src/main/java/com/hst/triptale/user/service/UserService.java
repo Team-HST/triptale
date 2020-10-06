@@ -1,10 +1,8 @@
 package com.hst.triptale.user.service;
 
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 
-import com.hst.triptale.oauth2.model.OAuthAttributes;
+import com.hst.triptale.security.oauth2.model.OAuthAttributes;
 import com.hst.triptale.user.entity.User;
 import com.hst.triptale.user.repository.UserRepository;
 
