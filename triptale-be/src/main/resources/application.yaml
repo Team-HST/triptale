@@ -12,6 +12,25 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+app:
+  security:
+    public-paths:
+      # basic web resources
+      - /
+      - /error
+      - /favicon.ico
+      - /**/*.png
+      - /**/*.gif
+      - /**/*.svg
+      - /**/*.jpg
+      - /**/*.html
+      - /**/*.css
+      - /**/*.js
+      # application apis
+      - /api/oauth2/**
 
 ---
 spring:
@@ -22,3 +41,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+app:
+  fe-service-url: http://localhost:3000
