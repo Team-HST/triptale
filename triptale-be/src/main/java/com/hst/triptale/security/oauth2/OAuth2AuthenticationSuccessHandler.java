@@ -50,7 +50,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 		String token = "DUMMY_TOKEN";
 		return UriComponentsBuilder.fromUriString(applicationProps.getFeServiceUrl())
 			.path("login-callback")
-			.queryParam("loginSuccess", "Y")
+			.queryParam("successYn", "Y")
 			.queryParam("token", token)
 			.build().toUriString();
 	}

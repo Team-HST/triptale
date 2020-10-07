@@ -37,7 +37,7 @@ public class OAuth2AuthenticationFailureHandler extends SimpleUrlAuthenticationF
 		AuthenticationException exception) {
 		return UriComponentsBuilder.fromUriString(applicationProps.getFeServiceUrl())
 			.path("login-callback")
-			.queryParam("loginSuccess", "N")
+			.queryParam("successYn", "N")
 			.queryParam("error", exception.getLocalizedMessage())
 			.build().toUriString();
 	}
