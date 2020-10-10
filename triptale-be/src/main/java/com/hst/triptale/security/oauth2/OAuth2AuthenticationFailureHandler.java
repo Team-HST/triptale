@@ -25,7 +25,6 @@ public class OAuth2AuthenticationFailureHandler extends SimpleUrlAuthenticationF
 	private final ApplicationProps applicationProps;
 	private final HttpCookieOAuth2AuthorizationRequestRepository authorizationRequestRepository;
 
-
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 		AuthenticationException exception) throws IOException, ServletException {

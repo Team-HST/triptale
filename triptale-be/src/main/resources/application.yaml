@@ -17,6 +17,8 @@ spring:
 
 app:
   security:
+    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
+    tokenExpirationMs: 864000000 # 10 days
     public-paths:
       # basic web resources
       - /
