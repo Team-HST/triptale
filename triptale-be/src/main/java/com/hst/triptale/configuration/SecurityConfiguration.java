@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.hst.triptale.configuration.props.ApplicationProps;
 import com.hst.triptale.security.oauth2.CustomOAuth2UserService;
@@ -15,6 +16,7 @@ import com.hst.triptale.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepo
 import com.hst.triptale.security.oauth2.OAuth2AuthenticationFailureHandler;
 import com.hst.triptale.security.oauth2.OAuth2AuthenticationSuccessHandler;
 import com.hst.triptale.security.oauth2.type.OAuth2ProviderType;
+import com.hst.triptale.security.token.TokenAuthenticationFilter;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,6 +34,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	private final CustomOAuth2UserService oAuth2UserService;
 	private final OAuth2AuthenticationSuccessHandler authenticationSuccessHandler;
 	private final OAuth2AuthenticationFailureHandler authenticationFailureHandler;
+
+	private final TokenAuthenticationFilter tokenAuthenticationFilter;
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
@@ -65,6 +69,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.successHandler(authenticationSuccessHandler)
 				.failureHandler(authenticationFailureHandler)
 		;
+
+		http.addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 
 	@Bean
