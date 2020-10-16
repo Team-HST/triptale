@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.hst.triptale.security.oauth2.model.OAuthAttributes;
 import com.hst.triptale.security.oauth2.type.OAuth2ProviderType;
-import com.hst.triptale.user.service.UserService;
+import com.hst.triptale.content.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 

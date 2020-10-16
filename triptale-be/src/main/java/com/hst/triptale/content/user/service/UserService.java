@@ -1,12 +1,12 @@
-package com.hst.triptale.user.service;
+package com.hst.triptale.content.user.service;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.hst.triptale.security.oauth2.model.OAuthAttributes;
-import com.hst.triptale.user.entity.User;
-import com.hst.triptale.user.repository.UserRepository;
+import com.hst.triptale.content.user.entity.User;
+import com.hst.triptale.content.user.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.hst.triptale.user.entity;
+package com.hst.triptale.content.user.entity;
 
 import java.util.Collections;
 import java.util.Map;
