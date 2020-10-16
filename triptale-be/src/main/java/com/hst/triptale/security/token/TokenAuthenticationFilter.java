@@ -17,8 +17,8 @@ import org.springframework.util.PathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.hst.triptale.configuration.props.ApplicationProps;
-import com.hst.triptale.user.entity.User;
-import com.hst.triptale.user.service.UserService;
+import com.hst.triptale.content.user.entity.User;
+import com.hst.triptale.content.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 

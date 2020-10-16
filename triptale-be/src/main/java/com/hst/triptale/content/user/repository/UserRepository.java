@@ -1,11 +1,11 @@
-package com.hst.triptale.user.repository;
+package com.hst.triptale.content.user.repository;
 
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.hst.triptale.user.entity.User;
+import com.hst.triptale.content.user.entity.User;
 
 /**
  * @author dlgusrb0808@gmail.com

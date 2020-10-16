@@ -15,6 +15,19 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 
+springdoc:
+  api-docs:
+    path: /api-docs/triptale-be
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  swagger-ui:
+    operations-sorter: alpha
+    tags-sorter: alpha
+    disable-swagger-default-url: true
+    display-query-params-without-oauth2: true
+  paths-to-match:
+    - /api/**
+
 app:
   security:
     tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
@@ -31,8 +44,13 @@ app:
       - /**/*.html
       - /**/*.css
       - /**/*.js
-      # application apis
+      # authentication apis
       - /api/oauth2/**
+      # documentation paths
+      - /api-docs
+      - /api-docs/**
+      - /swagger-ui/**
+      - /swagger-ui.html
 
 ---
 spring:

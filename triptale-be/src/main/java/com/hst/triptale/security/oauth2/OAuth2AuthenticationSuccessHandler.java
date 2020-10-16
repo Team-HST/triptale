@@ -1,12 +1,8 @@
 package com.hst.triptale.security.oauth2;
 
-import static com.hst.triptale.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository.*;
-
 import java.io.IOException;
-import java.util.Optional;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,7 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.hst.triptale.configuration.props.ApplicationProps;
 import com.hst.triptale.security.token.AuthenticationTokenProvider;
 import com.hst.triptale.security.token.model.UserAuthenticationToken;
-import com.hst.triptale.user.entity.User;
+import com.hst.triptale.content.user.entity.User;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

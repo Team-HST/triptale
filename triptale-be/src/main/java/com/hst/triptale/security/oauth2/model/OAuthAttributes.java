@@ -2,7 +2,7 @@ package com.hst.triptale.security.oauth2.model;
 
 import java.util.Map;
 
-import com.hst.triptale.user.entity.User;
+import com.hst.triptale.content.user.entity.User;
 
 import lombok.Builder;
 import lombok.Getter;
