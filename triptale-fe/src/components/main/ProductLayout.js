@@ -65,7 +65,7 @@ function ProductLayout({ children, backgroundClassName }) {
 }
 
 ProductLayout.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.array,
   backgroundClassName: PropTypes.string,
 };
 

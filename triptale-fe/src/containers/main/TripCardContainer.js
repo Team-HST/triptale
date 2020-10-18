@@ -3,6 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import TripCard from 'components/main/TripCard';
+import * as TestActions from 'store/modules/test';
+import { useSelector, useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
@@ -13,10 +15,17 @@ const useStyles = makeStyles((theme) => ({
 
 function TripCardContainer() {
   const classes = useStyles();
+  const { num } = useSelector((state) => ({ num: state.test.num }));
+  const dispatch = useDispatch();
 
   const eventHandler = {
-    handleTripCardClick: () => {
+    handleTripCardClick: async () => {
       alert('go trip detail');
+    },
+
+    handleAddClick: () => {
+      let aa = num + 1;
+      dispatch(TestActions.setNumberAsync(aa));
     },
   };
 
@@ -36,6 +45,7 @@ function TripCardContainer() {
           <TripCard handleTripCardClick={eventHandler.handleTripCardClick} />
         </Grid>
       </Grid>
+      <button onClick={eventHandler.handleAddClick}>테스트 {num}</button>
     </Container>
   );
 }
