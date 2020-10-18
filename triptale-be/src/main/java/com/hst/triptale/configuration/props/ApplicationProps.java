@@ -23,5 +23,7 @@ public class ApplicationProps {
 	@Setter
 	public static class Security {
 		private List<String> publicPaths;
+		private String tokenSecret;
+		private Long tokenExpirationMs;
 	}
 }
