@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hst.triptale.configuration.ApplicationConstants;
 import com.hst.triptale.content.user.entity.User;
 import com.hst.triptale.content.user.service.UserService;
 
@@ -21,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "사용자 API", description = "[인증필요] 사용자 관련 API")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping(ApplicationConstants.APIGroups.CONTENT_API + "/users")
 public class UserController {
 
 	private final UserService userService;
