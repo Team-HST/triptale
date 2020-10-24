@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import ProductLayout from 'components/main/ProductLayout';
 import SearchBox from 'components/common/SearchBox';
 import ModalLayout from 'components/common/ModalLayout';
-import CreateModalBody from 'components/main/CreateModalBody';
+import CreateModalContainer from 'containers/main/CreateModalContainer';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
@@ -41,20 +41,18 @@ function ImageBannerContainer() {
   const [searchNm, setSearchNm] = useState('');
   const [open, setOpen] = useState(false);
 
-  const eventHandler = {
-    // 검색 인풋 변경 이벤트
-    handlerSearchNmChange: (e) => {
-      setSearchNm(e.target.value);
-    },
+  // 검색 인풋 변경 이벤트
+  const handlerSearchNmChange = (e) => {
+    setSearchNm(e.target.value);
+  };
 
-    // 등록 버튼 클릭 이벤트
-    handleRegisterClick: () => {
-      setOpen(true);
-    },
+  // 등록 버튼 클릭 이벤트
+  const handleRegisterClick = () => {
+    setOpen(true);
+  };
 
-    handleModalCloseClick: () => {
-      setOpen(false);
-    },
+  const handleModalCloseClick = () => {
+    setOpen(false);
   };
 
   return (
@@ -76,18 +74,18 @@ function ImageBannerContainer() {
         color="secondary"
         variant="contained"
         size="large"
-        onClick={eventHandler.handleRegisterClick}
+        onClick={handleRegisterClick}
       >
         Register
       </Button>
       <div className={classes.searchBox}>
-        <SearchBox searchNm={searchNm} handlerSearchNmChange={eventHandler.handlerSearchNmChange} />
+        <SearchBox searchNm={searchNm} handlerSearchNmChange={handlerSearchNmChange} />
       </div>
       <Typography className={classes.more} color="inherit" variant="body2">
         Record your trip
       </Typography>
-      <ModalLayout open={open} handleModalCloseClick={eventHandler.handleModalCloseClick}>
-        <CreateModalBody />
+      <ModalLayout open={open} handleModalCloseClick={handleModalCloseClick}>
+        <CreateModalContainer />
       </ModalLayout>
     </ProductLayout>
   );

@@ -10,13 +10,13 @@ function ModalLayout({ children, open, handleModalCloseClick }) {
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
     >
-      {children}
+      <div>{children}</div>
     </Modal>
   );
 }
 
 ModalLayout.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.node,
   open: PropTypes.bool,
   handleModalCloseClick: PropTypes.func,
 };

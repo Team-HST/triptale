@@ -1,7 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import DaumPostcode from 'react-daum-postcode';
 
 function getModalStyle() {
   const top = 50;
@@ -26,26 +26,21 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
-  header: {
-    textAlign: 'center',
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(2),
-  },
 }));
 
-function CreateModalBody() {
+function PostCodeModal({ handlePostCodeComplete }) {
   const classes = useStyles();
   const modalStyle = getModalStyle();
 
   return (
     <div style={modalStyle} className={classes.paper}>
-      <Grid container spacing={1}>
-        <Grid className={classes.header} item xs={12}>
-          <Typography variant="h6">Create Trip</Typography>
-        </Grid>
-      </Grid>
+      <DaumPostcode onComplete={(e) => handlePostCodeComplete(e)} />
     </div>
   );
 }
 
-export default CreateModalBody;
+PostCodeModal.propTypes = {
+  handlePostCodeComplete: PropTypes.func,
+};
+
+export default PostCodeModal;
