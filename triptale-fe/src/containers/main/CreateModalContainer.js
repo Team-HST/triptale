@@ -47,13 +47,22 @@ function CreateModalContainer() {
   const classes = useStyles();
   const modalStyle = getModalStyle();
 
+  const [textField, setTextField] = useState({
+    title: '',
+    desc: '',
+    materials: '',
+  });
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [address, setAddress] = useState('');
   const [postCodeOpen, setPostCodeOpen] = useState(false);
 
-  const handlePostCodeSearchChange = () => {
-    setPostCodeOpen(!postCodeOpen);
+  const handleTextChange = (e) => {
+    const { name, value } = e.target;
+    setTextField({
+      ...textField,
+      [name]: value,
+    });
   };
 
   const handleStartDateChange = (date) => {
@@ -72,6 +81,10 @@ function CreateModalContainer() {
     setEndDate(date);
   };
 
+  const handlePostCodeSearchChange = () => {
+    setPostCodeOpen(!postCodeOpen);
+  };
+
   const handlePostCodeComplete = (data) => {
     const { sido, sigungu, bname } = data;
     const searchAddress = `${sido} ${sigungu} ${bname}`;
@@ -86,22 +99,33 @@ function CreateModalContainer() {
           <Typography variant="h6">TripTale! 여행 등록</Typography>
         </Grid>
         <Grid item lg={6} sm={6} xs={12}>
-          <TextField className={classes.textField} required label="여행 제목" fullWidth />
           <TextField
             className={classes.textField}
+            name="title"
+            required
+            label="여행 제목"
+            fullWidth
+            onChange={(e) => handleTextChange(e)}
+          />
+          <TextField
+            className={classes.textField}
+            name="desc"
             required
             label="여행 내용"
             fullWidth
             multiline
             rows={2}
+            onChange={(e) => handleTextChange(e)}
           />
           <TextField
             className={classes.textField}
+            name="materials"
             required
             label="준비물"
             fullWidth
             multiline
             rows={2}
+            onChange={(e) => handleTextChange(e)}
           />
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
