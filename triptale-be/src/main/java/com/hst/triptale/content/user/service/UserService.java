@@ -22,7 +22,14 @@ public class UserService implements UserDetailsService {
 
 	private final UserRepository userRepository;
 
-
+	/**
+	 * 사용자 엔티티 조회
+	 * @param userNo 사용자 No
+	 * @return 사용자 엔티티
+	 */
+	public User getUserEntity(Long userNo) {
+		return this.loadUserByUsername(userNo.toString());
+	}
 
 	/**
 	 * OAuth를 통한 사용자 등록
