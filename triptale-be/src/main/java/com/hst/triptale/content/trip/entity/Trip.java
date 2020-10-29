@@ -1,6 +1,7 @@
 package com.hst.triptale.content.trip.entity;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -16,20 +17,15 @@ import javax.persistence.Table;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.hst.triptale.content.trip.ui.request.TripModifyingRequest;
 import com.hst.triptale.content.user.entity.User;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 /**
  * @author dlgusrb0808@gmail.com
  */
 @Getter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "TRIP")
 @EntityListeners(AuditingEntityListener.class)
@@ -71,4 +67,18 @@ public class Trip {
 	@ManyToOne
 	@JoinColumn(name = "REG_USER_NO", nullable = false)
 	private User registrar;
+
+	public static Trip createTrip(TripModifyingRequest request, User registrar) {
+		Trip trip = new Trip();
+		trip.title = request.getTitle();
+		trip.description = request.getDescription();
+		trip.area = request.getArea();
+		trip.location = Location.of(request.getLatitude(), request.getLongitude());
+		trip.thumbnailFileNo = request.getThumbnailFileNo();
+		trip.startAt = request.getStartAt().atTime(LocalTime.MIN);
+		trip.endAt = request.getEndAt().atTime(LocalTime.MAX);
+		trip.materials = request.getMaterials();
+		trip.registrar = registrar;
+		return trip;
+	}
 }

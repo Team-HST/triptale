@@ -21,7 +21,7 @@ public class TripModifyingRequest extends BaseModifyingRequest<Long> {
 	@Schema(title = "여행지 위도", description = "여행지 위도", required = true)
 	private Double latitude;
 	@Schema(title = "여행지 경도", description = "여행지 경도", required = true)
-	private Double longitute;
+	private Double longitude;
 	@Schema(title = "썸네일 파일번호", description = "썸네일 파일번호", required = true)
 	private Long thumbnailFileNo;
 	@Schema(title = "여행 시작일", description = "여행 시작일", example = "yyyy-MM-dd", required = true)

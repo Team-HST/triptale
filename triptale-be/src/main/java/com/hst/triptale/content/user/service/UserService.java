@@ -5,8 +5,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.hst.triptale.content.user.entity.User;
+import com.hst.triptale.content.user.exception.UserNotFoundException;
 import com.hst.triptale.content.user.repository.UserRepository;
-import com.hst.triptale.exceptionhandling.model.NotFoundException;
 import com.hst.triptale.security.oauth2.model.OAuthAttributes;
 
 import lombok.RequiredArgsConstructor;
@@ -44,8 +44,9 @@ public class UserService implements UserDetailsService {
 	}
 
 	@Override
-	public User loadUserByUsername(String username) throws UsernameNotFoundException {
-		return userRepository.findById(Long.parseLong(username))
-			.orElseThrow(() -> new NotFoundException("사용자를 찾을 수 없습니다.").addAttribute("userNo", username));
+	public User loadUserByUsername(String userNo) throws UsernameNotFoundException {
+		Long userNoValue = Long.parseLong(userNo);
+		return userRepository.findById(userNoValue)
+			.orElseThrow(() -> new UserNotFoundException("사용자 정보가 존재하지 않습니다.", userNoValue));
 	}
 }

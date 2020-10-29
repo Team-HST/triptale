@@ -18,7 +18,7 @@ public class TripResponse {
 	private final String description;
 	private final String area;
 	private final Double latitude;
-	private final Double longitute;
+	private final Double longitude;
 	private final Long thumbnailFileNo;
 	private final LocalDate startAt;
 	private final LocalDate endAt;
@@ -31,7 +31,7 @@ public class TripResponse {
 			.description(trip.getDescription())
 			.area(trip.getArea())
 			.latitude(trip.getLocation().getLatitude())
-			.longitute(trip.getLocation().getLongitute())
+			.longitude(trip.getLocation().getLongitude())
 			.thumbnailFileNo(trip.getThumbnailFileNo())
 			.startAt(trip.getStartAt().toLocalDate())
 			.endAt(trip.getEndAt().toLocalDate())
