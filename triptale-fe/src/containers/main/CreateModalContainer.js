@@ -5,8 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
-import ModalLayout from 'components/common/ModalLayout';
-import PostCodeModal from 'components/main/PostCodeModal';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import SearchIcon from '@material-ui/icons/Search';
 
 import DateUtils from 'utils/DateUtils';
 
@@ -41,6 +41,9 @@ const useStyles = makeStyles((theme) => ({
   textField: {
     margin: theme.spacing(0.3),
   },
+  searchIcon: {
+    cursor: 'pointer',
+  },
 }));
 
 function CreateModalContainer() {
@@ -51,12 +54,12 @@ function CreateModalContainer() {
     title: '',
     desc: '',
     materials: '',
+    address: '',
   });
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [address, setAddress] = useState('');
-  const [postCodeOpen, setPostCodeOpen] = useState(false);
 
+  // 텍스트 필드 변경 이벤트
   const handleTextChange = (e) => {
     const { name, value } = e.target;
     setTextField({
@@ -65,6 +68,7 @@ function CreateModalContainer() {
     });
   };
 
+  // 시작일자 변경 이벤트
   const handleStartDateChange = (date) => {
     if (!DateUtils.getIsDayDifference(date, endDate)) {
       alert('시작 일자는 종료 일자보다 늦을 수 없습니다.');
@@ -73,6 +77,7 @@ function CreateModalContainer() {
     setStartDate(date);
   };
 
+  // 종료일자 변경이벤트
   const handleEndDateChange = (date) => {
     if (DateUtils.getIsDayDifference(date, endDate)) {
       alert('종료 일자는 시작 일자보다 빠를 수 없습니다.');
@@ -81,15 +86,16 @@ function CreateModalContainer() {
     setEndDate(date);
   };
 
-  const handlePostCodeSearchChange = () => {
-    setPostCodeOpen(!postCodeOpen);
+  // 목적지 검색 클릭 이벤트
+  const handleSearchClick = () => {
+    alert(textField.address);
   };
 
-  const handlePostCodeComplete = (data) => {
-    const { sido, sigungu, bname } = data;
-    const searchAddress = `${sido} ${sigungu} ${bname}`;
-    setAddress(searchAddress);
-    setPostCodeOpen(!postCodeOpen);
+  // 목적지 검색 엔터 이벤트
+  const handleSearchKeyDown = (e) => {
+    if (e.keyCode === 13) {
+      handleSearchClick();
+    }
   };
 
   return (
@@ -155,17 +161,22 @@ function CreateModalContainer() {
         <Grid item lg={6} sm={6} xs={12}>
           <TextField
             className={classes.textField}
-            value={address}
+            name="address"
             required
             label="목적지 조회"
             fullWidth
-            onClick={handlePostCodeSearchChange}
+            onChange={(e) => handleTextChange(e)}
+            onKeyDown={(e) => handleSearchKeyDown(e)}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <SearchIcon className={classes.searchIcon} onClick={handleSearchClick} />
+                </InputAdornment>
+              ),
+            }}
           />
         </Grid>
       </Grid>
-      <ModalLayout open={postCodeOpen} handleModalCloseClick={handlePostCodeSearchChange}>
-        <PostCodeModal handlePostCodeComplete={(e) => handlePostCodeComplete(e)} />
-      </ModalLayout>
     </div>
   );
 }
