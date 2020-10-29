@@ -7,6 +7,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import SearchIcon from '@material-ui/icons/Search';
+import ImageFileUpload from 'components/main/ImageFileUpload';
 
 import DateUtils from 'utils/DateUtils';
 
@@ -133,6 +134,9 @@ function CreateModalContainer() {
             rows={2}
             onChange={(e) => handleTextChange(e)}
           />
+          <ImageFileUpload />
+        </Grid>
+        <Grid item lg={6} sm={6} xs={12}>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
               margin="normal"
@@ -157,8 +161,6 @@ function CreateModalContainer() {
               fullWidth
             />
           </MuiPickersUtilsProvider>
-        </Grid>
-        <Grid item lg={6} sm={6} xs={12}>
           <TextField
             className={classes.textField}
             name="address"
