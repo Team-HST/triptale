@@ -1,28 +1,34 @@
 package com.hst.triptale.content;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.BDDMockito.*;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.hst.triptale.content.trip.entity.Trip;
 import com.hst.triptale.content.trip.repository.TripRepository;
 import com.hst.triptale.content.trip.service.TripService;
 import com.hst.triptale.content.trip.ui.request.TripModifyingRequest;
+import com.hst.triptale.content.trip.ui.response.TripListResponse;
 import com.hst.triptale.content.trip.ui.response.TripResponse;
 import com.hst.triptale.content.user.entity.User;
 import com.hst.triptale.content.user.exception.UserNotFoundException;
 import com.hst.triptale.content.user.repository.UserRepository;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.*;
-
-import java.time.LocalDate;
-import java.util.Optional;
 
 /**
  * @author dlgusrb0808@gmail.com
@@ -48,7 +54,8 @@ class TripServiceTest {
 	void createTripTest() {
 		// given
 		TripModifyingRequest request = createTripModifyingRequest();
-		given(userRepository.findById(request.getUserNo())).willReturn(Optional.of(mock(User.class)));
+		given(userRepository.findById(request.getUserNo()))
+			.willReturn(Optional.of(mock(User.class)));
 
 		// when
 		TripResponse response = tripService.createTrip(request);
@@ -74,6 +81,25 @@ class TripServiceTest {
 		assertThrows(UserNotFoundException.class, () -> tripService.createTrip(request));
 	}
 
+	@Test
+	@DisplayName("여행 검색 테스트")
+	@SuppressWarnings("unchecked")
+	void getTripsTest() {
+		// given
+
+		String searchTitle = "searchTitle";
+		given(tripRepository.findAll(any(Specification.class), any(Pageable.class)))
+			.willReturn(new PageImpl(new ArrayList<Trip>()));
+
+		// when
+		TripListResponse response = tripService.searchTrip(searchTitle, mock(Pageable.class));
+
+		// then
+		verify(tripRepository).findAll(any(Specification.class), any(Pageable.class));
+		assertNotNull(response);
+	}
+
+	// 여행 등록 / 수정 요청 모델 생성
 	private TripModifyingRequest createTripModifyingRequest() {
 		TripModifyingRequest request = new TripModifyingRequest();
 		ReflectionTestUtils.setField(request, "title", "title");
@@ -88,5 +114,7 @@ class TripServiceTest {
 		ReflectionTestUtils.setField(request, "userNo", 1L);
 		return request;
 	}
+
+
 
 }
