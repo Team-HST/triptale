@@ -24,13 +24,13 @@ public class DevToolsController {
     private final JwtAuthenticationTokenProvider jwtAuthenticationTokenProvider;
 
     @Operation(
-            summary = "사용자 정보 조회",
+            summary = "관리자용 토큰 발급",
             parameters = {
                     @Parameter(name = "no", description = "사용자 번호", in = ParameterIn.PATH)
             }
     )
     @GetMapping("/issueToken/{no}")
-    @EnableProfiles(profile = {"local", "develop"})
+    // @EnableProfiles(profile = {"local", "develop"})
     public UserAuthenticationToken issueUserToken(@PathVariable Long no) {
         return jwtAuthenticationTokenProvider.issue(no);
     }
