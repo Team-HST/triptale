@@ -8,7 +8,6 @@ import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/picker
 import InputAdornment from '@material-ui/core/InputAdornment';
 import SearchIcon from '@material-ui/icons/Search';
 import ImageFileUpload from 'components/main/ImageFileUpload';
-
 import DateUtils from 'utils/DateUtils';
 
 function getModalStyle() {
@@ -59,6 +58,7 @@ function CreateModalContainer() {
   });
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+  const [thumbnailFile, setThumbnailFile] = useState(null);
 
   // 텍스트 필드 변경 이벤트
   const handleTextChange = (e) => {
@@ -99,6 +99,11 @@ function CreateModalContainer() {
     }
   };
 
+  const handleFileChange = (e) => {
+    const thumbnailFile = e.target.files[0] ? e.target.files[0] : null;
+    setThumbnailFile(thumbnailFile);
+  };
+
   return (
     <div style={modalStyle} className={classes.paper}>
       <Grid container spacing={1}>
@@ -134,7 +139,7 @@ function CreateModalContainer() {
             rows={2}
             onChange={(e) => handleTextChange(e)}
           />
-          <ImageFileUpload />
+          <ImageFileUpload thumbnailFile={thumbnailFile} handleFileChange={handleFileChange} />
         </Grid>
         <Grid item lg={6} sm={6} xs={12}>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
