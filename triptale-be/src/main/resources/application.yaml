@@ -14,6 +14,11 @@ spring:
       ddl-auto: none
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 115MB
 
 springdoc:
   api-docs:
@@ -28,11 +33,15 @@ springdoc:
   paths-to-match:
     - /content/**
     - /admin/**
+    - /system/**
 
 app:
+  file:
+    storage: fs
+    upload-dir: ${user.home}/triptale/files
   security:
-    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
-    tokenExpirationMs: 864000000 # 10 days
+    token-secret: 926D96C90030DD58429D2751AC1BDBBC
+    token-expirationMs: 864000000 # 10 days
     public-paths:
       # basic web resources
       - /
