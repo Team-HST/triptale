@@ -51,6 +51,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 		return UriComponentsBuilder.fromUriString(applicationProps.getFeServiceUrl())
 			.path("login-callback")
 			.queryParam("successYn", "Y")
+			.queryParam("userNo", token.getUserNo())
 			.queryParam("token", token.getToken())
 			.build().toUriString();
 	}

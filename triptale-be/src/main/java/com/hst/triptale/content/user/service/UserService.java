@@ -4,9 +4,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.hst.triptale.security.oauth2.model.OAuthAttributes;
 import com.hst.triptale.content.user.entity.User;
+import com.hst.triptale.content.user.exception.UserNotFoundException;
 import com.hst.triptale.content.user.repository.UserRepository;
+import com.hst.triptale.security.oauth2.model.OAuthAttributes;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,14 @@ public class UserService implements UserDetailsService {
 
 	private final UserRepository userRepository;
 
-
+	/**
+	 * 사용자 엔티티 조회
+	 * @param userNo 사용자 No
+	 * @return 사용자 엔티티
+	 */
+	public User getUserEntity(Long userNo) {
+		return this.loadUserByUsername(userNo.toString());
+	}
 
 	/**
 	 * OAuth를 통한 사용자 등록
@@ -36,8 +44,9 @@ public class UserService implements UserDetailsService {
 	}
 
 	@Override
-	public User loadUserByUsername(String username) throws UsernameNotFoundException {
-		return userRepository.findById(Long.parseLong(username))
-			.orElseThrow(() -> new UsernameNotFoundException(username));
+	public User loadUserByUsername(String userNo) throws UsernameNotFoundException {
+		Long userNoValue = Long.parseLong(userNo);
+		return userRepository.findById(userNoValue)
+			.orElseThrow(() -> new UserNotFoundException("사용자 정보가 존재하지 않습니다.", userNoValue));
 	}
 }
