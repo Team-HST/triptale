@@ -7,6 +7,8 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 
+import { userService } from 'lib/axios/services';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: '2px 4px',
@@ -27,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SearchBox({ searchNm, handlerSearchNmChange }) {
+function SearchBox({ searchNm, handlerSearchNmChange, handleSearchClick }) {
   const classes = useStyles();
 
   return (
@@ -38,7 +40,7 @@ function SearchBox({ searchNm, handlerSearchNmChange }) {
         onChange={(e) => handlerSearchNmChange(e)}
         placeholder="Search Your Trip"
       />
-      <IconButton type="submit" className={classes.iconButton} aria-label="search">
+      <IconButton className={classes.iconButton} onClick={handleSearchClick} aria-label="search">
         <SearchIcon />
       </IconButton>
     </Paper>
@@ -48,6 +50,7 @@ function SearchBox({ searchNm, handlerSearchNmChange }) {
 SearchBox.propTypes = {
   searchNm: PropTypes.string,
   handlerSearchNmChange: PropTypes.func,
+  handleSearchClick: PropTypes.func,
 };
 
 export default SearchBox;

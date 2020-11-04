@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -7,8 +8,11 @@ import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import SearchIcon from '@material-ui/icons/Search';
+import Button from '@material-ui/core/Button';
 import ImageFileUpload from 'components/main/ImageFileUpload';
 import DateUtils from 'utils/DateUtils';
+
+import { tripService, fileService } from 'lib/axios/services';
 
 function getModalStyle() {
   const top = 50;
@@ -32,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
+    textAlign: 'center',
   },
   header: {
     textAlign: 'center',
@@ -44,9 +49,15 @@ const useStyles = makeStyles((theme) => ({
   searchIcon: {
     cursor: 'pointer',
   },
+  footerBtn: {
+    marginTop: theme.spacing(2),
+  },
+  closeBtn: {
+    marginLeft: theme.spacing(1),
+  },
 }));
 
-function CreateModalContainer() {
+function CreateModalContainer({ handleModalCloseClick }) {
   const classes = useStyles();
   const modalStyle = getModalStyle();
 
@@ -54,7 +65,7 @@ function CreateModalContainer() {
     title: '',
     desc: '',
     materials: '',
-    address: '',
+    area: '',
   });
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -75,6 +86,7 @@ function CreateModalContainer() {
       alert('시작 일자는 종료 일자보다 늦을 수 없습니다.');
       return;
     }
+
     setStartDate(date);
   };
 
@@ -84,13 +96,12 @@ function CreateModalContainer() {
       alert('종료 일자는 시작 일자보다 빠를 수 없습니다.');
       return;
     }
+
     setEndDate(date);
   };
 
   // 목적지 검색 클릭 이벤트
-  const handleSearchClick = () => {
-    alert(textField.address);
-  };
+  const handleSearchClick = () => {};
 
   // 목적지 검색 엔터 이벤트
   const handleSearchKeyDown = (e) => {
@@ -99,9 +110,34 @@ function CreateModalContainer() {
     }
   };
 
+  // 파일 변경 이벤트
   const handleFileChange = (e) => {
     const thumbnailFile = e.target.files[0] ? e.target.files[0] : null;
     setThumbnailFile(thumbnailFile);
+  };
+
+  const handleCreateTripClick = async () => {
+    let fileSrno = null;
+    if (thumbnailFile) {
+      fileSrno = await fileService.uploadFile(thumbnailFile);
+    }
+
+    await tripService.createTrip({
+      userNo: sessionStorage.getItem('userNo'),
+      title: textField.title,
+      description: textField.desc,
+      area: textField.area,
+      latitude: 0,
+      longitude: 0,
+      thumbnailFileNo: fileSrno,
+      startAt: DateUtils.getDateToStr(startDate),
+      endAt: DateUtils.getDateToStr(endDate),
+      materials: textField.materials,
+    });
+
+    alert('정상적으로 여행이 등록되었습니다.');
+    // 팝업 종료
+    handleModalCloseClick();
   };
 
   return (
@@ -168,7 +204,7 @@ function CreateModalContainer() {
           </MuiPickersUtilsProvider>
           <TextField
             className={classes.textField}
-            name="address"
+            name="area"
             required
             label="목적지 조회"
             fullWidth
@@ -184,8 +220,25 @@ function CreateModalContainer() {
           />
         </Grid>
       </Grid>
+      <div className={classes.footerBtn}>
+        <Button variant="contained" color="primary" onClick={handleCreateTripClick}>
+          여행 등록
+        </Button>
+        <Button
+          className={classes.closeBtn}
+          variant="contained"
+          color="primary"
+          onClick={handleModalCloseClick}
+        >
+          닫기
+        </Button>
+      </div>
     </div>
   );
 }
+
+CreateModalContainer.propTypes = {
+  handleModalCloseClick: PropTypes.func,
+};
 
 export default CreateModalContainer;

@@ -54,7 +54,7 @@ function LoginContainer() {
             Sign in
           </Typography>
           <a
-            href={`http://${process.env.REACT_APP_SERVER_IP}:${process.env.REACT_APP_SERVER_PORT}/oauth2/authorizatuon/kakao`}
+            href={`http://${process.env.REACT_APP_SERVER_IP}:${process.env.REACT_APP_SERVER_PORT}/oauth2/authorization/kakao`}
           >
             <img
               className={classes.kakao_login}

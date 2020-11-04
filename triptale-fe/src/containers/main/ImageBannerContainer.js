@@ -85,7 +85,7 @@ function ImageBannerContainer() {
         Record your trip
       </Typography>
       <ModalLayout open={open} handleModalCloseClick={handleModalCloseClick}>
-        <CreateModalContainer />
+        <CreateModalContainer handleModalCloseClick={handleModalCloseClick} />
       </ModalLayout>
     </ProductLayout>
   );

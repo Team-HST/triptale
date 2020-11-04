@@ -1,3 +1,5 @@
-import loginService from './loginService';
+import userService from './userService';
+import tripService from './tripService';
+import fileService from './fileService';
 
-export { loginService };
+export { userService, tripService, fileService };

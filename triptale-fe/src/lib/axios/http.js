@@ -3,6 +3,9 @@ import axios from 'axios';
 // axios requset interceptor setting
 axios.interceptors.request.use(
   function (config) {
+    const token = sessionStorage.getItem('token');
+    config.headers.Authorization = `Bearer ${token}`;
+
     return config;
   },
   function (error) {
@@ -13,7 +16,7 @@ axios.interceptors.request.use(
 // axios response interceptor setting
 axios.interceptors.response.use(
   function (response) {
-    return response;
+    return response.data;
   },
   function (error) {
     return Promise.reject(error);
