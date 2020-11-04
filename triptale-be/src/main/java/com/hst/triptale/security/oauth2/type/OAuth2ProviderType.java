@@ -48,7 +48,7 @@ public enum OAuth2ProviderType {
 
 	private static final Map<String, OAuth2ProviderType> FINDER = EnumUtils.asMap(OAuth2ProviderType.class,
 		OAuth2ProviderType::getRegistrationId);
-	private static final String DEFAULT_LOGIN_REDIRECT_URL = "{baseUrl}/api/oauth2/processing/{registrationId}";
+	private static final String DEFAULT_LOGIN_REDIRECT_URL = "{baseUrl}/oauth2/processing/{registrationId}";
 
 	private String registrationId;
 	private ClientAuthenticationMethod method;

@@ -55,7 +55,7 @@ app:
       - /**/*.css
       - /**/*.js
       # authentication apis
-      - /api/oauth2/**
+      - /oauth2/**
       # documentation paths
       - /api-docs
       - /api-docs/**
