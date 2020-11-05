@@ -1,5 +1,12 @@
 import { differenceInDays, format } from 'date-fns';
 
+/**
+ * @author hoons
+ * @email dudgns0612@gmail.com
+ * @create date 2020-11-06 00:13:19
+ * @modify date 2020-11-06 00:13:33
+ * @desc [Date 관련 유틸]
+ */
 const DateUtils = {
   /**
    * 시작, 종료 일자 차이 검사

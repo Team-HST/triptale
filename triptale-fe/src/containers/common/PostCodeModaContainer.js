@@ -28,7 +28,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function PostCodeModal({ handlePostCodeComplete }) {
+/**
+ * @author hoons
+ * @email dudgns0612@gmail.com
+ * @create date 2020-11-06 00:02:56
+ * @modify date 2020-11-06 00:02:56
+ * @desc [주소 검색 모달 컨테이너 컴포넌트]
+ */
+function PostCodeModaContainer({ handlePostCodeComplete }) {
   const classes = useStyles();
   const modalStyle = getModalStyle();
 
@@ -39,8 +46,8 @@ function PostCodeModal({ handlePostCodeComplete }) {
   );
 }
 
-PostCodeModal.propTypes = {
+PostCodeModaContainer.propTypes = {
   handlePostCodeComplete: PropTypes.func,
 };
 
-export default PostCodeModal;
+export default PostCodeModaContainer;

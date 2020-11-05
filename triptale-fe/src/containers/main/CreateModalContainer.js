@@ -57,6 +57,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * @author hoons
+ * @email dudgns0612@gmail.com
+ * @create date 2020-11-05 23:52:42
+ * @modify date 2020-11-05 23:52:42
+ * @desc [여행 등록 모달 컨테이너 컴포넌트]
+ */
 function CreateModalContainer({ handleModalCloseClick }) {
   const classes = useStyles();
   const modalStyle = getModalStyle();

@@ -15,6 +15,13 @@ function ModalLayout({ children, open, handleModalCloseClick }) {
   );
 }
 
+/**
+ * @author hoons
+ * @email dudgns0612@gmail.com
+ * @create date 2020-11-06 00:12:43
+ * @modify date 2020-11-06 00:12:43
+ * @desc [모달 레이아웃 컴포넌트]
+ */
 ModalLayout.propTypes = {
   children: PropTypes.node,
   open: PropTypes.bool,

@@ -36,6 +36,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * @author hoons
+ * @email dudgns0612@gmail.com
+ * @create date 2020-11-05 23:52:20
+ * @modify date 2020-11-05 23:52:20
+ * @desc [이미지 배너 컨테이너 컴포넌트]
+ */
 function ImageBannerContainer() {
   const classes = useStyles();
   const [searchNm, setSearchNm] = useState('');
