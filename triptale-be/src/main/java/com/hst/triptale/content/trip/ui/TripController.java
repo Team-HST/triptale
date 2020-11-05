@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hst.triptale.configuration.ApplicationConstants;
 import com.hst.triptale.content.trip.service.TripService;
 import com.hst.triptale.content.trip.ui.request.TripModifyingRequest;
+import com.hst.triptale.content.trip.ui.request.TripSearchRequest;
 import com.hst.triptale.content.trip.ui.response.TripListResponse;
 import com.hst.triptale.content.trip.ui.response.TripResponse;
 
@@ -51,14 +52,14 @@ public class TripController {
 	}
 
 	@Operation(summary = ApplicationConstants.Documentations.REQUIRE_AUTH + "여행 검색", parameters = {
+		@Parameter(name = "userNo", in = ParameterIn.QUERY, schema = @Schema(implementation = Long.class)),
 		@Parameter(name = "searchTitle", in = ParameterIn.QUERY, schema = @Schema(implementation = String.class)),
 		@Parameter(name = "page", in = ParameterIn.QUERY, schema = @Schema(implementation = Integer.class)),
 		@Parameter(name = "size", in = ParameterIn.QUERY, schema = @Schema(implementation = Integer.class)),
 	})
 	@GetMapping("/search")
-	public ResponseEntity<TripListResponse> searchTrip(
-		@RequestParam(value = "searchTitle", required = false) String searchTitle,
+	public ResponseEntity<TripListResponse> searchTrip(@Parameter(hidden = true) TripSearchRequest request,
 		@PageableDefault(size = 1000) Pageable pageable) {
-		return ResponseEntity.ok(tripService.searchTrip(searchTitle, pageable));
+		return ResponseEntity.ok(tripService.searchTrip(request, pageable));
 	}
 }

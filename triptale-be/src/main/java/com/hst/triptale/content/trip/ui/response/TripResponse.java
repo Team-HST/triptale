@@ -33,8 +33,8 @@ public class TripResponse {
 			.latitude(trip.getLocation().getLatitude())
 			.longitude(trip.getLocation().getLongitude())
 			.thumbnailFileNo(trip.getThumbnailFileNo())
-			.startAt(trip.getStartAt().toLocalDate())
-			.endAt(trip.getEndAt().toLocalDate())
+			.startAt(trip.getStartAt())
+			.endAt(trip.getEndAt())
 			.materials(trip.getMaterials())
 			.build();
 	}

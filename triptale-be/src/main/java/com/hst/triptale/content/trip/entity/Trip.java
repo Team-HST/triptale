@@ -1,7 +1,7 @@
 package com.hst.triptale.content.trip.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -52,10 +52,10 @@ public class Trip {
 	private Long thumbnailFileNo;
 
 	@Column(name = "TRIP_START_DATE")
-	private LocalDateTime startAt;
+	private LocalDate startAt;
 
 	@Column(name = "TRIP_END_DATE")
-	private LocalDateTime endAt;
+	private LocalDate endAt;
 
 	@Column(name = "TRIP_MATERIALS")
 	private String materials;
@@ -75,8 +75,8 @@ public class Trip {
 		trip.area = request.getArea();
 		trip.location = Location.of(request.getLatitude(), request.getLongitude());
 		trip.thumbnailFileNo = request.getThumbnailFileNo();
-		trip.startAt = request.getStartAt().atTime(LocalTime.MIN);
-		trip.endAt = request.getEndAt().atTime(LocalTime.MAX);
+		trip.startAt = request.getStartAt();
+		trip.endAt = request.getEndAt();
 		trip.materials = request.getMaterials();
 		trip.registrar = registrar;
 		return trip;
