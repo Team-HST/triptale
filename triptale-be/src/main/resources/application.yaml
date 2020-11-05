@@ -61,6 +61,8 @@ app:
       - /api-docs/**
       - /swagger-ui/**
       - /swagger-ui.html
+      # Public apis
+      - /system/storage/files/**
 
 ---
 spring:

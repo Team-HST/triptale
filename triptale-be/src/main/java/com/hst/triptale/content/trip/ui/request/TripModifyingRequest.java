@@ -22,7 +22,7 @@ public class TripModifyingRequest extends BaseModifyingRequest<Long> {
 	private Double latitude;
 	@Schema(title = "여행지 경도", description = "여행지 경도", required = true)
 	private Double longitude;
-	@Schema(title = "썸네일 파일번호", description = "썸네일 파일번호", required = true)
+	@Schema(title = "썸네일 파일번호", description = "썸네일 파일번호")
 	private Long thumbnailFileNo;
 	@Schema(title = "여행 시작일", description = "여행 시작일", example = "yyyy-MM-dd", required = true)
 	private LocalDate startAt;
