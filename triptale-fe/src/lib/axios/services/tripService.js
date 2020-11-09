@@ -16,7 +16,8 @@ const tripService = {
    * @param searchNm (여행 검색)
    */
   searchTrips: (searchNm) => {
-    return http.get(`/api/content/trips/search?searchNm=${searchNm}`);
+    searchNm = searchNm ? searchNm : '';
+    return http.get(`/api/content/trips/search?searchTitle=${searchNm}`);
   },
 };
 
