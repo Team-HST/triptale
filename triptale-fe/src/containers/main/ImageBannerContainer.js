@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import ProductLayout from 'components/main/ProductLayout';
@@ -7,6 +7,9 @@ import ModalLayout from 'components/common/ModalLayout';
 import CreateModalContainer from 'containers/main/CreateModalContainer';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+
+import * as TripActions from 'store/modules/trip';
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   background: {
@@ -47,6 +50,15 @@ function ImageBannerContainer() {
   const classes = useStyles();
   const [searchNm, setSearchNm] = useState('');
   const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
+
+  // 여행 목록 조회 메서드
+  const getTripList = useCallback(
+    (search) => {
+      dispatch(TripActions.setTripListAsync(search));
+    },
+    [dispatch],
+  );
 
   // 검색 인풋 변경 이벤트
   const handlerSearchNmChange = (e) => {
@@ -58,8 +70,22 @@ function ImageBannerContainer() {
     setOpen(true);
   };
 
+  // 등록 모달 종료 이벤트
   const handleModalCloseClick = () => {
     setOpen(false);
+  };
+
+  // 검색 버튼 이벤트
+  const handleSearchClick = () => {
+    getTripList(searchNm);
+  };
+
+  // 검색 인풋 엔터 이벤트
+  const handleSearchInputKeyDwon = (e) => {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      getTripList(searchNm);
+    }
   };
 
   return (
@@ -86,7 +112,12 @@ function ImageBannerContainer() {
         Register
       </Button>
       <div className={classes.searchBox}>
-        <SearchBox searchNm={searchNm} handlerSearchNmChange={handlerSearchNmChange} />
+        <SearchBox
+          searchNm={searchNm}
+          handlerSearchNmChange={handlerSearchNmChange}
+          handleSearchInputKeyDwon={handleSearchInputKeyDwon}
+          handleSearchClick={handleSearchClick}
+        />
       </div>
       <Typography className={classes.more} color="inherit" variant="body2">
         Record your trip

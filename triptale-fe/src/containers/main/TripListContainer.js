@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
  * @author hoons
  * @email dudgns0612@gmail.com
  * @create date 2020-11-05 23:51:39
- * @modify date 2020-11-05 23:52:13
+ * @modify date 2020-11-09 21:04:12
  * @desc [여행 목록 컨테이너 컴포넌트]
  */
 function TripListContainer() {
