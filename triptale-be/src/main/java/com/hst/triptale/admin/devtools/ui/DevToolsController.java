@@ -1,8 +1,6 @@
 package com.hst.triptale.admin.devtools.ui;
 
 import com.hst.triptale.configuration.ApplicationConstants;
-import com.hst.triptale.content.user.service.UserService;
-import com.hst.triptale.security.EnableProfiles;
 import com.hst.triptale.security.token.JwtAuthenticationTokenProvider;
 import com.hst.triptale.security.token.model.UserAuthenticationToken;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,7 +28,6 @@ public class DevToolsController {
             }
     )
     @GetMapping("/issueToken/{no}")
-    // @EnableProfiles(profile = {"local", "develop"})
     public UserAuthenticationToken issueUserToken(@PathVariable Long no) {
         return jwtAuthenticationTokenProvider.issue(no);
     }
