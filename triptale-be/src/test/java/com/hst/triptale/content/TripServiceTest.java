@@ -24,6 +24,7 @@ import com.hst.triptale.content.trip.entity.Trip;
 import com.hst.triptale.content.trip.repository.TripRepository;
 import com.hst.triptale.content.trip.service.TripService;
 import com.hst.triptale.content.trip.ui.request.TripModifyingRequest;
+import com.hst.triptale.content.trip.ui.request.TripSearchRequest;
 import com.hst.triptale.content.trip.ui.response.TripListResponse;
 import com.hst.triptale.content.trip.ui.response.TripResponse;
 import com.hst.triptale.content.user.entity.User;
@@ -86,13 +87,13 @@ class TripServiceTest {
 	@SuppressWarnings("unchecked")
 	void getTripsTest() {
 		// given
-
-		String searchTitle = "searchTitle";
+		TripSearchRequest request = new TripSearchRequest();
+		ReflectionTestUtils.setField(request, "searchTitle", "searchTitle");
 		given(tripRepository.findAll(any(Specification.class), any(Pageable.class)))
 			.willReturn(new PageImpl(new ArrayList<Trip>()));
 
 		// when
-		TripListResponse response = tripService.searchTrip(searchTitle, mock(Pageable.class));
+		TripListResponse response = tripService.searchTrip(request, mock(Pageable.class));
 
 		// then
 		verify(tripRepository).findAll(any(Specification.class), any(Pageable.class));

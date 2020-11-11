@@ -27,7 +27,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SearchBox({ searchNm, handlerSearchNmChange }) {
+/**
+ * @author hoons
+ * @email dudgns0612@gmail.com
+ * @create date 2020-11-06 00:12:25
+ * @modify date 2020-11-06 00:12:25
+ * @desc [검색 박스 컴포넌트]
+ */
+function SearchBox({
+  searchNm,
+  handlerSearchNmChange,
+  handleSearchInputKeyDwon,
+  handleSearchClick,
+}) {
   const classes = useStyles();
 
   return (
@@ -36,9 +48,10 @@ function SearchBox({ searchNm, handlerSearchNmChange }) {
         className={classes.input}
         value={searchNm}
         onChange={(e) => handlerSearchNmChange(e)}
+        onKeyDown={(e) => handleSearchInputKeyDwon(e)}
         placeholder="Search Your Trip"
       />
-      <IconButton type="submit" className={classes.iconButton} aria-label="search">
+      <IconButton className={classes.iconButton} onClick={handleSearchClick} aria-label="search">
         <SearchIcon />
       </IconButton>
     </Paper>
@@ -48,6 +61,8 @@ function SearchBox({ searchNm, handlerSearchNmChange }) {
 SearchBox.propTypes = {
   searchNm: PropTypes.string,
   handlerSearchNmChange: PropTypes.func,
+  handleSearchInputKeyDwon: PropTypes.func,
+  handleSearchClick: PropTypes.func,
 };
 
 export default SearchBox;

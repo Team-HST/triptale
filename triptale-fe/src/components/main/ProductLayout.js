@@ -50,6 +50,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * @author hoons
+ * @email dudgns0612@gmail.com
+ * @create date 2020-11-06 00:00:44
+ * @modify date 2020-11-06 00:00:44
+ * @desc [배너 및 푸터 기본정보 표출 레이아웃 컴포넌트]
+ */
 function ProductLayout({ children, backgroundClassName }) {
   const classes = useStyles();
 

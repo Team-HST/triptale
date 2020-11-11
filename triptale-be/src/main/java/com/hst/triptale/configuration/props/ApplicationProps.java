@@ -16,8 +16,9 @@ import lombok.Setter;
 @Component
 @ConfigurationProperties(prefix = "app")
 public class ApplicationProps {
-	private String feServiceUrl;
+	private final File file = new File();
 	private final Security security = new Security();
+	private String feServiceUrl;
 
 	@Getter
 	@Setter
@@ -25,5 +26,11 @@ public class ApplicationProps {
 		private List<String> publicPaths;
 		private String tokenSecret;
 		private Long tokenExpirationMs;
+	}
+
+	@Getter
+	@Setter
+	public static class File {
+		private String uploadDir;
 	}
 }

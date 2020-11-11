@@ -10,8 +10,6 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-const testImg = require('styles/images/login_banner.png');
-
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
@@ -19,26 +17,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function TripCard({ handleTripCardClick }) {
+/**
+ * @author hoons
+ * @email dudgns0612@gmail.com
+ * @create date 2020-11-05 23:56:27
+ * @modify date 2020-11-05 23:56:27
+ * @desc [여행 카드 컴포넌트]
+ */
+function TripCard({ trip, handleTripCardClick }) {
   const classes = useStyles();
 
   return (
     <Card className={classes.root}>
-      <CardActionArea onClick={handleTripCardClick}>
+      <CardActionArea onClick={() => handleTripCardClick(trip)}>
         <CardMedia
           component="img"
           alt="Contemplative Reptile"
           height="200"
-          image={testImg}
+          image={`/api/system/storage/files/${trip.thumbnailFileNo}`}
           title="Contemplative Reptile"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            Lizard
+            {trip.title}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-            across all continents except Antarctica
+            {trip.description}
           </Typography>
         </CardContent>
       </CardActionArea>
@@ -55,6 +59,7 @@ function TripCard({ handleTripCardClick }) {
 }
 
 TripCard.propTypes = {
+  trip: PropTypes.object,
   handleTripCardClick: PropTypes.func,
 };
 

@@ -38,6 +38,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * @author hoons
+ * @email [dudgns0612@gmail.com]
+ * @create date 2020-11-05 23:38:26
+ * @modify date 2020-11-05 23:38:26
+ * @desc [로그인 컨테이너]
+ */
 function LoginContainer() {
   const classes = useStyles();
 
@@ -54,7 +61,7 @@ function LoginContainer() {
             Sign in
           </Typography>
           <a
-            href={`http://${process.env.REACT_APP_SERVER_IP}:${process.env.REACT_APP_SERVER_PORT}/oauth2/authorizatuon/kakao`}
+            href={`http://${process.env.REACT_APP_SERVER_IP}:${process.env.REACT_APP_SERVER_PORT}/oauth2/authorization/kakao`}
           >
             <img
               className={classes.kakao_login}

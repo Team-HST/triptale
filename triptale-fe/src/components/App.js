@@ -6,6 +6,13 @@ import { loginPage, MainPage } from 'pages';
 import OAuth2Route from './OAuth2Route';
 import AuthRoute from './AuthRoute';
 
+/**
+ * @author hoons
+ * @email dudgns0612@gmail.com
+ * @create date 2020-11-05 23:54:26
+ * @modify date 2020-11-05 23:55:25
+ * @desc [앱 기본, 라우터 설정]
+ */
 function App() {
   return (
     <React.Fragment>
