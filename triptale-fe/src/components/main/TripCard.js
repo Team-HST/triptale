@@ -24,12 +24,12 @@ const useStyles = makeStyles((theme) => ({
  * @modify date 2020-11-05 23:56:27
  * @desc [여행 카드 컴포넌트]
  */
-function TripCard({ trip, handleTripCardClick }) {
+function TripCard({ trip, onTripCardClick }) {
   const classes = useStyles();
 
   return (
     <Card className={classes.root}>
-      <CardActionArea onClick={() => handleTripCardClick(trip)}>
+      <CardActionArea onClick={() => onTripCardClick(trip)}>
         <CardMedia
           component="img"
           alt="Contemplative Reptile"
@@ -60,7 +60,7 @@ function TripCard({ trip, handleTripCardClick }) {
 
 TripCard.propTypes = {
   trip: PropTypes.object,
-  handleTripCardClick: PropTypes.func,
+  onTripCardClick: PropTypes.func,
 };
 
 export default TripCard;

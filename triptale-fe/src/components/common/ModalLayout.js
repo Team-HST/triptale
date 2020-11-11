@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from '@material-ui/core/Modal';
 
-function ModalLayout({ children, open, handleModalCloseClick }) {
+function ModalLayout({ children, open, onModalCloseClick }) {
   return (
     <Modal
       open={open}
-      onClose={handleModalCloseClick}
+      onClose={onModalCloseClick}
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
     >
@@ -25,7 +25,7 @@ function ModalLayout({ children, open, handleModalCloseClick }) {
 ModalLayout.propTypes = {
   children: PropTypes.node,
   open: PropTypes.bool,
-  handleModalCloseClick: PropTypes.func,
+  onModalCloseClick: PropTypes.func,
 };
 
 export default ModalLayout;

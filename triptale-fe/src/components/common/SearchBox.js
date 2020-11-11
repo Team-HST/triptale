@@ -34,12 +34,7 @@ const useStyles = makeStyles((theme) => ({
  * @modify date 2020-11-06 00:12:25
  * @desc [검색 박스 컴포넌트]
  */
-function SearchBox({
-  searchNm,
-  handlerSearchNmChange,
-  handleSearchInputKeyDwon,
-  handleSearchClick,
-}) {
+function SearchBox({ searchNm, onSearchNmChange, onSearchInputKeyDwon, onSearchClick }) {
   const classes = useStyles();
 
   return (
@@ -47,11 +42,11 @@ function SearchBox({
       <InputBase
         className={classes.input}
         value={searchNm}
-        onChange={(e) => handlerSearchNmChange(e)}
-        onKeyDown={(e) => handleSearchInputKeyDwon(e)}
+        onChange={(e) => onSearchNmChange(e)}
+        onKeyDown={(e) => onSearchInputKeyDwon(e)}
         placeholder="Search Your Trip"
       />
-      <IconButton className={classes.iconButton} onClick={handleSearchClick} aria-label="search">
+      <IconButton className={classes.iconButton} onClick={onSearchClick} aria-label="search">
         <SearchIcon />
       </IconButton>
     </Paper>
@@ -60,9 +55,9 @@ function SearchBox({
 
 SearchBox.propTypes = {
   searchNm: PropTypes.string,
-  handlerSearchNmChange: PropTypes.func,
-  handleSearchInputKeyDwon: PropTypes.func,
-  handleSearchClick: PropTypes.func,
+  onSearchNmChange: PropTypes.func,
+  onSearchInputKeyDwon: PropTypes.func,
+  onSearchClick: PropTypes.func,
 };
 
 export default SearchBox;

@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'none',
   },
 }));
+
 function ImageFileUpload({ thumbnailFile, handleFileChange }) {
   const classes = useStyles();
 

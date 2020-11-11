@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
  * @author hoons
  * @email dudgns0612@gmail.com
  * @create date 2020-11-05 23:51:39
- * @modify date 2020-11-09 21:04:12
+ * @modify date 2020-11-12 00:04:13
  * @desc [여행 목록 컨테이너 컴포넌트]
  */
 function TripListContainer() {
@@ -46,7 +46,7 @@ function TripListContainer() {
       <Grid container spacing={2}>
         {tripList.map((trip) => (
           <Grid key={trip.no} item xs={12} sm={6} md={4}>
-            <TripCard trip={trip} handleTripCardClick={handleTripCardClick} />
+            <TripCard trip={trip} onTripCardClick={handleTripCardClick} />
           </Grid>
         ))}
       </Grid>

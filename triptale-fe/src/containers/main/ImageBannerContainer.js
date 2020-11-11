@@ -73,6 +73,7 @@ function ImageBannerContainer() {
   // 등록 모달 종료 이벤트
   const handleModalCloseClick = () => {
     setOpen(false);
+    getTripList(searchNm);
   };
 
   // 검색 버튼 이벤트
@@ -114,16 +115,16 @@ function ImageBannerContainer() {
       <div className={classes.searchBox}>
         <SearchBox
           searchNm={searchNm}
-          handlerSearchNmChange={handlerSearchNmChange}
-          handleSearchInputKeyDwon={handleSearchInputKeyDwon}
-          handleSearchClick={handleSearchClick}
+          onSearchNmChange={handlerSearchNmChange}
+          onSearchInputKeyDwon={handleSearchInputKeyDwon}
+          onSearchClick={handleSearchClick}
         />
       </div>
       <Typography className={classes.more} color="inherit" variant="body2">
         Record your trip
       </Typography>
-      <ModalLayout open={open} handleModalCloseClick={handleModalCloseClick}>
-        <CreateModalContainer handleModalCloseClick={handleModalCloseClick} />
+      <ModalLayout open={open} onModalCloseClick={handleModalCloseClick}>
+        <CreateModalContainer onModalCloseClick={handleModalCloseClick} />
       </ModalLayout>
     </ProductLayout>
   );

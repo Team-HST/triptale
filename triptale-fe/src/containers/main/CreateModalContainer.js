@@ -12,6 +12,10 @@ import Button from '@material-ui/core/Button';
 import ImageFileUpload from 'components/main/ImageFileUpload';
 import DateUtils from 'utils/DateUtils';
 
+import Map from 'components/kakaoMap/Map';
+import Marker from 'components/kakaoMap/Marker';
+import MapUtils from 'utils/MapUtils';
+
 import { tripService, fileService } from 'lib/axios/services';
 
 function getModalStyle() {
@@ -28,10 +32,17 @@ function getModalStyle() {
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: 'absolute',
+    [theme.breakpoints.up('sm')]: {
+      width: '70%',
+      height: '60%',
+    },
     [theme.breakpoints.up('lg')]: {
       width: '50%',
+      height: '60%',
     },
     width: '80%',
+    height: '85%',
+    overflow: 'auto',
     backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
@@ -55,6 +66,9 @@ const useStyles = makeStyles((theme) => ({
   closeBtn: {
     marginLeft: theme.spacing(1),
   },
+  map: {
+    height: '250px',
+  },
 }));
 
 /**
@@ -64,7 +78,8 @@ const useStyles = makeStyles((theme) => ({
  * @modify date 2020-11-05 23:52:42
  * @desc [여행 등록 모달 컨테이너 컴포넌트]
  */
-function CreateModalContainer({ handleModalCloseClick }) {
+function CreateModalContainer({ onModalCloseClick }) {
+  const { kakao } = window;
   const classes = useStyles();
   const modalStyle = getModalStyle();
 
@@ -77,6 +92,15 @@ function CreateModalContainer({ handleModalCloseClick }) {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [thumbnailFile, setThumbnailFile] = useState(null);
+  const [searchArea, setSearchArea] = useState({
+    name: '',
+    position: [],
+  });
+  const [mapOptions, setMapOptions] = useState({
+    mapId: 'createMap',
+    center: [33.450701, 126.570667],
+    level: 5,
+  });
 
   // 텍스트 필드 변경 이벤트
   const handleTextChange = (e) => {
@@ -108,7 +132,28 @@ function CreateModalContainer({ handleModalCloseClick }) {
   };
 
   // 목적지 검색 클릭 이벤트
-  const handleSearchClick = () => {};
+  const handleSearchClick = () => {
+    MapUtils.getAddressToCoords(textField.area, (result, status) => {
+      let areaPosition = [];
+      let areaName = '';
+      // 정상적 처리
+      if (status === kakao.maps.services.Status.OK) {
+        areaPosition = [result[0].y, result[0].x];
+        areaName = result[0].address_name;
+      } else {
+        alert(`${textField.area}의 위치를 찾을 수 없습니다.`);
+      }
+      // 마커 주소, 위치 설정 및 해당 위치 이동
+      setSearchArea({
+        name: areaName,
+        position: areaPosition,
+      });
+      setMapOptions({
+        ...mapOptions,
+        center: areaPosition.length > 0 ? areaPosition : [33.450701, 126.570667],
+      });
+    });
+  };
 
   // 목적지 검색 엔터 이벤트
   const handleSearchKeyDown = (e) => {
@@ -129,22 +174,43 @@ function CreateModalContainer({ handleModalCloseClick }) {
       fileSrno = await fileService.uploadFile(thumbnailFile);
     }
 
-    await tripService.createTrip({
+    const tripInfo = {
       userNo: sessionStorage.getItem('userNo'),
       title: textField.title,
       description: textField.desc,
-      area: textField.area,
-      latitude: 0,
-      longitude: 0,
+      area: searchArea.name,
+      latitude: searchArea.position[1],
+      longitude: searchArea.position[0],
       thumbnailFileNo: fileSrno,
       startAt: DateUtils.getDateToStr(startDate),
       endAt: DateUtils.getDateToStr(endDate),
       materials: textField.materials,
-    });
+    };
 
-    alert('정상적으로 여행이 등록되었습니다.');
-    // 팝업 종료
-    handleModalCloseClick();
+    // 여행 정보 검사 후 등록 실행
+    if (isTripValideCheck(tripInfo)) {
+      // 여행 등록
+      await tripService.createTrip(tripInfo);
+      alert('정상적으로 여행이 등록되었습니다.');
+      // 팝업 종료
+      onModalCloseClick();
+    }
+  };
+
+  const isTripValideCheck = () => {
+    let isValid = true;
+    if (!textField.title) {
+      alert('여행 제목을 입력하여 주세요.');
+      isValid = false;
+    } else if (!textField.desc) {
+      alert('여행 설명을 입력하여 주세요.');
+      isValid = false;
+    } else if (!searchArea.name) {
+      alert('여행 지역을 지정하여 주세요.');
+      isValid = false;
+    }
+
+    return isValid;
   };
 
   return (
@@ -225,6 +291,11 @@ function CreateModalContainer({ handleModalCloseClick }) {
               ),
             }}
           />
+          <Map className={classes.map} options={mapOptions}>
+            {searchArea.position.length > 0 && (
+              <Marker options={{ position: searchArea.position }}></Marker>
+            )}
+          </Map>
         </Grid>
       </Grid>
       <div className={classes.footerBtn}>
@@ -235,7 +306,7 @@ function CreateModalContainer({ handleModalCloseClick }) {
           className={classes.closeBtn}
           variant="contained"
           color="primary"
-          onClick={handleModalCloseClick}
+          onClick={onModalCloseClick}
         >
           닫기
         </Button>
@@ -245,7 +316,7 @@ function CreateModalContainer({ handleModalCloseClick }) {
 }
 
 CreateModalContainer.propTypes = {
-  handleModalCloseClick: PropTypes.func,
+  onModalCloseClick: PropTypes.func,
 };
 
 export default CreateModalContainer;
