@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    active: local
+    active: product
     # local develop product
   datasource:
     url: jdbc:mysql://hoons-aws-db-dev.cttkkceqgfsb.ap-northeast-2.rds.amazonaws.com:3306/triptale
@@ -67,5 +67,3 @@ app:
       - /swagger-ui.html
       # Public apis
       - /system/storage/files/**
-      # admin devtools api
-      - /admin/devtools/issueToken/**

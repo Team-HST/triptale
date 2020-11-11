@@ -7,11 +7,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.hst.triptale.security.interceptor.ProfileInteceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -31,6 +33,7 @@ import com.hst.triptale.security.oauth2.type.OAuth2ProviderType;
 import com.hst.triptale.security.token.TokenAuthenticationFilter;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 
 /**
  * @author dlgusrb0808@gmail.com
