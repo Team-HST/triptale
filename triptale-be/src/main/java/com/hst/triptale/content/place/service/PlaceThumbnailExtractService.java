@@ -5,7 +5,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.hst.triptale.content.place.model.KakaoPlaceDetailModel;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -13,10 +12,9 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class PlaceThumbnailExtractService {
 	private static final String PLACE_URL_PREFIX = "https://place.map.kakao.com/main/v";
-	private final RestTemplate restTemplate;
+	private final RestTemplate restTemplate = new RestTemplate();
 
 	/**
 	 * 썸네일 이미지 추출
@@ -36,11 +34,6 @@ public class PlaceThumbnailExtractService {
 	private String getPlaceId(String sourceUrl) {
 		String[] token = sourceUrl.split("/");
 		return token[token.length - 1];
-	}
-
-	public static void main(String[] args) {
-		PlaceThumbnailExtractService service = new PlaceThumbnailExtractService(new RestTemplate());
-		System.out.println(service.extractThumbnailUrl("https://place.map.kakao.com/16096439"));
 	}
 
 }
