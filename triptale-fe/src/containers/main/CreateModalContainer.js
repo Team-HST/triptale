@@ -13,7 +13,7 @@ import ImageFileUpload from 'components/main/ImageFileUpload';
 import DateUtils from 'utils/DateUtils';
 
 import Map from 'components/kakaoMap/Map';
-import Marker from 'components/kakaoMap/Marker';
+import Circle from 'components/kakaoMap/Circle';
 import MapUtils from 'utils/MapUtils';
 
 import { tripService, fileService } from 'lib/axios/services';
@@ -99,7 +99,7 @@ function CreateModalContainer({ onModalCloseClick }) {
   const [mapOptions, setMapOptions] = useState({
     mapId: 'createMap',
     center: [33.450701, 126.570667],
-    level: 5,
+    level: 8,
   });
 
   // 텍스트 필드 변경 이벤트
@@ -293,7 +293,18 @@ function CreateModalContainer({ onModalCloseClick }) {
           />
           <Map className={classes.map} options={mapOptions}>
             {searchArea.position.length > 0 && (
-              <Marker options={{ position: searchArea.position }}></Marker>
+              <Circle
+                options={{
+                  center: searchArea.position,
+                  radius: 1500,
+                  strokeWeight: 4,
+                  strokeColor: '#2671EC',
+                  strokeOpacity: 1,
+                  strokeStyle: 'dashed',
+                  fillColor: '#2671EC',
+                  fillOpacity: 0.5,
+                }}
+              ></Circle>
             )}
           </Map>
         </Grid>
@@ -305,7 +316,7 @@ function CreateModalContainer({ onModalCloseClick }) {
         <Button
           className={classes.closeBtn}
           variant="contained"
-          color="primary"
+          color="secondary"
           onClick={onModalCloseClick}
         >
           닫기

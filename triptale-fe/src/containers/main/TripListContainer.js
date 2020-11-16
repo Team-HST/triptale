@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
  * @author hoons
  * @email dudgns0612@gmail.com
  * @create date 2020-11-05 23:51:39
- * @modify date 2020-11-12 00:04:13
+ * @modify date 2020-11-16 22:21:11
  * @desc [여행 목록 컨테이너 컴포넌트]
  */
 function TripListContainer() {
@@ -36,6 +36,14 @@ function TripListContainer() {
     console.log(trip);
   };
 
+  const handleTripDetailClick = (trip) => {
+    console.log('trip detail : ', trip);
+  };
+
+  const handleTripDeleteClick = (tripNo) => {
+    console.log('trip delete No : ', tripNo);
+  };
+
   // 유저 여행 목록 조회
   useEffect(() => {
     getTripList();
@@ -46,7 +54,12 @@ function TripListContainer() {
       <Grid container spacing={2}>
         {tripList.map((trip) => (
           <Grid key={trip.no} item xs={12} sm={6} md={4}>
-            <TripCard trip={trip} onTripCardClick={handleTripCardClick} />
+            <TripCard
+              trip={trip}
+              onTripCardClick={handleTripCardClick}
+              onTripDetailClick={handleTripDetailClick}
+              onTripDeleteClick={handleTripDetailClick}
+            />
           </Grid>
         ))}
       </Grid>

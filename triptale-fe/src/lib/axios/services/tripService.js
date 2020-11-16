@@ -17,7 +17,8 @@ const tripService = {
    */
   searchTrips: (searchNm) => {
     searchNm = searchNm ? searchNm : '';
-    return http.get(`/api/content/trips/search?searchTitle=${searchNm}`);
+    const userNo = sessionStorage.getItem('userNo');
+    return http.get(`/api/content/trips/search?userNo=${userNo}&searchTitle=${searchNm}`);
   },
 };
 
