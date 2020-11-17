@@ -29,7 +29,7 @@ import com.hst.triptale.content.trip.ui.response.TripResponse;
 import com.hst.triptale.content.user.entity.User;
 import com.hst.triptale.content.user.exception.UserNotFoundException;
 import com.hst.triptale.content.user.repository.UserRepository;
-import com.hst.triptale.security.resourcecheck.ResourceOwnershipChecker;
+import com.hst.triptale.security.permission.ContentResourcePermissionChecker;
 
 /**
  * @author dlgusrb0808@gmail.com
@@ -44,13 +44,13 @@ class TripServiceTest {
 	private UserRepository userRepository;
 
 	@Mock
-	private ResourceOwnershipChecker resourceOwnershipChecker;
+	private ContentResourcePermissionChecker contentResourcePermissionChecker;
 
 	private TripService tripService;
 
 	@BeforeEach
 	public void setUp() {
-		tripService = new TripService(tripRepository, userRepository, resourceOwnershipChecker);
+		tripService = new TripService(tripRepository, userRepository, contentResourcePermissionChecker);
 	}
 
 	@Test
@@ -127,7 +127,7 @@ class TripServiceTest {
 		Trip trip = mock(Trip.class);
 
 		given(tripRepository.findById(tripNo)).willReturn(Optional.of(trip));
-		willDoNothing().given(resourceOwnershipChecker).checkAccessibleResource(any(Trip.class));
+		willDoNothing().given(contentResourcePermissionChecker).checkPermission(any(Trip.class));
 
 		// when
 		tripService.deleteTrip(tripNo);

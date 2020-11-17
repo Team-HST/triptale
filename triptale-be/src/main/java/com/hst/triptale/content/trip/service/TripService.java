@@ -16,7 +16,7 @@ import com.hst.triptale.content.trip.ui.response.TripResponse;
 import com.hst.triptale.content.user.entity.User;
 import com.hst.triptale.content.user.exception.UserNotFoundException;
 import com.hst.triptale.content.user.repository.UserRepository;
-import com.hst.triptale.security.resourcecheck.ResourceOwnershipChecker;
+import com.hst.triptale.security.permission.ContentResourcePermissionChecker;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 public class TripService {
 	private final TripRepository tripRepository;
 	private final UserRepository userRepository;
-	private final ResourceOwnershipChecker resourceOwnershipChecker;
+	private final ContentResourcePermissionChecker permissionChecker;
 
 	/**
 	 * 여행 등록
@@ -63,7 +63,7 @@ public class TripService {
 	public void deleteTrip(long tripNo) {
 		Trip trip = tripRepository.findById(tripNo).orElseThrow(() -> new TripNotFoundException(tripNo));
 
-		resourceOwnershipChecker.checkAccessibleResource(trip);
+		permissionChecker.checkPermission(trip);
 
 		tripRepository.delete(trip);
 	}
