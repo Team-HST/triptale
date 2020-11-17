@@ -15,7 +15,6 @@ public class ApplicationConstants {
 	@NoArgsConstructor(access = AccessLevel.PRIVATE)
 	public static class APIGroups {
 		public static final String CONTENT_API = "/content";
-		public static final String ADMIN_API = "/admin";
 		public static final String SYSTEM_API = "/system";
 	}
 
