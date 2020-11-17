@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hst.triptale.content.trip.entity.Trip;
 import com.hst.triptale.content.trip.entity.TripSpecifications;
+import com.hst.triptale.content.trip.exception.TripNotFoundException;
 import com.hst.triptale.content.trip.repository.TripRepository;
 import com.hst.triptale.content.trip.ui.request.TripModifyingRequest;
 import com.hst.triptale.content.trip.ui.request.TripSearchRequest;
@@ -15,6 +16,7 @@ import com.hst.triptale.content.trip.ui.response.TripResponse;
 import com.hst.triptale.content.user.entity.User;
 import com.hst.triptale.content.user.exception.UserNotFoundException;
 import com.hst.triptale.content.user.repository.UserRepository;
+import com.hst.triptale.security.resourcecheck.ResourceOwnershipChecker;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 public class TripService {
 	private final TripRepository tripRepository;
 	private final UserRepository userRepository;
+	private final ResourceOwnershipChecker resourceOwnershipChecker;
 
 	/**
 	 * 여행 등록
@@ -35,7 +38,7 @@ public class TripService {
 	@Transactional
 	public TripResponse createTrip(TripModifyingRequest request) {
 		User user = userRepository.findById(request.getUserNo())
-			.orElseThrow(() -> new UserNotFoundException("사용자 정보가 존재하지 않습니다.", request.getUserNo()));
+			.orElseThrow(() -> new UserNotFoundException(request.getUserNo()));
 		Trip trip = Trip.createTrip(request, user);
 		tripRepository.save(trip);
 		return TripResponse.from(trip);
@@ -50,5 +53,18 @@ public class TripService {
 	public TripListResponse searchTrip(TripSearchRequest request, Pageable pageable) {
 		Page<Trip> searchPage = tripRepository.findAll(TripSpecifications.buildSpecification(request), pageable);
 		return new TripListResponse(searchPage);
+	}
+
+	/**
+	 * 여행 삭제
+	 * @param tripNo 여행 번호
+	 */
+	@Transactional
+	public void deleteTrip(long tripNo) {
+		Trip trip = tripRepository.findById(tripNo).orElseThrow(() -> new TripNotFoundException(tripNo));
+
+		resourceOwnershipChecker.checkAccessibleResource(trip);
+
+		tripRepository.delete(trip);
 	}
 }

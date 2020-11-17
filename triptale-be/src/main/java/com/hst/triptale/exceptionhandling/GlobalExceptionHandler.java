@@ -1,6 +1,7 @@
 package com.hst.triptale.exceptionhandling;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,17 +20,19 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public ExceptionDescription handleException(Exception e) {
+	public ResponseEntity<ExceptionDescription> handleException(Exception e) {
 		log.error("Unknown Unknown Exception below.", e);
-		return ExceptionDescription.of(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getClass().getName(),
-			e.getLocalizedMessage());
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+			.body(ExceptionDescription
+				.of(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getClass().getName(),
+					e.getLocalizedMessage()));
 	}
 
 	@ExceptionHandler(ApplicationException.class)
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public ExceptionDescription handleApplicationException(ApplicationException e) {
+	public ResponseEntity<ExceptionDescription> handleApplicationException(ApplicationException e) {
 		log.warn("Handle Application Exception below.", e);
-		return ExceptionDescription.fromApplicationException(e);
+		return ResponseEntity.status(e.getStatus())
+			.body(ExceptionDescription.fromApplicationException(e));
 	}
 
 }

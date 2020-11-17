@@ -7,8 +7,8 @@ import com.hst.triptale.exceptionhandling.model.NotFoundException;
  */
 public class UserNotFoundException extends NotFoundException {
 
-	public UserNotFoundException(String message, Long invalidUserNo) {
-		super(message);
+	public UserNotFoundException(Long invalidUserNo) {
+		super("사용자 정보가 존재하지 않습니다.");
 		this.addAttribute("userNo", invalidUserNo);
 	}
 

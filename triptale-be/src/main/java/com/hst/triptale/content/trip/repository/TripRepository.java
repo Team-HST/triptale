@@ -1,5 +1,7 @@
 package com.hst.triptale.content.trip.repository;
 
+import javax.annotation.Resource;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
@@ -11,4 +13,8 @@ import com.hst.triptale.content.trip.entity.Trip;
  */
 @Repository
 public interface TripRepository extends JpaRepository<Trip, Long>, JpaSpecificationExecutor<Trip> {
+
+	@Resource
+	void delete(Trip entity);
+
 }

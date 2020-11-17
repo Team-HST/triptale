@@ -47,6 +47,6 @@ public class UserService implements UserDetailsService {
 	public User loadUserByUsername(String userNo) throws UsernameNotFoundException {
 		Long userNoValue = Long.parseLong(userNo);
 		return userRepository.findById(userNoValue)
-			.orElseThrow(() -> new UserNotFoundException("사용자 정보가 존재하지 않습니다.", userNoValue));
+			.orElseThrow(() -> new UserNotFoundException(userNoValue));
 	}
 }
