@@ -1,4 +1,7 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+
+import ModalLayout from 'components/common/ModalLayout';
+import TripInfoModalContainer from 'containers/main/TripInfoModalContainer';
 import { makeStyles } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
@@ -18,11 +21,12 @@ const useStyles = makeStyles((theme) => ({
  * @author hoons
  * @email dudgns0612@gmail.com
  * @create date 2020-11-05 23:51:39
- * @modify date 2020-11-16 22:21:11
+ * @modify date 2020-11-16 22:49:07
  * @desc [여행 목록 컨테이너 컴포넌트]
  */
 function TripListContainer() {
   const classes = useStyles();
+  const [open, setOpen] = useState(false);
   const { tripList } = useSelector((state) => ({ tripList: state.trip.list }));
   const dispatch = useDispatch();
 
@@ -36,8 +40,9 @@ function TripListContainer() {
     console.log(trip);
   };
 
-  const handleTripDetailClick = (trip) => {
+  const handleTripInfoClick = (trip) => {
     console.log('trip detail : ', trip);
+    setOpen(true);
   };
 
   const handleTripDeleteClick = (tripNo) => {
@@ -50,20 +55,25 @@ function TripListContainer() {
   }, [dispatch, getTripList]);
 
   return (
-    <Container className={classes.cardGrid} maxWidth="lg">
-      <Grid container spacing={2}>
-        {tripList.map((trip) => (
-          <Grid key={trip.no} item xs={12} sm={6} md={4}>
-            <TripCard
-              trip={trip}
-              onTripCardClick={handleTripCardClick}
-              onTripDetailClick={handleTripDetailClick}
-              onTripDeleteClick={handleTripDetailClick}
-            />
-          </Grid>
-        ))}
-      </Grid>
-    </Container>
+    <div>
+      <Container className={classes.cardGrid} maxWidth="lg">
+        <Grid container spacing={2}>
+          {tripList.map((trip) => (
+            <Grid key={trip.no} item xs={12} sm={6} md={4}>
+              <TripCard
+                trip={trip}
+                onTripCardClick={handleTripCardClick}
+                onTripInfoClick={handleTripInfoClick}
+                onTripDeleteClick={handleTripDeleteClick}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+      <ModalLayout open={open}>
+        <TripInfoModalContainer />
+      </ModalLayout>
+    </div>
   );
 }
 

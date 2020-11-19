@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
  * @modify date 2020-11-05 23:52:42
  * @desc [여행 등록 모달 컨테이너 컴포넌트]
  */
-function CreateModalContainer({ onModalCloseClick }) {
+function TripCreateModalContainer({ onModalCloseClick }) {
   const { kakao } = window;
   const classes = useStyles();
   const modalStyle = getModalStyle();
@@ -326,8 +326,8 @@ function CreateModalContainer({ onModalCloseClick }) {
   );
 }
 
-CreateModalContainer.propTypes = {
+TripCreateModalContainer.propTypes = {
   onModalCloseClick: PropTypes.func,
 };
 
-export default CreateModalContainer;
+export default TripCreateModalContainer;

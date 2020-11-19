@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
  * @modify date 2020-11-05 23:56:27
  * @desc [여행 카드 컴포넌트]
  */
-function TripCard({ trip, onTripCardClick, onTripDetailClick, onTripDeleteClick }) {
+function TripCard({ trip, onTripCardClick, onTripInfoClick, onTripDeleteClick }) {
   const classes = useStyles();
 
   return (
@@ -67,13 +67,13 @@ function TripCard({ trip, onTripCardClick, onTripDetailClick, onTripDeleteClick 
       <CardActions className={classes.cardActions}>
         <Grid container>
           <Grid item xs={6}>
-            <Button size="small" onClick={() => onTripDetailClick(trip)}>
-              Detail
+            <Button size="small" onClick={() => onTripInfoClick(trip)}>
+              상세
             </Button>
           </Grid>
           <Grid item xs={6}>
             <Button size="small" color="secondary" onClick={() => onTripDeleteClick(trip.no)}>
-              Delete
+              삭제
             </Button>
           </Grid>
         </Grid>
@@ -85,7 +85,7 @@ function TripCard({ trip, onTripCardClick, onTripDetailClick, onTripDeleteClick 
 TripCard.propTypes = {
   trip: PropTypes.object,
   onTripCardClick: PropTypes.func,
-  onTripDetailClick: PropTypes.func,
+  onTripInfoClick: PropTypes.func,
   onTripDeleteClick: PropTypes.func,
 };
 

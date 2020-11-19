@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import ProductLayout from 'components/main/ProductLayout';
 import SearchBox from 'components/common/SearchBox';
 import ModalLayout from 'components/common/ModalLayout';
-import CreateModalContainer from 'containers/main/CreateModalContainer';
+import TripCreateModalContainer from 'containers/main/TripCreateModalContainer';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
@@ -98,10 +98,10 @@ function ImageBannerContainer() {
         variant="h2"
         marked="center"
       >
-        Hello. TripTale
+        TripTale
       </Typography>
       <Typography className={classes.h5} color="inherit" align="center" variant="h5">
-        We pray for your happy journey.
+        안녕하세요. TripTale에 온 것을 환영합니다. <br /> 우리는 당신의 여행을 항상 응원합니다!
       </Typography>
       <Button
         className={classes.button}
@@ -110,21 +110,22 @@ function ImageBannerContainer() {
         size="large"
         onClick={handleRegisterClick}
       >
-        Register
+        여행 등록
       </Button>
       <div className={classes.searchBox}>
         <SearchBox
           searchNm={searchNm}
+          placeholder="당신의 여행을 검색하세요."
           onSearchNmChange={handlerSearchNmChange}
           onSearchInputKeyDwon={handleSearchInputKeyDwon}
           onSearchClick={handleSearchClick}
         />
       </div>
       <Typography className={classes.more} color="inherit" variant="body2">
-        Record your trip
+        당신의 여행을 기록해보세요!
       </Typography>
       <ModalLayout open={open} onModalCloseClick={handleModalCloseClick}>
-        <CreateModalContainer onModalCloseClick={handleModalCloseClick} />
+        <TripCreateModalContainer onModalCloseClick={handleModalCloseClick} />
       </ModalLayout>
     </ProductLayout>
   );
