@@ -1,15 +1,13 @@
+# Server properties
 server:
   port: 8000
 
+# Spring properties
 spring:
   profiles:
     active: local
-    # local develop product
-  datasource:
-    url: jdbc:mysql://hoons-aws-db-dev.cttkkceqgfsb.ap-northeast-2.rds.amazonaws.com:3306/triptale
-    username: hst
-    password: hst123!
-    driver-class-name: com.mysql.cj.jdbc.Driver
+  application:
+    name: triptale-api
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
@@ -23,6 +21,7 @@ spring:
       max-file-size: 100MB
       max-request-size: 115MB
 
+# OpenAPI properties
 springdoc:
   api-docs:
     path: /api-docs/triptale-be
@@ -38,34 +37,63 @@ springdoc:
     - /admin/**
     - /system/**
 
+# Application properties
+app:
+  security:
+    token-secret: 926D96C90030DD58429D2751AC1BDBBC
+    token-expirationMs: 864000000 # 10 days
+    public-paths:
+      defaults:
+        # basic web resources
+        - /
+        - /error
+        - /favicon.ico
+        - /**/*.png
+        - /**/*.gif
+        - /**/*.svg
+        - /**/*.jpg
+        - /**/*.html
+        - /**/*.css
+        - /**/*.js
+        # authentication apis
+        - /oauth2/**
+        # documentation paths
+        - /api-docs
+        - /api-docs/**
+        - /swagger-ui/**
+        - /swagger-ui.html
+        # Public apis
+        - /system/storage/files/**
+---
+spring:
+  profiles: local,develop
+  datasource:
+    url: jdbc:mysql://hoons-aws-db-dev.cttkkceqgfsb.ap-northeast-2.rds.amazonaws.com:3306/triptale
+    username: hst
+    password: hst123!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
 app:
   fe-service-url: http://localhost:3000
   file:
     storage: fs
     upload-dir: ${user.home}/triptale/files
   security:
-    token-secret: 926D96C90030DD58429D2751AC1BDBBC
-    token-expirationMs: 864000000 # 10 days
     public-paths:
-      # basic web resources
-      - /
-      - /error
-      - /favicon.ico
-      - /**/*.png
-      - /**/*.gif
-      - /**/*.svg
-      - /**/*.jpg
-      - /**/*.html
-      - /**/*.css
-      - /**/*.js
-      # authentication apis
-      - /oauth2/**
-      # documentation paths
-      - /api-docs
-      - /api-docs/**
-      - /swagger-ui/**
-      - /swagger-ui.html
-      # Public apis
-      - /system/storage/files/**
-      # admin devtools api
-      - /admin/devtools/issueToken/**
+      optionals:
+        - /admin/devtools/issue-token/**
+
+---
+spring:
+  profiles: production
+  datasource:
+    url: jdbc:mysql://hoons-aws-db-dev.cttkkceqgfsb.ap-northeast-2.rds.amazonaws.com:3306/triptale
+    username: hst
+    password: hst123!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+app:
+  fe-service-url: http://triptale.com
+  file:
+    storage: fs
+    upload-dir: ${user.home}/triptale/files

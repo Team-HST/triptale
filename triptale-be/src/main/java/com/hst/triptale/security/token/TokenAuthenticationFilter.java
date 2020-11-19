@@ -52,7 +52,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
 		String requestPath = request.getRequestURI();
-		for (String publicPath : applicationProps.getSecurity().getPublicPaths()) {
+		for (String publicPath : applicationProps.getSecurity().getPublicPaths().getMergedPublicPaths()) {
 			if (matcher.match(publicPath, requestPath)) {
 				return true;
 			}

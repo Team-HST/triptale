@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.hst.triptale.content.ContentResource;
 import com.hst.triptale.content.trip.ui.request.TripModifyingRequest;
 import com.hst.triptale.content.user.entity.User;
 
@@ -29,7 +30,7 @@ import lombok.Getter;
 @Entity
 @Table(name = "TRIP")
 @EntityListeners(AuditingEntityListener.class)
-public class Trip {
+public class Trip implements ContentResource {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -67,6 +68,11 @@ public class Trip {
 	@ManyToOne
 	@JoinColumn(name = "REG_USER_NO", nullable = false)
 	private User registrar;
+
+	@Override
+	public User getResourceOwner() {
+		return this.registrar;
+	}
 
 	public static Trip createTrip(TripModifyingRequest request, User registrar) {
 		Trip trip = new Trip();

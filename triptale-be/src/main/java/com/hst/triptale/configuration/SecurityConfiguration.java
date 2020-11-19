@@ -55,7 +55,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.httpBasic()
 				.disable()
 			.authorizeRequests()
-				.antMatchers(applicationProps.getSecurity().getPublicPaths().toArray(new String[0])).permitAll()
+				.antMatchers(applicationProps.getSecurity().getPublicPaths().getMergedPublicPaths().toArray(new String[0])).permitAll()
 				.anyRequest().authenticated()
 				.and()
 			.oauth2Login()

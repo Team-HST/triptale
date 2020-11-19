@@ -4,6 +4,7 @@ import org.springdoc.core.SpringDocUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -61,5 +62,14 @@ public class TripController {
 	public ResponseEntity<TripListResponse> searchTrip(@Parameter(hidden = true) TripSearchRequest request,
 		@PageableDefault(size = 1000) Pageable pageable) {
 		return ResponseEntity.ok(tripService.searchTrip(request, pageable));
+	}
+
+	@Operation(summary = ApplicationConstants.Documentations.REQUIRE_AUTH + "여행 삭제", parameters = {
+		@Parameter(name = "tripNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class))
+	})
+	@DeleteMapping("{tripNo}")
+	public ResponseEntity<Long> deleteTrip(@PathVariable Long tripNo) {
+		tripService.deleteTrip(tripNo);
+		return ResponseEntity.ok(tripNo);
 	}
 }
