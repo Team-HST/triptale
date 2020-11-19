@@ -20,6 +20,15 @@ const tripService = {
     const userNo = sessionStorage.getItem('userNo');
     return http.get(`/api/content/trips/search?userNo=${userNo}&searchTitle=${searchNm}`);
   },
+
+  /**
+   * 여행 삭제
+   *
+   * @param tripNo (여행 번호)
+   */
+  removeTrip: (tripNo) => {
+    return http.delete(`/api/content/trips/${tripNo}`);
+  },
 };
 
 export default tripService;

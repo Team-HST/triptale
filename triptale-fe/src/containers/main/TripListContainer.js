@@ -7,8 +7,10 @@ import { Container } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import TripCard from 'components/main/TripCard';
 
+import { tripService } from 'lib/axios/services';
 import * as TripActions from 'store/modules/trip';
 import { useSelector, useDispatch } from 'react-redux';
+import trip from '../../store/modules/trip';
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
@@ -30,10 +32,18 @@ function TripListContainer() {
   const { tripList } = useSelector((state) => ({ tripList: state.trip.list }));
   const dispatch = useDispatch();
 
-  // 여행 목록 조회 메서드
+  // 여행 목록 조회
   const getTripList = useCallback(() => {
     dispatch(TripActions.setTripListAsync());
   }, [dispatch]);
+
+  // 여행 삭제
+  const deleteTrip = async (tripNo) => {
+    const deleteTripNo = await tripService.removeTrip(tripNo);
+    if (deleteTripNo > 0) {
+      getTripList();
+    }
+  };
 
   // 여행 선택 이벤트
   const handleTripCardClick = (trip) => {
@@ -46,7 +56,9 @@ function TripListContainer() {
   };
 
   const handleTripDeleteClick = (tripNo) => {
-    console.log('trip delete No : ', tripNo);
+    if (window.confirm('여행을 삭제하시겠습니까?')) {
+      deleteTrip(tripNo);
+    }
   };
 
   // 유저 여행 목록 조회
