@@ -67,4 +67,17 @@ public class TripService {
 
 		tripRepository.delete(trip);
 	}
+
+	/**
+	 * 여행 수정
+	 * @param request 여행 수정 요청
+	 */
+	@Transactional
+	public void modifyTrip(TripModifyingRequest request, Long tripNo) {
+		Trip trip = tripRepository.findById(tripNo).orElseThrow(() -> new TripNotFoundException(tripNo));
+		permissionChecker.checkPermission(trip);
+
+		trip.changeContent(request);
+		tripRepository.save(trip);
+	}
 }

@@ -1,17 +1,11 @@
 package com.hst.triptale.content.trip.ui;
 
+import com.hst.triptale.configuration.props.ApplicationProps;
 import org.springdoc.core.SpringDocUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.hst.triptale.configuration.ApplicationConstants;
 import com.hst.triptale.content.trip.service.TripService;
@@ -70,6 +64,15 @@ public class TripController {
 	@DeleteMapping("{tripNo}")
 	public ResponseEntity<Long> deleteTrip(@PathVariable Long tripNo) {
 		tripService.deleteTrip(tripNo);
+		return ResponseEntity.ok(tripNo);
+	}
+
+	@Operation(summary = ApplicationConstants.Documentations.REQUIRE_AUTH + "여행 수정", parameters = {
+			@Parameter(name = "tripNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class))
+	})
+	@PutMapping("{tripNo}")
+	public ResponseEntity<Long> modifyTrip(@PathVariable Long tripNo, @RequestBody TripModifyingRequest request) {
+		tripService.modifyTrip(request, tripNo);
 		return ResponseEntity.ok(tripNo);
 	}
 }
