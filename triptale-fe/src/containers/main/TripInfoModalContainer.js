@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -11,6 +12,10 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import CloseIcon from '@material-ui/icons/Close';
+
+import Map from 'components/kakaoMap/Map';
+import Circle from 'components/kakaoMap/Circle';
 
 function getModalStyle() {
   const top = 50;
@@ -28,12 +33,15 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     [theme.breakpoints.up('sm')]: {
       width: '40%',
+      height: '80%',
     },
     [theme.breakpoints.up('lg')]: {
-      width: '25%',
+      width: '30%',
+      height: '80%',
     },
     width: '70%',
-    overflow: 'auto',
+    height: '80%',
+    overflow: 'scroll',
   },
   media: {
     height: 0,
@@ -52,12 +60,32 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     backgroundColor: red[500],
   },
+  areaSpan: {
+    fontSize: 3,
+    color: 'green',
+  },
+  map: {
+    height: '250px',
+  },
 }));
 
-function TripInfoModalContainer() {
+/**
+ * @author hoons
+ * @email dudgns0612@gmail.com
+ * @create date 2020-11-26 22:21:49
+ * @modify date 2020-11-26 22:21:49
+ * @desc 여행 상세 모달 컨테이너
+ */
+function TripInfoModalContainer({ trip, onCloseInfoModalClick }) {
   const classes = useStyles();
   const modalStyle = getModalStyle();
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = useState(false);
+
+  const [mapOptions, setMapOptions] = useState({
+    mapId: 'createMap',
+    center: [trip.longitude, trip.latitude],
+    level: 8,
+  });
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -66,21 +94,49 @@ function TripInfoModalContainer() {
   return (
     <div style={modalStyle} className={classes.paper}>
       <Card>
-        <CardHeader title="Shrimp and Chorizo Paella" subheader="September 14, 2016" />
+        <CardHeader
+          action={
+            <IconButton aria-label="settings" onClick={onCloseInfoModalClick}>
+              <CloseIcon />
+            </IconButton>
+          }
+          title={trip.title}
+          subheader={`${trip.startAt}`}
+        />
         <CardMedia
           className={classes.media}
-          image="/static/images/cards/paella.jpg"
+          image={
+            trip.thumbnailFileNo
+              ? `/api/system/storage/files/${trip.thumbnailFileNo}`
+              : require('styles/images/no-image.png')
+          }
           title="Paella dish"
         />
         <CardContent>
+          <p>여행 내용</p>
           <Typography variant="body2" color="textSecondary" component="p">
-            This impressive paella is a perfect party dish and a fun meal to cook together with your
-            guests. Add 1 cup of frozen peas along with the mussels, if you like.
+            {trip.description}
+          </Typography>
+          {trip.materials && (
+            <React.Fragment>
+              <p>준비물</p>
+              <Typography variant="body2" color="textSecondary" component="p">
+                {trip.materials}
+              </Typography>
+            </React.Fragment>
+          )}
+
+          <p>
+            목적지{' '}
+            <span className={classes.areaSpan}>(위치를 보시려면 아래 화살표를 눌러주세요!)</span>
+          </p>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {trip.area}
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
           <IconButton
-            className={clsx({
+            className={clsx(classes.expand, {
               [classes.expandOpen]: expanded,
             })}
             onClick={handleExpandClick}
@@ -92,34 +148,30 @@ function TripInfoModalContainer() {
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            <Typography paragraph>Method:</Typography>
-            <Typography paragraph>
-              Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside for 10
-              minutes.
-            </Typography>
-            <Typography paragraph>
-              Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over medium-high
-              heat. Add chicken, shrimp and chorizo, and cook, stirring occasionally until lightly
-              browned, 6 to 8 minutes. Transfer shrimp to a large plate and set aside, leaving
-              chicken and chorizo in the pan. Add pimentón, bay leaves, garlic, tomatoes, onion,
-              salt and pepper, and cook, stirring often until thickened and fragrant, about 10
-              minutes. Add saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil.
-            </Typography>
-            <Typography paragraph>
-              Add rice and stir very gently to distribute. Top with artichokes and peppers, and cook
-              without stirring, until most of the liquid is absorbed, 15 to 18 minutes. Reduce heat
-              to medium-low, add reserved shrimp and mussels, tucking them down into the rice, and
-              cook again without stirring, until mussels have opened and rice is just tender, 5 to 7
-              minutes more. (Discard any mussels that don’t open.)
-            </Typography>
-            <Typography>
-              Set aside off of the heat to let rest for 10 minutes, and then serve.
-            </Typography>
+            <Map className={classes.map} options={mapOptions}>
+              <Circle
+                options={{
+                  center: [trip.longitude, trip.latitude],
+                  radius: 1500,
+                  strokeWeight: 4,
+                  strokeColor: '#2671EC',
+                  strokeOpacity: 1,
+                  strokeStyle: 'dashed',
+                  fillColor: '#2671EC',
+                  fillOpacity: 0.5,
+                }}
+              ></Circle>
+            </Map>
           </CardContent>
         </Collapse>
       </Card>
     </div>
   );
 }
+
+TripInfoModalContainer.propTypes = {
+  trip: PropTypes.object.isRequired,
+  onCloseInfoModalClick: PropTypes.func.isRequired,
+};
 
 export default TripInfoModalContainer;

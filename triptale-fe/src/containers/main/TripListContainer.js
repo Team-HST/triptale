@@ -10,7 +10,6 @@ import TripCard from 'components/main/TripCard';
 import { tripService } from 'lib/axios/services';
 import * as TripActions from 'store/modules/trip';
 import { useSelector, useDispatch } from 'react-redux';
-import trip from '../../store/modules/trip';
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
@@ -28,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
  */
 function TripListContainer() {
   const classes = useStyles();
+  // 선택 여행 정보
+  const [selectTrip, setSelectTrip] = useState({});
+  // 여행 상세 표출 여부
   const [open, setOpen] = useState(false);
   const { tripList } = useSelector((state) => ({ tripList: state.trip.list }));
   const dispatch = useDispatch();
@@ -50,15 +52,22 @@ function TripListContainer() {
     console.log(trip);
   };
 
+  // 여행 정보 표출 이벤트
   const handleTripInfoClick = (trip) => {
-    console.log('trip detail : ', trip);
+    setSelectTrip(trip);
     setOpen(true);
   };
 
+  // 여행 삭제 이벤트
   const handleTripDeleteClick = (tripNo) => {
     if (window.confirm('여행을 삭제하시겠습니까?')) {
       deleteTrip(tripNo);
     }
+  };
+
+  // 여행 정보 표출 종료 이벤트
+  const handleCloseInfoModalClick = () => {
+    setOpen(false);
   };
 
   // 유저 여행 목록 조회
@@ -83,7 +92,10 @@ function TripListContainer() {
         </Grid>
       </Container>
       <ModalLayout open={open}>
-        <TripInfoModalContainer />
+        <TripInfoModalContainer
+          trip={selectTrip}
+          onCloseInfoModalClick={handleCloseInfoModalClick}
+        />
       </ModalLayout>
     </div>
   );
