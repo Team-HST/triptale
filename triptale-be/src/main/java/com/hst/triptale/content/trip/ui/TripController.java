@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hst.triptale.configuration.ApplicationConstants;
 import com.hst.triptale.content.trip.service.TripService;
+import com.hst.triptale.content.trip.ui.request.TripDayScheduleAddRequest;
 import com.hst.triptale.content.trip.ui.request.TripModifyingRequest;
 import com.hst.triptale.content.trip.ui.request.TripSearchRequest;
+import com.hst.triptale.content.trip.ui.response.DayScheduleResponse;
 import com.hst.triptale.content.trip.ui.response.TripListResponse;
 import com.hst.triptale.content.trip.ui.response.TripResponse;
 
@@ -71,5 +73,14 @@ public class TripController {
 	public ResponseEntity<Long> deleteTrip(@PathVariable Long tripNo) {
 		tripService.deleteTrip(tripNo);
 		return ResponseEntity.ok(tripNo);
+	}
+
+	@Operation(summary = ApplicationConstants.Documentations.REQUIRE_AUTH + "여행 일차 등록", parameters = {
+		@Parameter(name = "tripNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class))
+	})
+	@PostMapping("{tripNo}")
+	public ResponseEntity<DayScheduleResponse> addTripDaySchedule(@PathVariable Long tripNo,
+		@RequestBody TripDayScheduleAddRequest request) {
+		return ResponseEntity.ok(tripService.addTripDaySchedule(tripNo, request));
 	}
 }

@@ -2,6 +2,8 @@ package com.hst.triptale.content.trip.entity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -12,12 +14,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.hst.triptale.content.ContentResource;
+import com.hst.triptale.content.schedule.entity.DaySchedule;
 import com.hst.triptale.content.trip.ui.request.TripModifyingRequest;
 import com.hst.triptale.content.user.entity.User;
 
@@ -69,9 +73,16 @@ public class Trip implements ContentResource {
 	@JoinColumn(name = "REG_USER_NO", nullable = false)
 	private User registrar;
 
+	@OneToMany(mappedBy = "trip")
+	private final Set<DaySchedule> daySchedules = new HashSet<>();
+
 	@Override
 	public User getResourceOwner() {
 		return this.registrar;
+	}
+
+	public void addDaySchedule(DaySchedule daySchedule) {
+		this.daySchedules.add(daySchedule);
 	}
 
 	public static Trip createTrip(TripModifyingRequest request, User registrar) {

@@ -18,10 +18,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import com.hst.triptale.content.schedule.entity.DaySchedule;
 import com.hst.triptale.content.trip.entity.Trip;
+import com.hst.triptale.content.trip.exception.TripDayScheduleAlreadyExistException;
 import com.hst.triptale.content.trip.exception.TripNotFoundException;
+import com.hst.triptale.content.trip.repository.DayScheduleRepository;
 import com.hst.triptale.content.trip.repository.TripRepository;
 import com.hst.triptale.content.trip.service.TripService;
+import com.hst.triptale.content.trip.ui.request.TripDayScheduleAddRequest;
 import com.hst.triptale.content.trip.ui.request.TripModifyingRequest;
 import com.hst.triptale.content.trip.ui.request.TripSearchRequest;
 import com.hst.triptale.content.trip.ui.response.TripListResponse;
@@ -38,6 +42,9 @@ import com.hst.triptale.security.permission.ContentResourcePermissionChecker;
 class TripServiceTest {
 
 	@Mock
+	private DayScheduleRepository dayScheduleRepository;
+
+	@Mock
 	private TripRepository tripRepository;
 
 	@Mock
@@ -50,7 +57,8 @@ class TripServiceTest {
 
 	@BeforeEach
 	public void setUp() {
-		tripService = new TripService(tripRepository, userRepository, contentResourcePermissionChecker);
+		tripService = new TripService(dayScheduleRepository, tripRepository, userRepository,
+			contentResourcePermissionChecker);
 	}
 
 	@Test
@@ -140,6 +148,61 @@ class TripServiceTest {
 	@DisplayName("여행 삭제 테스트 - 삭제할 여행이 존재하지 않는 경우")
 	void deleteTripFailTest_tripNotExist() {
 		assertThrows(TripNotFoundException.class, () -> tripService.deleteTrip(1L));
+	}
+
+	@Test
+	@DisplayName("여행 일차 등록 테스트")
+	void addTripDaySchedule() {
+		// given
+		long tripNo = 1L;
+		Trip trip = mock(Trip.class);
+
+		given(tripRepository.findById(tripNo)).willReturn(Optional.of(trip));
+		given(dayScheduleRepository.existsByTripNoAndOrder(anyLong(), anyInt())).willReturn(false);
+		given(dayScheduleRepository.save(any(DaySchedule.class))).willReturn(DaySchedule.builder().trip(new Trip()).build());
+
+		// when
+		tripService.addTripDaySchedule(tripNo, mock(TripDayScheduleAddRequest.class));
+
+		// then
+		verify(tripRepository).findById(tripNo);
+		verify(dayScheduleRepository).existsByTripNoAndOrder(anyLong(), anyInt());
+		verify(dayScheduleRepository).save(any(DaySchedule.class));
+	}
+
+	@Test
+	@DisplayName("여행 일차 등록 테스트 - 여행이 존재하지 않는 경우")
+	void addTripDaySchedule_tripNotExist() {
+		// given
+		long tripNo = 1L;
+		given(tripRepository.findById(tripNo)).willReturn(Optional.empty());
+
+		// when, then
+		assertThrows(TripNotFoundException.class, () ->
+			tripService.addTripDaySchedule(tripNo, mock(TripDayScheduleAddRequest.class)));
+
+		verify(tripRepository).findById(tripNo);
+		verify(dayScheduleRepository, never()).existsByTripNoAndOrder(anyLong(), anyInt());
+		verify(dayScheduleRepository, never()).save(any(DaySchedule.class));
+	}
+
+	@Test
+	@DisplayName("여행 일차 등록 테스트 - 일차가 존재하는 경우")
+	void addTripDaySchedule_orderExist() {
+		// given
+		long tripNo = 1L;
+		Trip trip = mock(Trip.class);
+
+		given(tripRepository.findById(tripNo)).willReturn(Optional.of(trip));
+		given(dayScheduleRepository.existsByTripNoAndOrder(anyLong(), anyInt())).willReturn(true);
+
+		// when, then
+		assertThrows(TripDayScheduleAlreadyExistException.class, () ->
+			tripService.addTripDaySchedule(tripNo, mock(TripDayScheduleAddRequest.class)));
+
+		verify(tripRepository).findById(tripNo);
+		verify(dayScheduleRepository).existsByTripNoAndOrder(anyLong(), anyInt());
+		verify(dayScheduleRepository, never()).save(any(DaySchedule.class));
 	}
 
 }
