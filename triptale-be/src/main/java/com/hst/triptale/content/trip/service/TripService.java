@@ -75,6 +75,19 @@ public class TripService {
 	}
 
 	/**
+	 * 여행 수정
+	 * @param request 여행 수정 요청
+	 */
+	@Transactional
+	public void modifyTrip(TripModifyingRequest request, Long tripNo) {
+		Trip trip = tripRepository.findById(tripNo).orElseThrow(() -> new TripNotFoundException(tripNo));
+		permissionChecker.checkPermission(trip);
+
+		trip.changeContent(request);
+		tripRepository.save(trip);
+	}
+
+	/**
 	 * 여행 일차 등록
 	 * @param tripNo 여행 번호
 	 * @param request 여행 일차 등록 요청
@@ -88,15 +101,15 @@ public class TripService {
 
 		if (dayScheduleRepository.existsByTripNoAndOrder(tripNo, request.getOrder())) {
 			throw new TripDayScheduleAlreadyExistException()
-				.addAttribute("tripNo", tripNo)
-				.addAttribute("order", request.getOrder());
+					.addAttribute("tripNo", tripNo)
+					.addAttribute("order", request.getOrder());
 		}
 
 		DaySchedule createdDaySchedule = dayScheduleRepository.save(DaySchedule.builder()
-			.order(request.getOrder())
-			.description(request.getDescription())
-			.trip(trip)
-			.build());
+				.order(request.getOrder())
+				.description(request.getDescription())
+				.trip(trip)
+				.build());
 
 		trip.addDaySchedule(createdDaySchedule);
 

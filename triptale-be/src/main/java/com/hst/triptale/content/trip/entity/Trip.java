@@ -85,6 +85,17 @@ public class Trip implements ContentResource {
 		this.daySchedules.add(daySchedule);
 	}
 
+	public void changeContent(TripModifyingRequest request) {
+		this.title = request.getTitle();
+		this.description = request.getDescription();
+		this.area = request.getArea();
+		this.location = Location.of(request.getLatitude(), request.getLongitude());
+		this.thumbnailFileNo = request.getThumbnailFileNo();
+		this.startAt = request.getStartAt();
+		this.endAt = request.getEndAt();
+		this.materials = request.getMaterials();
+	}
+
 	public static Trip createTrip(TripModifyingRequest request, User registrar) {
 		Trip trip = new Trip();
 		trip.title = request.getTitle();
