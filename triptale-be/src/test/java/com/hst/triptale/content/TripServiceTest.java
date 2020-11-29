@@ -111,6 +111,37 @@ class TripServiceTest {
 		assertNotNull(response);
 	}
 
+	@Test
+	@DisplayName("여행 상세 조회 테스트")
+	void getTripTest() {
+		// given
+		Long tripNo = 1L;
+		Trip trip = Trip.createTrip(createTripModifyingRequest(), new User());
+		given(tripRepository.findById(1L)).willReturn(Optional.of(trip));
+
+		// when
+		TripResponse response = tripService.getTrip(tripNo);
+
+		// then
+		verify(tripRepository).findById(tripNo);
+		assertNotNull(response);
+		assertEquals(trip.getDescription(), response.getDescription());
+		assertEquals(trip.getArea(), response.getArea());
+		assertEquals(trip.getMaterials(), response.getMaterials());
+		assertEquals(trip.getTitle(), response.getTitle());
+		assertEquals(trip.getStartAt(), response.getStartAt());
+		assertEquals(trip.getEndAt(), response.getEndAt());
+		assertEquals(trip.getLocation().getLatitude(), response.getLatitude());
+		assertEquals(trip.getLocation().getLongitude(), response.getLongitude());
+	}
+
+	@Test
+	@DisplayName("여행 상세 조회 테스트 - 여행이 존재하지 않는 경우")
+	void getTripTest_tripNotFound() {
+		assertThrows(TripNotFoundException.class, () -> tripService.getTrip(1L));
+
+	}
+
 	// 여행 등록 / 수정 요청 모델 생성
 	private TripModifyingRequest createTripModifyingRequest() {
 		TripModifyingRequest request = new TripModifyingRequest();

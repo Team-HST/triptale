@@ -62,6 +62,17 @@ public class TripService {
 	}
 
 	/**
+	 * 여행 상세 조회
+	 * @param tripNo 여행 번호
+	 * @return 여행 상세 정보
+	 */
+	public TripResponse getTrip(Long tripNo) {
+		return tripRepository.findById(tripNo)
+			.map(TripResponse::from)
+			.orElseThrow(() -> new TripNotFoundException(tripNo));
+	}
+
+	/**
 	 * 여행 삭제
 	 * @param tripNo 여행 번호
 	 */

@@ -1,6 +1,5 @@
 package com.hst.triptale.content.trip.ui;
 
-import com.hst.triptale.configuration.props.ApplicationProps;
 import org.springdoc.core.SpringDocUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -60,13 +59,12 @@ public class TripController {
 		return ResponseEntity.ok(tripService.searchTrip(request, pageable));
 	}
 
-	@Operation(summary = ApplicationConstants.Documentations.REQUIRE_AUTH + "여행 삭제", parameters = {
+	@Operation(summary = ApplicationConstants.Documentations.REQUIRE_AUTH + "여행 상세 조회", parameters = {
 		@Parameter(name = "tripNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class))
 	})
-	@DeleteMapping("{tripNo}")
-	public ResponseEntity<Long> deleteTrip(@PathVariable Long tripNo) {
-		tripService.deleteTrip(tripNo);
-		return ResponseEntity.ok(tripNo);
+	@GetMapping("{tripNo}")
+	public ResponseEntity<TripResponse> getTrip(@PathVariable Long tripNo) {
+		return ResponseEntity.ok(tripService.getTrip(tripNo));
 	}
 
 	@Operation(summary = ApplicationConstants.Documentations.REQUIRE_AUTH + "여행 수정", parameters = {
@@ -77,6 +75,16 @@ public class TripController {
 		tripService.modifyTrip(request, tripNo);
 		return ResponseEntity.ok(tripNo);
 	}
+
+	@Operation(summary = ApplicationConstants.Documentations.REQUIRE_AUTH + "여행 삭제", parameters = {
+		@Parameter(name = "tripNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class))
+	})
+	@DeleteMapping("{tripNo}")
+	public ResponseEntity<Long> deleteTrip(@PathVariable Long tripNo) {
+		tripService.deleteTrip(tripNo);
+		return ResponseEntity.ok(tripNo);
+	}
+
 
 	@Operation(summary = ApplicationConstants.Documentations.REQUIRE_AUTH + "여행 일차 등록", parameters = {
 			@Parameter(name = "tripNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class))
