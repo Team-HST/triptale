@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
-
 import ModalLayout from 'components/common/ModalLayout';
 import TripInfoModalContainer from 'containers/main/TripInfoModalContainer';
+import TripCreateModalContainer from 'containers/main/TripCreateModalContainer';
 import { makeStyles } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
@@ -29,8 +29,10 @@ function TripListContainer() {
   const classes = useStyles();
   // 선택 여행 정보
   const [selectTrip, setSelectTrip] = useState({});
-  // 여행 상세 표출 여부
-  const [open, setOpen] = useState(false);
+  // 여행 상세 모달 표출 여부
+  const [isTripInfo, setIsTripInfo] = useState(false);
+  // 여행 수정 모달 료출 여부
+  const [isTripModify, setIsTripModify] = useState(false);
   const { tripList } = useSelector((state) => ({ tripList: state.trip.list }));
   const dispatch = useDispatch();
 
@@ -55,7 +57,7 @@ function TripListContainer() {
   // 여행 정보 표출 이벤트
   const handleTripInfoClick = (trip) => {
     setSelectTrip(trip);
-    setOpen(true);
+    setIsTripInfo(true);
   };
 
   // 여행 삭제 이벤트
@@ -67,7 +69,16 @@ function TripListContainer() {
 
   // 여행 정보 표출 종료 이벤트
   const handleCloseInfoModalClick = () => {
-    setOpen(false);
+    setIsTripInfo(false);
+  };
+
+  // 여행 수정 표출 이벤트
+  const handleModifyClick = () => {
+    setIsTripModify(true);
+  };
+
+  const handleCloseModifyModalClick = () => {
+    setIsTripModify(false);
   };
 
   // 유저 여행 목록 조회
@@ -91,10 +102,18 @@ function TripListContainer() {
           ))}
         </Grid>
       </Container>
-      <ModalLayout open={open}>
+      <ModalLayout open={isTripInfo}>
         <TripInfoModalContainer
           trip={selectTrip}
           onCloseInfoModalClick={handleCloseInfoModalClick}
+          onTripModifyClick={handleModifyClick}
+        />
+      </ModalLayout>
+      <ModalLayout open={isTripModify}>
+        <TripCreateModalContainer
+          label={'수정'}
+          trip={selectTrip}
+          onModalCloseClick={handleCloseModifyModalClick}
         />
       </ModalLayout>
     </div>

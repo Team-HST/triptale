@@ -125,7 +125,7 @@ function ImageBannerContainer() {
         당신의 여행을 기록해보세요!
       </Typography>
       <ModalLayout open={open} onModalCloseClick={handleModalCloseClick}>
-        <TripCreateModalContainer onModalCloseClick={handleModalCloseClick} />
+        <TripCreateModalContainer label={'등록'} onModalCloseClick={handleModalCloseClick} />
       </ModalLayout>
     </ProductLayout>
   );

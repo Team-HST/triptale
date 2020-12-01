@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -78,14 +78,14 @@ const useStyles = makeStyles((theme) => ({
  * @modify date 2020-11-05 23:52:42
  * @desc [여행 등록 모달 컨테이너 컴포넌트]
  */
-function TripCreateModalContainer({ onModalCloseClick }) {
+function TripCreateModalContainer({ label, trip, onModalCloseClick }) {
   const { kakao } = window;
   const classes = useStyles();
   const modalStyle = getModalStyle();
 
   const [textField, setTextField] = useState({
     title: '',
-    desc: '',
+    description: '',
     materials: '',
     area: '',
   });
@@ -98,9 +98,26 @@ function TripCreateModalContainer({ onModalCloseClick }) {
   });
   const [mapOptions, setMapOptions] = useState({
     mapId: 'createMap',
-    center: [33.450701, 126.570667],
+    center: trip ? [trip.longitude, trip.latitude] : [33.450701, 126.570667],
     level: 8,
   });
+
+  useEffect(() => {
+    if (trip) {
+      setTextField({
+        title: trip.title,
+        description: trip.description,
+        materials: trip.materials,
+        area: trip.area,
+      });
+      setStartDate(new Date(trip.startAt));
+      setEndDate(new Date(trip.endAt));
+      setSearchArea({
+        name: trip.area,
+        position: [trip.longitude, trip.latitude],
+      });
+    }
+  }, [trip]);
 
   // 텍스트 필드 변경 이벤트
   const handleTextChange = (e) => {
@@ -177,7 +194,7 @@ function TripCreateModalContainer({ onModalCloseClick }) {
     const tripInfo = {
       userNo: sessionStorage.getItem('userNo'),
       title: textField.title,
-      description: textField.desc,
+      description: textField.description,
       area: searchArea.name,
       latitude: searchArea.position[1],
       longitude: searchArea.position[0],
@@ -191,7 +208,7 @@ function TripCreateModalContainer({ onModalCloseClick }) {
     if (isTripValideCheck(tripInfo)) {
       // 여행 등록
       await tripService.createTrip(tripInfo);
-      alert('정상적으로 여행이 등록되었습니다.');
+      alert(`정상적으로 여행이 ${label}되었습니다.`);
       // 팝업 종료
       onModalCloseClick();
     }
@@ -202,7 +219,7 @@ function TripCreateModalContainer({ onModalCloseClick }) {
     if (!textField.title) {
       alert('여행 제목을 입력하여 주세요.');
       isValid = false;
-    } else if (!textField.desc) {
+    } else if (!textField.description) {
       alert('여행 설명을 입력하여 주세요.');
       isValid = false;
     } else if (!searchArea.name) {
@@ -217,12 +234,13 @@ function TripCreateModalContainer({ onModalCloseClick }) {
     <div style={modalStyle} className={classes.paper}>
       <Grid container spacing={1}>
         <Grid className={classes.header} item xs={12}>
-          <Typography variant="h6">TripTale! 여행 등록</Typography>
+          <Typography variant="h6">TripTale! 여행 {label}</Typography>
         </Grid>
         <Grid item lg={6} sm={6} xs={12}>
           <TextField
             className={classes.textField}
             name="title"
+            value={textField.title}
             required
             label="여행 제목"
             fullWidth
@@ -230,7 +248,8 @@ function TripCreateModalContainer({ onModalCloseClick }) {
           />
           <TextField
             className={classes.textField}
-            name="desc"
+            name="description"
+            value={textField.description}
             required
             label="여행 내용"
             fullWidth
@@ -241,6 +260,7 @@ function TripCreateModalContainer({ onModalCloseClick }) {
           <TextField
             className={classes.textField}
             name="materials"
+            value={textField.materials}
             required
             label="준비물"
             fullWidth
@@ -278,6 +298,7 @@ function TripCreateModalContainer({ onModalCloseClick }) {
           <TextField
             className={classes.textField}
             name="area"
+            value={textField.area}
             required
             label="목적지 조회"
             fullWidth
@@ -311,7 +332,7 @@ function TripCreateModalContainer({ onModalCloseClick }) {
       </Grid>
       <div className={classes.footerBtn}>
         <Button variant="contained" color="primary" onClick={handleCreateTripClick}>
-          여행 등록
+          여행 {label}
         </Button>
         <Button
           className={classes.closeBtn}
@@ -327,6 +348,8 @@ function TripCreateModalContainer({ onModalCloseClick }) {
 }
 
 TripCreateModalContainer.propTypes = {
+  label: PropTypes.string.isRequired,
+  trip: PropTypes.object,
   onModalCloseClick: PropTypes.func,
 };
 

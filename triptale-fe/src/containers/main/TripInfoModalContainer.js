@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
+
+// import ModalLayout from 'components/common/ModalLayout';
+// import TripInfoModalContainer from 'containers/main/TripInfoModalContainer';
+import Map from 'components/kakaoMap/Map';
+import Circle from 'components/kakaoMap/Circle';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -12,10 +17,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import CreateIcon from '@material-ui/icons/Create';
 import CloseIcon from '@material-ui/icons/Close';
-
-import Map from 'components/kakaoMap/Map';
-import Circle from 'components/kakaoMap/Circle';
 
 function getModalStyle() {
   const top = 50;
@@ -41,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     },
     width: '70%',
     height: '80%',
-    overflow: 'scroll',
+    overflow: 'auto',
   },
   media: {
     height: 0,
@@ -67,6 +70,9 @@ const useStyles = makeStyles((theme) => ({
   map: {
     height: '250px',
   },
+  cardContent: {
+    paddingBottom: '0px',
+  },
 }));
 
 /**
@@ -76,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
  * @modify date 2020-11-26 22:21:49
  * @desc 여행 상세 모달 컨테이너
  */
-function TripInfoModalContainer({ trip, onCloseInfoModalClick }) {
+function TripInfoModalContainer({ trip, onCloseInfoModalClick, onTripModifyClick }) {
   const classes = useStyles();
   const modalStyle = getModalStyle();
   const [expanded, setExpanded] = useState(false);
@@ -112,7 +118,7 @@ function TripInfoModalContainer({ trip, onCloseInfoModalClick }) {
           }
           title="Paella dish"
         />
-        <CardContent>
+        <CardContent className={classes.cardContent}>
           <p>여행 내용</p>
           <Typography variant="body2" color="textSecondary" component="p">
             {trip.description}
@@ -135,6 +141,9 @@ function TripInfoModalContainer({ trip, onCloseInfoModalClick }) {
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
+          <IconButton aria-label="modify trip" onClick={onTripModifyClick}>
+            <CreateIcon />
+          </IconButton>
           <IconButton
             className={clsx(classes.expand, {
               [classes.expandOpen]: expanded,
