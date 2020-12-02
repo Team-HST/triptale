@@ -26,18 +26,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ImageFileUpload({ thumbnailFile, handleFileChange }) {
+function ImageFileUpload({ file, handleFileChange }) {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
       <label htmlFor="file-input">
-        {thumbnailFile ? (
-          <img
-            src={URL.createObjectURL(thumbnailFile)}
-            className={classes.image}
-            alt="여행 배너 이미지"
-          ></img>
+        {file.fileSrno || file.thumbnailFile ? (
+          file.fileSrno ? (
+            <img
+              src={`/api/system/storage/files/${file.fileSrno}`}
+              className={classes.image}
+              alt="여행 배너 이미지"
+            ></img>
+          ) : (
+            <img
+              src={URL.createObjectURL(file.thumbnailFile)}
+              className={classes.image}
+              alt="여행 배너 이미지"
+            ></img>
+          )
         ) : (
           <img
             src={require('styles/images/file-default.jpg')}

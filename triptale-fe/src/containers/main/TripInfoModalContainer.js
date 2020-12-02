@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
       width: '30%',
       height: '80%',
     },
-    width: '70%',
+    width: '90%',
     height: '80%',
     overflow: 'auto',
   },

@@ -91,7 +91,10 @@ function TripCreateModalContainer({ label, trip, onModalCloseClick }) {
   });
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [thumbnailFile, setThumbnailFile] = useState(null);
+  const [file, setFile] = useState({
+    thumbnailFile: null,
+    fileSrno: null,
+  });
   const [searchArea, setSearchArea] = useState({
     name: '',
     position: [],
@@ -115,6 +118,10 @@ function TripCreateModalContainer({ label, trip, onModalCloseClick }) {
       setSearchArea({
         name: trip.area,
         position: [trip.longitude, trip.latitude],
+      });
+      setFile({
+        thumbnailFile: null,
+        fileSrno: trip.thumbnailFileNo,
       });
     }
   }, [trip]);
@@ -182,13 +189,16 @@ function TripCreateModalContainer({ label, trip, onModalCloseClick }) {
   // 파일 변경 이벤트
   const handleFileChange = (e) => {
     const thumbnailFile = e.target.files[0] ? e.target.files[0] : null;
-    setThumbnailFile(thumbnailFile);
+    setFile({
+      thumbnailFile: thumbnailFile,
+      fileSrno: null,
+    });
   };
 
   const handleCreateTripClick = async () => {
-    let fileSrno = null;
-    if (thumbnailFile) {
-      fileSrno = await fileService.uploadFile(thumbnailFile);
+    let fileSrno = file.fileSrno;
+    if (file.thumbnailFile && !file.fileSrno) {
+      fileSrno = await fileService.uploadFile(file.thumbnailFile);
     }
 
     const tripInfo = {
@@ -206,8 +216,11 @@ function TripCreateModalContainer({ label, trip, onModalCloseClick }) {
 
     // 여행 정보 검사 후 등록 실행
     if (isTripValideCheck(tripInfo)) {
-      // 여행 등록
-      await tripService.createTrip(tripInfo);
+      if (trip) {
+      } else {
+        // 여행 등록
+        await tripService.createTrip(tripInfo);
+      }
       alert(`정상적으로 여행이 ${label}되었습니다.`);
       // 팝업 종료
       onModalCloseClick();
@@ -268,7 +281,7 @@ function TripCreateModalContainer({ label, trip, onModalCloseClick }) {
             rows={2}
             onChange={(e) => handleTextChange(e)}
           />
-          <ImageFileUpload thumbnailFile={thumbnailFile} handleFileChange={handleFileChange} />
+          <ImageFileUpload file={file} handleFileChange={handleFileChange} />
         </Grid>
         <Grid item lg={6} sm={6} xs={12}>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
