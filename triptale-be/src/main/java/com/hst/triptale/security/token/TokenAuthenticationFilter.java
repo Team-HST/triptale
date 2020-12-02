@@ -21,11 +21,13 @@ import com.hst.triptale.content.user.entity.User;
 import com.hst.triptale.content.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author dlgusrb0808@gmail.com
  */
 @RequiredArgsConstructor
+@Slf4j
 @Component
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
@@ -37,6 +39,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
 		FilterChain filterChain) throws ServletException, IOException {
+		log.info("check token to {}", request.getRequestURI());
+
 		String token = getTokenFromRequest(request);
 		if (authenticationTokenProvider.validateToken(token)) {
 			Long userNo = authenticationTokenProvider.getUserNoFromToken(token);

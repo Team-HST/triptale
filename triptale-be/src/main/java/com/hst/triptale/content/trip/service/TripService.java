@@ -5,12 +5,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hst.triptale.content.schedule.entity.DaySchedule;
 import com.hst.triptale.content.trip.entity.Trip;
 import com.hst.triptale.content.trip.entity.TripSpecifications;
+import com.hst.triptale.content.trip.exception.TripDayScheduleAlreadyExistException;
 import com.hst.triptale.content.trip.exception.TripNotFoundException;
+import com.hst.triptale.content.trip.repository.DayScheduleRepository;
 import com.hst.triptale.content.trip.repository.TripRepository;
+import com.hst.triptale.content.trip.ui.request.TripDayScheduleAddRequest;
 import com.hst.triptale.content.trip.ui.request.TripModifyingRequest;
 import com.hst.triptale.content.trip.ui.request.TripSearchRequest;
+import com.hst.triptale.content.trip.ui.response.DayScheduleResponse;
 import com.hst.triptale.content.trip.ui.response.TripListResponse;
 import com.hst.triptale.content.trip.ui.response.TripResponse;
 import com.hst.triptale.content.user.entity.User;
@@ -26,6 +31,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class TripService {
+	private final DayScheduleRepository dayScheduleRepository;
 	private final TripRepository tripRepository;
 	private final UserRepository userRepository;
 	private final ContentResourcePermissionChecker permissionChecker;
@@ -56,6 +62,17 @@ public class TripService {
 	}
 
 	/**
+	 * 여행 상세 조회
+	 * @param tripNo 여행 번호
+	 * @return 여행 상세 정보
+	 */
+	public TripResponse getTrip(Long tripNo) {
+		return tripRepository.findById(tripNo)
+			.map(TripResponse::from)
+			.orElseThrow(() -> new TripNotFoundException(tripNo));
+	}
+
+	/**
 	 * 여행 삭제
 	 * @param tripNo 여행 번호
 	 */
@@ -66,5 +83,47 @@ public class TripService {
 		permissionChecker.checkPermission(trip);
 
 		tripRepository.delete(trip);
+	}
+
+	/**
+	 * 여행 수정
+	 * @param request 여행 수정 요청
+	 */
+	@Transactional
+	public void modifyTrip(TripModifyingRequest request, Long tripNo) {
+		Trip trip = tripRepository.findById(tripNo).orElseThrow(() -> new TripNotFoundException(tripNo));
+		permissionChecker.checkPermission(trip);
+
+		trip.changeContent(request);
+		tripRepository.save(trip);
+	}
+
+	/**
+	 * 여행 일차 등록
+	 * @param tripNo 여행 번호
+	 * @param request 여행 일차 등록 요청
+	 * @return 등록된 여행 일차 정보
+	 */
+	@Transactional
+	public DayScheduleResponse addTripDaySchedule(long tripNo, TripDayScheduleAddRequest request) {
+		Trip trip = tripRepository.findById(tripNo).orElseThrow(() -> new TripNotFoundException(tripNo));
+
+		permissionChecker.checkPermission(trip);
+
+		if (dayScheduleRepository.existsByTripNoAndOrder(tripNo, request.getOrder())) {
+			throw new TripDayScheduleAlreadyExistException()
+					.addAttribute("tripNo", tripNo)
+					.addAttribute("order", request.getOrder());
+		}
+
+		DaySchedule createdDaySchedule = dayScheduleRepository.save(DaySchedule.builder()
+				.order(request.getOrder())
+				.description(request.getDescription())
+				.trip(trip)
+				.build());
+
+		trip.addDaySchedule(createdDaySchedule);
+
+		return DayScheduleResponse.from(createdDaySchedule);
 	}
 }

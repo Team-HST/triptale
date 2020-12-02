@@ -81,7 +81,7 @@ app:
   security:
     public-paths:
       optionals:
-        - /admin/devtools/issue-token/**
+        - /system/devtools/issue-token/**
 
 ---
 spring:
