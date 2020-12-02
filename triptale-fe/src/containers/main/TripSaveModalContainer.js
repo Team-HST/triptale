@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
  * @modify date 2020-11-05 23:52:42
  * @desc [여행 등록 모달 컨테이너 컴포넌트]
  */
-function TripCreateModalContainer({ label, trip, onModalCloseClick }) {
+function TripSaveModalContainer({ label, trip, onModalCloseClick }) {
   const { kakao } = window;
   const classes = useStyles();
   const modalStyle = getModalStyle();
@@ -217,12 +217,14 @@ function TripCreateModalContainer({ label, trip, onModalCloseClick }) {
     // 여행 정보 검사 후 등록 실행
     if (isTripValideCheck(tripInfo)) {
       if (trip) {
+        await tripService.updateTrip(tripInfo, trip.no);
       } else {
         // 여행 등록
         await tripService.createTrip(tripInfo);
       }
-      alert(`정상적으로 여행이 ${label}되었습니다.`);
+
       // 팝업 종료
+      alert(`정상적으로 여행이 ${label}되었습니다.`);
       onModalCloseClick();
     }
   };
@@ -360,10 +362,10 @@ function TripCreateModalContainer({ label, trip, onModalCloseClick }) {
   );
 }
 
-TripCreateModalContainer.propTypes = {
+TripSaveModalContainer.propTypes = {
   label: PropTypes.string.isRequired,
   trip: PropTypes.object,
   onModalCloseClick: PropTypes.func,
 };
 
-export default TripCreateModalContainer;
+export default TripSaveModalContainer;

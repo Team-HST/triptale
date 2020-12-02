@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import ModalLayout from 'components/common/ModalLayout';
 import TripInfoModalContainer from 'containers/main/TripInfoModalContainer';
-import TripCreateModalContainer from 'containers/main/TripCreateModalContainer';
+import TripSaveModalContainer from 'containers/main/TripSaveModalContainer';
 import { makeStyles } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
@@ -41,6 +41,12 @@ function TripListContainer() {
     dispatch(TripActions.setTripListAsync());
   }, [dispatch]);
 
+  // 여행 상세 조회
+  const getTrip = async (tripNo) => {
+    const trip = await tripService.searchTrip(tripNo);
+    setSelectTrip(trip);
+  };
+
   // 여행 삭제
   const deleteTrip = async (tripNo) => {
     const deleteTripNo = await tripService.removeTrip(tripNo);
@@ -64,6 +70,8 @@ function TripListContainer() {
   const handleTripDeleteClick = (tripNo) => {
     if (window.confirm('여행을 삭제하시겠습니까?')) {
       deleteTrip(tripNo);
+      getTripList();
+      setIsTripInfo(false);
     }
   };
 
@@ -77,7 +85,10 @@ function TripListContainer() {
     setIsTripModify(true);
   };
 
+  // 여행 수정 종료 이벤트
   const handleCloseModifyModalClick = () => {
+    getTrip(selectTrip.no);
+    getTripList();
     setIsTripModify(false);
   };
 
@@ -96,7 +107,6 @@ function TripListContainer() {
                 trip={trip}
                 onTripCardClick={handleTripCardClick}
                 onTripInfoClick={handleTripInfoClick}
-                onTripDeleteClick={handleTripDeleteClick}
               />
             </Grid>
           ))}
@@ -107,10 +117,11 @@ function TripListContainer() {
           trip={selectTrip}
           onCloseInfoModalClick={handleCloseInfoModalClick}
           onTripModifyClick={handleModifyClick}
+          onTripDeleteClick={handleTripDeleteClick}
         />
       </ModalLayout>
       <ModalLayout open={isTripModify}>
-        <TripCreateModalContainer
+        <TripSaveModalContainer
           label={'수정'}
           trip={selectTrip}
           onModalCloseClick={handleCloseModifyModalClick}

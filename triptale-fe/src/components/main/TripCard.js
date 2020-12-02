@@ -24,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
     whiteSpace: 'nowrap',
     overflow: 'hidden',
   },
+  buttonGrid: {
+    width: '100%',
+  },
 }));
 
 /**
@@ -66,14 +69,9 @@ function TripCard({ trip, onTripCardClick, onTripInfoClick, onTripDeleteClick })
       </CardActionArea>
       <CardActions className={classes.cardActions}>
         <Grid container>
-          <Grid item xs={6}>
-            <Button size="small" onClick={() => onTripInfoClick(trip)}>
-              상세
-            </Button>
-          </Grid>
-          <Grid item xs={6}>
-            <Button size="small" color="secondary" onClick={() => onTripDeleteClick(trip.no)}>
-              삭제
+          <Grid item className={classes.buttonGrid}>
+            <Button size="small" fullWidth onClick={() => onTripInfoClick(trip)}>
+              여행 상세보기
             </Button>
           </Grid>
         </Grid>

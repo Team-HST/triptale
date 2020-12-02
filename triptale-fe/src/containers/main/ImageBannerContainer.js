@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import ProductLayout from 'components/main/ProductLayout';
 import SearchBox from 'components/common/SearchBox';
 import ModalLayout from 'components/common/ModalLayout';
-import TripCreateModalContainer from 'containers/main/TripCreateModalContainer';
+import TripSaveModalContainer from 'containers/main/TripSaveModalContainer';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
@@ -125,7 +125,7 @@ function ImageBannerContainer() {
         당신의 여행을 기록해보세요!
       </Typography>
       <ModalLayout open={open} onModalCloseClick={handleModalCloseClick}>
-        <TripCreateModalContainer label={'등록'} onModalCloseClick={handleModalCloseClick} />
+        <TripSaveModalContainer label={'등록'} onModalCloseClick={handleModalCloseClick} />
       </ModalLayout>
     </ProductLayout>
   );

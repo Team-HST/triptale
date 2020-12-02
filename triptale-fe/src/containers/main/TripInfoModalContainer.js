@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 
-// import ModalLayout from 'components/common/ModalLayout';
-// import TripInfoModalContainer from 'containers/main/TripInfoModalContainer';
 import Map from 'components/kakaoMap/Map';
 import Circle from 'components/kakaoMap/Circle';
 import Card from '@material-ui/core/Card';
@@ -18,6 +16,7 @@ import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CreateIcon from '@material-ui/icons/Create';
+import DeleteIcon from '@material-ui/icons/Delete';
 import CloseIcon from '@material-ui/icons/Close';
 
 function getModalStyle() {
@@ -82,16 +81,28 @@ const useStyles = makeStyles((theme) => ({
  * @modify date 2020-11-26 22:21:49
  * @desc 여행 상세 모달 컨테이너
  */
-function TripInfoModalContainer({ trip, onCloseInfoModalClick, onTripModifyClick }) {
+function TripInfoModalContainer({
+  trip,
+  onCloseInfoModalClick,
+  onTripModifyClick,
+  onTripDeleteClick,
+}) {
   const classes = useStyles();
   const modalStyle = getModalStyle();
   const [expanded, setExpanded] = useState(false);
 
   const [mapOptions, setMapOptions] = useState({
-    mapId: 'createMap',
+    mapId: 'infoMap',
     center: [trip.longitude, trip.latitude],
     level: 8,
   });
+
+  useEffect(() => {
+    setMapOptions((state) => ({
+      ...state,
+      center: [trip.longitude, trip.latitude],
+    }));
+  }, [trip.latitude, trip.longitude]);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -144,6 +155,9 @@ function TripInfoModalContainer({ trip, onCloseInfoModalClick, onTripModifyClick
           <IconButton aria-label="modify trip" onClick={onTripModifyClick}>
             <CreateIcon />
           </IconButton>
+          <IconButton aria-label="modify trip" onClick={(e) => onTripDeleteClick(trip.no)}>
+            <DeleteIcon />
+          </IconButton>
           <IconButton
             className={clsx(classes.expand, {
               [classes.expandOpen]: expanded,
@@ -181,6 +195,8 @@ function TripInfoModalContainer({ trip, onCloseInfoModalClick, onTripModifyClick
 TripInfoModalContainer.propTypes = {
   trip: PropTypes.object.isRequired,
   onCloseInfoModalClick: PropTypes.func.isRequired,
+  onTripModifyClick: PropTypes.func.isRequired,
+  onTripDeleteClick: PropTypes.func.isRequired,
 };
 
 export default TripInfoModalContainer;

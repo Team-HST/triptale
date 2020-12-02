@@ -66,7 +66,7 @@ function ImageFileUpload({ file, handleFileChange }) {
 }
 
 ImageFileUpload.propTypes = {
-  thumbnailFile: PropTypes.object,
+  file: PropTypes.object,
   handleFileChange: PropTypes.func,
 };
 
