@@ -75,7 +75,9 @@ public class TripService {
 	 * @return 여행 상세 정보
 	 */
 	public TripResponse getTrip(Long tripNo) {
-		return TripResponse.from(getTripEntity(tripNo));
+		Trip trip = getTripEntity(tripNo);
+		permissionChecker.checkPermission(trip);
+		return TripResponse.from(trip);
 	}
 
 	/**
