@@ -72,6 +72,11 @@ spring:
     username: hst
     password: hst123!
     driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
 
 app:
   fe-service-url: http://localhost:3000
@@ -91,6 +96,8 @@ spring:
     username: hst
     password: hst123!
     driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: false
 
 app:
   fe-service-url: http://triptale.com
