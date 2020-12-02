@@ -1,5 +1,13 @@
 package com.hst.triptale.content.trip.service;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -67,9 +75,7 @@ public class TripService {
 	 * @return 여행 상세 정보
 	 */
 	public TripResponse getTrip(Long tripNo) {
-		return tripRepository.findById(tripNo)
-			.map(TripResponse::from)
-			.orElseThrow(() -> new TripNotFoundException(tripNo));
+		return TripResponse.from(getTripEntity(tripNo));
 	}
 
 	/**
@@ -91,11 +97,23 @@ public class TripService {
 	 */
 	@Transactional
 	public void modifyTrip(TripModifyingRequest request, Long tripNo) {
-		Trip trip = tripRepository.findById(tripNo).orElseThrow(() -> new TripNotFoundException(tripNo));
+		Trip trip = getTripEntity(tripNo);
 		permissionChecker.checkPermission(trip);
-
 		trip.changeContent(request);
 		tripRepository.save(trip);
+	}
+
+	/**
+	 * 여행 일차 조회
+	 * @return
+	 */
+	public List<DayScheduleResponse> getTripDaySchedules(Long tripNo) {
+		return getTripEntity(tripNo)
+			.getDaySchedules()
+			.stream()
+			.sorted(Comparator.comparing(DaySchedule::getOrder))
+			.map(DayScheduleResponse::from)
+			.collect(Collectors.toList());
 	}
 
 	/**
@@ -105,25 +123,24 @@ public class TripService {
 	 * @return 등록된 여행 일차 정보
 	 */
 	@Transactional
-	public DayScheduleResponse addTripDaySchedule(long tripNo, TripDayScheduleAddRequest request) {
-		Trip trip = tripRepository.findById(tripNo).orElseThrow(() -> new TripNotFoundException(tripNo));
-
+	public DayScheduleResponse addTripDaySchedule(Long tripNo, TripDayScheduleAddRequest request) {
+		Trip trip = getTripEntity(tripNo);
 		permissionChecker.checkPermission(trip);
-
 		if (dayScheduleRepository.existsByTripNoAndOrder(tripNo, request.getOrder())) {
 			throw new TripDayScheduleAlreadyExistException()
 					.addAttribute("tripNo", tripNo)
 					.addAttribute("order", request.getOrder());
 		}
-
 		DaySchedule createdDaySchedule = dayScheduleRepository.save(DaySchedule.builder()
 				.order(request.getOrder())
 				.description(request.getDescription())
 				.trip(trip)
 				.build());
-
 		trip.addDaySchedule(createdDaySchedule);
-
 		return DayScheduleResponse.from(createdDaySchedule);
+	}
+
+	private Trip getTripEntity(Long tripNo) {
+		return tripRepository.findById(tripNo).orElseThrow(() -> new TripNotFoundException(tripNo));
 	}
 }

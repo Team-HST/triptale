@@ -2,6 +2,8 @@ package com.hst.triptale.content.trip.ui.request;
 
 import java.time.LocalDate;
 
+import javax.validation.constraints.NotEmpty;
+
 import com.hst.triptale.base.ui.request.BaseModifyingRequest;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -11,7 +13,7 @@ import lombok.Getter;
  * @author dlgusrb0808@gmail.com
  */
 @Getter
-public class TripModifyingRequest extends BaseModifyingRequest<Long> {
+public class TripModifyingRequest extends BaseModifyingRequest {
 	@Schema(title = "여행 제목", description = "여행 제목", required = true)
 	private String title;
 	@Schema(title = "여행 설명", description = "여행 설명", required = true)

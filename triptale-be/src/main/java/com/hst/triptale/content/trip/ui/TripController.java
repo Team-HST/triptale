@@ -4,7 +4,15 @@ import org.springdoc.core.SpringDocUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.hst.triptale.configuration.ApplicationConstants;
 import com.hst.triptale.content.trip.service.TripService;
@@ -85,11 +93,18 @@ public class TripController {
 		return ResponseEntity.ok(tripNo);
 	}
 
+	@Operation(summary = ApplicationConstants.Documentations.REQUIRE_AUTH + "여행 일차 조회", parameters = {
+		@Parameter(name = "tripNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class))
+	})
+	@GetMapping("{tripNo}/day-schedules")
+	public ResponseEntity<Object> getTripDaySchedules(@PathVariable Long tripNo) {
+		return ResponseEntity.ok(tripService.getTripDaySchedules(tripNo));
+	}
 
 	@Operation(summary = ApplicationConstants.Documentations.REQUIRE_AUTH + "여행 일차 등록", parameters = {
 			@Parameter(name = "tripNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class))
 	})
-	@PostMapping("{tripNo}")
+	@PostMapping("{tripNo}/day-schedules")
 	public ResponseEntity<DayScheduleResponse> addTripDaySchedule(@PathVariable Long tripNo,
 																  @RequestBody TripDayScheduleAddRequest request) {
 		return ResponseEntity.ok(tripService.addTripDaySchedule(tripNo, request));

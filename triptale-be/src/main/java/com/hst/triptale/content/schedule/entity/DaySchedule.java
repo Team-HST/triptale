@@ -1,5 +1,7 @@
 package com.hst.triptale.content.schedule.entity;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -44,5 +46,10 @@ public class DaySchedule {
 		this.order = order;
 		this.description = description;
 		this.trip = trip;
+	}
+
+	public LocalDate getScheduleDate() {
+		long dayIndex = this.order - 1L;
+		return this.trip.getStartAt().plusDays(dayIndex);
 	}
 }
