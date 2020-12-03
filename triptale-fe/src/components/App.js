@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Route, Switch } from 'react-router-dom';
-import { loginPage, MainPage } from 'pages';
+import { loginPage, MainPage, DaySchedulePage } from 'pages';
 
 import OAuth2Route from './OAuth2Route';
 import AuthRoute from './AuthRoute';
@@ -10,7 +10,7 @@ import AuthRoute from './AuthRoute';
  * @author hoons
  * @email dudgns0612@gmail.com
  * @create date 2020-11-05 23:54:26
- * @modify date 2020-11-05 23:55:25
+ * @modify date 2020-12-03 21:28:24
  * @desc [앱 기본, 라우터 설정]
  */
 function App() {
@@ -24,7 +24,8 @@ function App() {
         <OAuth2Route path="/login-callback"></OAuth2Route>
         <Route exact path="/" component={loginPage}></Route>
         <Route exact path="/login" component={loginPage}></Route>
-        <AuthRoute exact path="/main" component={MainPage}></AuthRoute>
+        <AuthRoute exact path="/trip" component={MainPage}></AuthRoute>
+        <AuthRoute exact path="/trip/:srno" component={DaySchedulePage}></AuthRoute>
       </Switch>
     </React.Fragment>
   );

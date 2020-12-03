@@ -7,7 +7,7 @@ export const MapContext = createContext();
  * @author hoons
  * @email dudgns0612@gmail.com
  * @create date 2020-11-11 23:26:42
- * @modify date 2020-11-16 21:07:42
+ * @modify date 2020-12-04 00:05:42
  * @desc [지도 생성 컴포넌트]
  */
 function Map({ children, className, options }) {
