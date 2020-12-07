@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import ModalLayout from 'components/common/ModalLayout';
 import TripInfoModalContainer from 'containers/main/TripInfoModalContainer';
@@ -10,7 +11,6 @@ import TripCard from 'components/main/TripCard';
 
 import { tripService } from 'lib/axios/services';
 import * as TripActions from 'store/modules/trip';
-import { useSelector, useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {

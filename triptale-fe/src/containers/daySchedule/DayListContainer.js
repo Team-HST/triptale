@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -7,6 +8,8 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
+
+import * as DayScheduleActions from 'store/modules/daySchedule';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -37,6 +40,22 @@ const useStyles = makeStyles((theme) => ({
 function DayListContainer() {
   const classes = useStyles();
   const { srno } = useParams();
+  const { daySchedules } = useSelector((state) => ({
+    daySchedules: state.daySchedule.daySchedules,
+  }));
+  const dispatch = useDispatch();
+
+  // 여행 일자 별 목록 조회
+  const getDaySchedules = useCallback(
+    (srno) => {
+      dispatch(DayScheduleActions.setDaySchedulesAsync(srno));
+    },
+    [dispatch],
+  );
+
+  useEffect(() => {
+    getDaySchedules(srno);
+  }, [getDaySchedules, srno]);
 
   return (
     <Container>
