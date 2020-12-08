@@ -1,18 +1,19 @@
 import React, { useCallback, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
+import DayCard from 'components/daySchedule/DayCard';
 
 import * as DayScheduleActions from 'store/modules/daySchedule';
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
+  headerPaper: {
     maxWidth: '80%',
     margin: `${theme.spacing(0.5)}px auto`,
     padding: theme.spacing(2),
@@ -27,6 +28,11 @@ const useStyles = makeStyles((theme) => ({
     },
     color: 'green',
     borderColor: 'green',
+  },
+  dayContainer: {
+    maxWidth: '85%',
+    margin: `${theme.spacing(0.2)}px auto`,
+    marginTop: '25px',
   },
 }));
 
@@ -59,7 +65,7 @@ function DayListContainer() {
 
   return (
     <Container>
-      <Paper className={classes.paper}>
+      <Paper className={classes.headerPaper}>
         <Grid container wrap="nowrap" spacing={2}>
           <Grid item>
             <Avatar className={classes.avatar}>T</Avatar>
@@ -79,6 +85,11 @@ function DayListContainer() {
           </Grid>
         </Grid>
       </Paper>
+      <Grid className={classes.dayContainer} container>
+        <Grid item xs={12}>
+          <DayCard order={1} description={'1일차 입니다.'} date={'2020-11-21'} />
+        </Grid>
+      </Grid>
     </Container>
   );
 }

@@ -26,6 +26,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * @author hoons
+ * @email dudgns0612@gmail.com
+ * @create date 2020-12-08 20:32:17
+ * @modify date 2020-12-08 20:32:19
+ * @desc [이미지 업로드 파일 컴포넌트]
+ */
 function ImageFileUpload({ file, handleFileChange }) {
   const classes = useStyles();
 
