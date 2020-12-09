@@ -22,4 +22,9 @@ public class ApplicationConstants {
 	public static class Documentations  {
 		public static final String REQUIRE_AUTH = "[인증필요] ";
 	}
+
+	@NoArgsConstructor(access = AccessLevel.PRIVATE)
+	public static class Trips {
+		public static final String DEFAULT_DESCRIPTION = "일차 설명을 입력해주세요^^";
+	}
 }

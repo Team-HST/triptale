@@ -3,7 +3,6 @@ package com.hst.triptale.content.trip.ui.response;
 import java.time.LocalDate;
 
 import com.hst.triptale.content.schedule.entity.DaySchedule;
-import com.hst.triptale.content.trip.entity.Trip;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +13,6 @@ import lombok.Getter;
 @Getter
 @Builder
 public class DayScheduleResponse {
-	private final Long tripNo;
 	private final Long no;
 	private final Integer order;
 	private final String description;
@@ -25,7 +23,6 @@ public class DayScheduleResponse {
 			.no(daySchedule.getNo())
 			.order(daySchedule.getOrder())
 			.description(daySchedule.getDescription())
-			.tripNo(daySchedule.getTrip().getNo())
 			.date(daySchedule.getScheduleDate())
 			.build();
 	}

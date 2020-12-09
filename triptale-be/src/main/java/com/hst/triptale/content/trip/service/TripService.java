@@ -1,28 +1,20 @@
 package com.hst.triptale.content.trip.service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hst.triptale.configuration.ApplicationConstants;
 import com.hst.triptale.content.schedule.entity.DaySchedule;
 import com.hst.triptale.content.trip.entity.Trip;
 import com.hst.triptale.content.trip.entity.TripSpecifications;
-import com.hst.triptale.content.trip.exception.TripDayScheduleAlreadyExistException;
 import com.hst.triptale.content.trip.exception.TripNotFoundException;
 import com.hst.triptale.content.trip.repository.DayScheduleRepository;
 import com.hst.triptale.content.trip.repository.TripRepository;
-import com.hst.triptale.content.trip.ui.request.TripDayScheduleAddRequest;
 import com.hst.triptale.content.trip.ui.request.TripModifyingRequest;
 import com.hst.triptale.content.trip.ui.request.TripSearchRequest;
+import com.hst.triptale.content.trip.ui.response.DayScheduleListResponse;
 import com.hst.triptale.content.trip.ui.response.DayScheduleResponse;
 import com.hst.triptale.content.trip.ui.response.TripListResponse;
 import com.hst.triptale.content.trip.ui.response.TripResponse;
@@ -109,37 +101,22 @@ public class TripService {
 	 * 여행 일차 조회
 	 * @return
 	 */
-	public List<DayScheduleResponse> getTripDaySchedules(Long tripNo) {
-		return getTripEntity(tripNo)
-			.getDaySchedules()
-			.stream()
-			.sorted(Comparator.comparing(DaySchedule::getOrder))
-			.map(DayScheduleResponse::from)
-			.collect(Collectors.toList());
+	public DayScheduleListResponse getTripDaySchedules(Long tripNo) {
+		return DayScheduleListResponse.of(tripNo, getTripEntity(tripNo).getDaySchedules());
 	}
 
 	/**
 	 * 여행 일차 등록
 	 * @param tripNo 여행 번호
-	 * @param request 여행 일차 등록 요청
 	 * @return 등록된 여행 일차 정보
 	 */
 	@Transactional
-	public DayScheduleResponse addTripDaySchedule(Long tripNo, TripDayScheduleAddRequest request) {
+	public DayScheduleResponse addTripDaySchedule(Long tripNo) {
 		Trip trip = getTripEntity(tripNo);
 		permissionChecker.checkPermission(trip);
-		if (dayScheduleRepository.existsByTripNoAndOrder(tripNo, request.getOrder())) {
-			throw new TripDayScheduleAlreadyExistException()
-					.addAttribute("tripNo", tripNo)
-					.addAttribute("order", request.getOrder());
-		}
-		DaySchedule createdDaySchedule = dayScheduleRepository.save(DaySchedule.builder()
-				.order(request.getOrder())
-				.description(request.getDescription())
-				.trip(trip)
-				.build());
-		trip.addDaySchedule(createdDaySchedule);
-		return DayScheduleResponse.from(createdDaySchedule);
+		DaySchedule addedDaySchedule = trip.addNewDaySchedule(ApplicationConstants.Trips.DEFAULT_DESCRIPTION);
+		dayScheduleRepository.save(addedDaySchedule);
+		return DayScheduleResponse.from(addedDaySchedule);
 	}
 
 	private Trip getTripEntity(Long tripNo) {

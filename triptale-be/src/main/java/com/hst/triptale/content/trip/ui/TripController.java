@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hst.triptale.configuration.ApplicationConstants;
 import com.hst.triptale.content.trip.service.TripService;
-import com.hst.triptale.content.trip.ui.request.TripDayScheduleAddRequest;
 import com.hst.triptale.content.trip.ui.request.TripModifyingRequest;
 import com.hst.triptale.content.trip.ui.request.TripSearchRequest;
+import com.hst.triptale.content.trip.ui.response.DayScheduleListResponse;
 import com.hst.triptale.content.trip.ui.response.DayScheduleResponse;
 import com.hst.triptale.content.trip.ui.response.TripListResponse;
 import com.hst.triptale.content.trip.ui.response.TripResponse;
@@ -97,17 +97,16 @@ public class TripController {
 		@Parameter(name = "tripNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class))
 	})
 	@GetMapping("{tripNo}/day-schedules")
-	public ResponseEntity<Object> getTripDaySchedules(@PathVariable Long tripNo) {
+	public ResponseEntity<DayScheduleListResponse> getTripDaySchedules(@PathVariable Long tripNo) {
 		return ResponseEntity.ok(tripService.getTripDaySchedules(tripNo));
 	}
 
-	@Operation(summary = ApplicationConstants.Documentations.REQUIRE_AUTH + "여행 일차 등록", parameters = {
+	@Operation(summary = ApplicationConstants.Documentations.REQUIRE_AUTH + "여행 일차 추가", parameters = {
 			@Parameter(name = "tripNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class))
 	})
 	@PostMapping("{tripNo}/day-schedules")
-	public ResponseEntity<DayScheduleResponse> addTripDaySchedule(@PathVariable Long tripNo,
-																  @RequestBody TripDayScheduleAddRequest request) {
-		return ResponseEntity.ok(tripService.addTripDaySchedule(tripNo, request));
+	public ResponseEntity<DayScheduleResponse> addTripDaySchedule(@PathVariable Long tripNo) {
+		return ResponseEntity.ok(tripService.addTripDaySchedule(tripNo));
 	}
 
 }
