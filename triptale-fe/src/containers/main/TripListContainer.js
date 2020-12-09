@@ -1,15 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import ModalLayout from 'components/common/ModalLayout';
 import TripInfoModalContainer from 'containers/main/TripInfoModalContainer';
 import TripSaveModalContainer from 'containers/main/TripSaveModalContainer';
 import { makeStyles } from '@material-ui/core/styles';
-import { Container } from '@material-ui/core';
+import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import TripCard from 'components/main/TripCard';
 
 import { tripService } from 'lib/axios/services';
 import * as TripActions from 'store/modules/trip';
-import { useSelector, useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
@@ -34,6 +35,7 @@ function TripListContainer() {
   // 여행 수정 모달 료출 여부
   const [isTripModify, setIsTripModify] = useState(false);
   const { tripList } = useSelector((state) => ({ tripList: state.trip.list }));
+  const history = useHistory();
   const dispatch = useDispatch();
 
   // 여행 목록 조회
@@ -57,7 +59,7 @@ function TripListContainer() {
 
   // 여행 선택 이벤트
   const handleTripCardClick = (trip) => {
-    console.log(trip);
+    history.push(`/trip/${trip.no}`);
   };
 
   // 여행 정보 표출 이벤트

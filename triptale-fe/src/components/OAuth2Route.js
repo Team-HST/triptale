@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Redirect, useLocation } from 'react-router-dom';
 import { userService } from 'lib/axios/services';
@@ -7,7 +6,7 @@ import { userService } from 'lib/axios/services';
  * @author hoons
  * @email dudgns0612@gmail.com
  * @create date 2020-11-05 23:55:31
- * @modify date 2020-11-05 23:58:14
+ * @modify date 2020-12-03 00:08:57
  * @desc [라우터 OAuth 검사]
  */
 function OAuth2Route() {
@@ -29,7 +28,7 @@ function OAuth2Route() {
     sessionStorage.setItem('token', token);
     sessionStorage.setItem('userNo', userNo);
 
-    goPath = '/main';
+    goPath = '/trip';
   } else {
     alert('카카오 로그인에 실패하였습니다.');
     goPath = '/login';

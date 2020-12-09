@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, createContext } from 'react';
 import PropTypes from 'prop-types';
+/*global kakao*/
 
 export const MapContext = createContext();
 
@@ -7,11 +8,10 @@ export const MapContext = createContext();
  * @author hoons
  * @email dudgns0612@gmail.com
  * @create date 2020-11-11 23:26:42
- * @modify date 2020-11-16 21:07:42
+ * @modify date 2020-12-07 22:58:39
  * @desc [지도 생성 컴포넌트]
  */
 function Map({ children, className, options }) {
-  const { kakao } = window;
   const [map, setMap] = useState(null);
 
   const initialize = useCallback(() => {
@@ -22,7 +22,7 @@ function Map({ children, className, options }) {
         center: new kakao.maps.LatLng(options.center[0], options.center[1]),
       }),
     );
-  }, [kakao.maps.LatLng, kakao.maps.Map, options]);
+  }, [options]);
 
   useEffect(() => {
     initialize();
@@ -32,7 +32,7 @@ function Map({ children, className, options }) {
     if (map) {
       map.setCenter(new kakao.maps.LatLng(options.center[0], options.center[1]));
     }
-  }, [kakao.maps.LatLng, map, options]);
+  }, [map, options]);
 
   return (
     <MapContext.Provider value={map}>

@@ -1,16 +1,16 @@
 import { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { MapContext } from './Map';
+/*global kakao*/
 
 /**
  * @author hoons
  * @email dudgns0612@gmail.com
  * @create date 2020-11-11 23:27:28
- * @modify date 2020-11-16 21:07:43
+ * @modify date 2020-12-07 22:58:32
  * @desc [마커 생성 컴포넌트]
  */
 function Marker({ options, onClick }) {
-  const { kakao } = window;
   const [marker, setMarker] = useState(
     new kakao.maps.Marker({
       position: new kakao.maps.LatLng(options.position[0], options.position[1]),
@@ -28,7 +28,7 @@ function Marker({ options, onClick }) {
 
   useEffect(() => {
     marker.setPosition(new kakao.maps.LatLng(options.position[0], options.position[1]));
-  }, [kakao.maps.LatLng, marker, options]);
+  }, [marker, options]);
 
   useEffect(() => {
     if (onClick) {
@@ -37,7 +37,7 @@ function Marker({ options, onClick }) {
         kakao.maps.event.removeListener(marker, 'click', onClick);
       };
     }
-  }, [kakao.maps.event, marker, onClick]);
+  }, [marker, onClick]);
 
   return null;
 }
