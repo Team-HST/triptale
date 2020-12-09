@@ -7,11 +7,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hst.triptale.configuration.ApplicationConstants;
 import com.hst.triptale.content.schedule.entity.DaySchedule;
+import com.hst.triptale.content.schedule.exception.DayScheduleNotFoundException;
 import com.hst.triptale.content.trip.entity.Trip;
 import com.hst.triptale.content.trip.entity.TripSpecifications;
 import com.hst.triptale.content.trip.exception.TripNotFoundException;
 import com.hst.triptale.content.trip.repository.DayScheduleRepository;
 import com.hst.triptale.content.trip.repository.TripRepository;
+import com.hst.triptale.content.trip.ui.request.TripDayScheduleModifyRequest;
 import com.hst.triptale.content.trip.ui.request.TripModifyingRequest;
 import com.hst.triptale.content.trip.ui.request.TripSearchRequest;
 import com.hst.triptale.content.trip.ui.response.DayScheduleListResponse;
@@ -121,5 +123,19 @@ public class TripService {
 
 	private Trip getTripEntity(Long tripNo) {
 		return tripRepository.findById(tripNo).orElseThrow(() -> new TripNotFoundException(tripNo));
+	}
+
+	/**
+	 * 여행 일차 수정
+	 * @param dayScheduleNo 여행 일차 번호
+	 * @param request 수정 객체
+	 * @return 수정된 여행 일차 정보
+	 */
+	@Transactional
+	public DayScheduleResponse modifyTripDaySchedule(Long dayScheduleNo, TripDayScheduleModifyRequest request) {
+		DaySchedule daySchedule = dayScheduleRepository.findById(dayScheduleNo)
+			.orElseThrow(() -> new DayScheduleNotFoundException(dayScheduleNo));
+		daySchedule.changeDescription(request.getDescription());
+		return DayScheduleResponse.from(daySchedule);
 	}
 }

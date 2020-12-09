@@ -52,4 +52,8 @@ public class DaySchedule {
 		long dayIndex = this.order - 1L;
 		return this.trip.getStartAt().plusDays(dayIndex);
 	}
+
+	public void changeDescription(String description) {
+		this.description = description;
+	}
 }
