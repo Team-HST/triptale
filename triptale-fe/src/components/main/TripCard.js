@@ -87,4 +87,4 @@ TripCard.propTypes = {
   onTripDeleteClick: PropTypes.func,
 };
 
-export default TripCard;
+export default React.memo(TripCard);

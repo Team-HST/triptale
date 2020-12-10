@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
+
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
@@ -17,17 +19,6 @@ import Circle from 'components/kakaoMap/Circle';
 import MapUtils from 'utils/MapUtils';
 
 import { tripService, fileService } from 'lib/axios/services';
-
-function getModalStyle() {
-  const top = 50;
-  const left = 50;
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -48,6 +39,11 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
     textAlign: 'center',
+  },
+  modal: {
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
   },
   header: {
     textAlign: 'center',
@@ -81,7 +77,6 @@ const useStyles = makeStyles((theme) => ({
 function TripSaveModalContainer({ label, trip, onModalCloseClick }) {
   const { kakao } = window;
   const classes = useStyles();
-  const modalStyle = getModalStyle();
 
   const [textField, setTextField] = useState({
     title: '',
@@ -246,7 +241,7 @@ function TripSaveModalContainer({ label, trip, onModalCloseClick }) {
   };
 
   return (
-    <div style={modalStyle} className={classes.paper}>
+    <div className={clsx(classes.paper, classes.modal)}>
       <Grid container spacing={1}>
         <Grid className={classes.header} item xs={12}>
           <Typography variant="h6">TripTale! 여행 {label}</Typography>

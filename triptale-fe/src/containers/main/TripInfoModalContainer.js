@@ -19,17 +19,6 @@ import CreateIcon from '@material-ui/icons/Create';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CloseIcon from '@material-ui/icons/Close';
 
-function getModalStyle() {
-  const top = 50;
-  const left = 50;
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}
-
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: 'absolute',
@@ -44,6 +33,11 @@ const useStyles = makeStyles((theme) => ({
     width: '90%',
     height: '80%',
     overflow: 'auto',
+  },
+  modal: {
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
   },
   media: {
     height: 0,
@@ -88,7 +82,6 @@ function TripInfoModalContainer({
   onTripDeleteClick,
 }) {
   const classes = useStyles();
-  const modalStyle = getModalStyle();
   const [expanded, setExpanded] = useState(false);
 
   const [mapOptions, setMapOptions] = useState({
@@ -109,7 +102,7 @@ function TripInfoModalContainer({
   };
 
   return (
-    <div style={modalStyle} className={classes.paper}>
+    <div className={clsx(classes.paper, classes.modal)}>
       <Card>
         <CardHeader
           action={
