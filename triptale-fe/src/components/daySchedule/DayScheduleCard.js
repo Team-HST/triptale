@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
  * @modify date 2020-12-08 23:27:46
  * @desc 일자 별 카드 컴포넌트
  */
-function DayCard({ order, description, date }) {
+function DayScheduleCard({ order, description, date }) {
   const classes = useStyles();
 
   return (
@@ -58,10 +58,10 @@ function DayCard({ order, description, date }) {
   );
 }
 
-DayCard.propTypes = {
+DayScheduleCard.propTypes = {
   order: PropTypes.number,
   description: PropTypes.string,
   date: PropTypes.string,
 };
 
-export default DayCard;
+export default DayScheduleCard;

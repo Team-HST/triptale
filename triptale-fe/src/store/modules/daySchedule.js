@@ -17,7 +17,7 @@ export const setTripAsync = (tripNo) => async (dispatch) => {
 // 여행 일자 목록 조회
 export const setDaySchedulesAsync = (tripNo) => async (dispatch) => {
   const response = await dayScheduleService.searchDaySchedules(tripNo);
-  dispatch(setDaySchedules(response));
+  dispatch(setDaySchedules(response.daySchedules));
 };
 
 const initialize = {

@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
  * @modify date 2020-11-06 00:02:56
  * @desc [주소 검색 모달 컨테이너 컴포넌트]
  */
-function PostCodeModaContainer({ handlePostCodeComplete }) {
+function PostCodeModalContainer({ handlePostCodeComplete }) {
   const classes = useStyles();
   const modalStyle = getModalStyle();
 
@@ -46,8 +46,8 @@ function PostCodeModaContainer({ handlePostCodeComplete }) {
   );
 }
 
-PostCodeModaContainer.propTypes = {
+PostCodeModalContainer.propTypes = {
   handlePostCodeComplete: PropTypes.func,
 };
 
-export default PostCodeModaContainer;
+export default PostCodeModalContainer;

@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import DayCard from 'components/daySchedule/DayCard';
+import DayScheduleCard from 'components/daySchedule/DayScheduleCard';
 
 import * as DayScheduleActions from 'store/modules/daySchedule';
 
@@ -86,9 +86,15 @@ function DayListContainer() {
         </Grid>
       </Paper>
       <Grid className={classes.dayContainer} container>
-        <Grid item xs={12}>
-          <DayCard order={1} description={'1일차 입니다.'} date={'2020-11-21'} />
-        </Grid>
+        {daySchedules.map((daySchedule) => (
+          <Grid key={daySchedule.order} item xs={12}>
+            <DayScheduleCard
+              order={daySchedule.order}
+              description={daySchedule.description}
+              date={daySchedule.date}
+            />
+          </Grid>
+        ))}
       </Grid>
     </Container>
   );
