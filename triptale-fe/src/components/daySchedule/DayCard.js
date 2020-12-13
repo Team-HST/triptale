@@ -29,8 +29,9 @@ const useStyles = makeStyles((theme) => ({
  * @modify date 2020-12-08 23:27:46
  * @desc 일자 별 카드 컴포넌트
  */
-function DayCard({ order, description, date }) {
+function DayCard({ daySchedule, onDayModifyClick }) {
   const classes = useStyles();
+  const { order, description, date } = daySchedule;
 
   return (
     <Card className={classes.root}>
@@ -42,7 +43,11 @@ function DayCard({ order, description, date }) {
         }
         action={
           <React.Fragment>
-            <IconButton className={classes.icon} aria-label="create">
+            <IconButton
+              className={classes.icon}
+              aria-label="create"
+              onClick={(e) => onDayModifyClick(daySchedule)}
+            >
               <CreateIcon />
             </IconButton>
             <IconButton className={classes.icon} aria-label="place">

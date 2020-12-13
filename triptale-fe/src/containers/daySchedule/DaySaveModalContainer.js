@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 
@@ -7,6 +8,8 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+
+import { dayScheduleService } from 'lib/axios/services';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -49,8 +52,38 @@ const useStyles = makeStyles((theme) => ({
  * @modify date 2020-12-10 23:50:19
  * @desc [여행 일차 등록 수정 모달 컨테이너]
  */
-function DaySaveModalContainer({ label, onSaveModalClose }) {
+function DaySaveModalContainer({ daySchedule, label, onSaveModalClose }) {
   const classes = useStyles();
+  const { trip } = useSelector((state) => ({ trip: state.daySchedule.trip }));
+  const [description, setDescription] = useState('');
+
+  // 일차 설명 변경 이벤트
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
+  };
+
+  // 여행 일차 정보 등록, 수정 이벤트
+  const handleSaveDaySheduleClick = async () => {
+    if (!description) {
+      alert('일차 설명을 입력하여 주세요.');
+      return;
+    }
+
+    if (!daySchedule) {
+      await dayScheduleService.createDaySchedule(trip.no, description);
+    } else {
+      await dayScheduleService.updateDaySchedule(trip.no, daySchedule.no, description);
+    }
+
+    alert(`여행 일차가 ${label}되었습니다.`);
+    onSaveModalClose();
+  };
+
+  useEffect(() => {
+    if (daySchedule) {
+      setDescription(daySchedule.description);
+    }
+  }, [daySchedule]);
 
   return (
     <div className={clsx(classes.paper, classes.modal)}>
@@ -62,14 +95,16 @@ function DaySaveModalContainer({ label, onSaveModalClose }) {
           <TextField
             className={classes.textField}
             name="title"
+            value={description}
             required
             label="일차 설명"
             fullWidth
+            onChange={(e) => handleDescriptionChange(e)}
           />
         </Grid>
       </Grid>
       <div className={classes.footerBtn}>
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" onClick={handleSaveDaySheduleClick}>
           일차 {label}
         </Button>
         <Button
@@ -86,6 +121,7 @@ function DaySaveModalContainer({ label, onSaveModalClose }) {
 }
 
 DaySaveModalContainer.propTypes = {
+  daySchedule: PropTypes.object,
   label: PropTypes.string,
   onSaveModalClose: PropTypes.func,
 };

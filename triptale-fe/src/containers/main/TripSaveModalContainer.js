@@ -190,7 +190,7 @@ function TripSaveModalContainer({ label, trip, onModalCloseClick }) {
     });
   };
 
-  const handleCreateTripClick = async () => {
+  const handleSaveTripClick = async () => {
     let fileSrno = file.fileSrno;
     if (file.thumbnailFile && !file.fileSrno) {
       fileSrno = await fileService.uploadFile(file.thumbnailFile);
@@ -341,7 +341,7 @@ function TripSaveModalContainer({ label, trip, onModalCloseClick }) {
         </Grid>
       </Grid>
       <div className={classes.footerBtn}>
-        <Button variant="contained" color="primary" onClick={handleCreateTripClick}>
+        <Button variant="contained" color="primary" onClick={handleSaveTripClick}>
           여행 {label}
         </Button>
         <Button

@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
+import * as DayScheduleActions from 'store/modules/daySchedule';
 
 import ModalLayout from 'components/common/ModalLayout';
 import DaySaveModalContainer from 'containers/daySchedule/DaySaveModalContainer';
@@ -12,8 +13,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import DayCard from 'components/daySchedule/DayCard';
-
-import * as DayScheduleActions from 'store/modules/daySchedule';
 
 const useStyles = makeStyles((theme) => ({
   headerPaper: {
@@ -51,11 +50,20 @@ function DayListContainer() {
   const { srno } = useParams();
   // 여행 등록 / 수정 모달 표출 여부
   const [isDayScheduleSave, setIsDayScheduleSave] = useState(false);
+  const [selectDayShedule, setSelectDaySchedule] = useState();
   const [saveLabel, setSaveLabel] = useState('');
   const { daySchedules } = useSelector((state) => ({
     daySchedules: state.daySchedule.daySchedules,
   }));
   const dispatch = useDispatch();
+
+  // 선택 여행 정보 조회
+  const gettTrip = useCallback(
+    (srno) => {
+      dispatch(DayScheduleActions.setTripAsync(srno));
+    },
+    [dispatch],
+  );
 
   // 여행 일자 별 목록 조회
   const getDaySchedules = useCallback(
@@ -74,11 +82,21 @@ function DayListContainer() {
   // 일차 등록, 수정 모달 종료 이벤트
   const handleSaveModalClose = () => {
     setIsDayScheduleSave(false);
+    setSelectDaySchedule(null);
+    getDaySchedules(srno);
+  };
+
+  // 일차 수정 이벤트
+  const handleDayModifyClick = (daySchedule) => {
+    setSaveLabel('수정');
+    setSelectDaySchedule(daySchedule);
+    setIsDayScheduleSave(true);
   };
 
   useEffect(() => {
     getDaySchedules(srno);
-  }, [getDaySchedules, srno]);
+    gettTrip(srno);
+  }, [getDaySchedules, gettTrip, srno]);
 
   return (
     <React.Fragment>
@@ -111,17 +129,17 @@ function DayListContainer() {
         <Grid className={classes.dayContainer} container>
           {daySchedules.map((daySchedule) => (
             <Grid key={daySchedule.order} item xs={12}>
-              <DayCard
-                order={daySchedule.order}
-                description={daySchedule.description}
-                date={daySchedule.date}
-              />
+              <DayCard daySchedule={daySchedule} onDayModifyClick={handleDayModifyClick} />
             </Grid>
           ))}
         </Grid>
       </Container>
       <ModalLayout open={isDayScheduleSave} onClose={handleSaveModalClose}>
-        <DaySaveModalContainer label={saveLabel} onSaveModalClose={handleSaveModalClose} />
+        <DaySaveModalContainer
+          daySchedule={selectDayShedule}
+          label={saveLabel}
+          onSaveModalClose={handleSaveModalClose}
+        />
       </ModalLayout>
     </React.Fragment>
   );
