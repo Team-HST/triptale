@@ -106,8 +106,9 @@ public class TripController {
 			@Parameter(name = "tripNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class))
 	})
 	@PostMapping("{tripNo}/day-schedules")
-	public ResponseEntity<DayScheduleResponse> addTripDaySchedule(@PathVariable Long tripNo) {
-		return ResponseEntity.ok(tripService.addTripDaySchedule(tripNo));
+	public ResponseEntity<DayScheduleResponse> addTripDaySchedule(@PathVariable Long tripNo,
+		@RequestBody TripDayScheduleModifyRequest request) {
+		return ResponseEntity.ok(tripService.addTripDaySchedule(tripNo, request));
 	}
 
 	@Operation(summary = ApplicationConstants.Documentations.REQUIRE_AUTH + "여행 일차 수정", parameters = {
@@ -119,6 +120,16 @@ public class TripController {
 		@PathVariable Long dayScheduleNo,
 		@RequestBody TripDayScheduleModifyRequest request) {
 		return ResponseEntity.ok(tripService.modifyTripDaySchedule(dayScheduleNo, request));
+	}
+
+	@Operation(summary = ApplicationConstants.Documentations.REQUIRE_AUTH + "여행 일차 삭제", parameters = {
+		@Parameter(name = "tripNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class)),
+		@Parameter(name = "dayScheduleNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class))
+	})
+	@DeleteMapping("{tripNo}/day-schedules/{dayScheduleNo}")
+	public ResponseEntity<DayScheduleResponse> deleteTripDaySchedule(@PathVariable Long tripNo,
+		@PathVariable Long dayScheduleNo) {
+		return ResponseEntity.ok(tripService.deleteTripDaySchedule(dayScheduleNo));
 	}
 
 }

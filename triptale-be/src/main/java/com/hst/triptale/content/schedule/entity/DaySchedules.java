@@ -20,16 +20,20 @@ public class DaySchedules {
 	@OneToMany(mappedBy = "trip")
 	private final Set<DaySchedule> schedules = new HashSet<>();
 
-	public void addDaySchedule(DaySchedule daySchedule) {
-		if (isExistOrder(daySchedule.getOrder())) {
+	public void addSchedule(DaySchedule schedule) {
+		if (isExistOrder(schedule.getOrder())) {
 			throw new DayScheduleAlreadyExistException()
-				.addAttribute("order", daySchedule.getOrder());
+				.addAttribute("order", schedule.getOrder());
 		}
-		this.schedules.add(daySchedule);
+		this.schedules.add(schedule);
 	}
 
 	public int getNextOrder() {
 		return this.schedules.size() + 1;
+	}
+
+	public boolean isEmpty() {
+		return this.schedules.isEmpty();
 	}
 
 	private boolean isExistOrder(int order) {
@@ -37,4 +41,15 @@ public class DaySchedules {
 			.anyMatch(daySchedule -> daySchedule.getOrder().equals(order));
 	}
 
+	public void deleteSchedule(DaySchedule schedule) {
+		this.schedules.remove(schedule);
+		this.rearrangeOrder();
+	}
+
+	private void rearrangeOrder() {
+		int order = 1;
+		for (DaySchedule schedule : this.schedules) {
+			schedule.changeOrder(order++);
+		}
+	}
 }
