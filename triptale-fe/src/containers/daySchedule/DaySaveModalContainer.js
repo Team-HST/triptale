@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
     width: '90%',
     height: '22%',
     backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
     textAlign: 'center',
   },
   modal: {

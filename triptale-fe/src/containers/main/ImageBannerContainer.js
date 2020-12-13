@@ -124,7 +124,7 @@ function ImageBannerContainer() {
       <Typography className={classes.more} color="inherit" variant="body2">
         당신의 여행을 기록해보세요!
       </Typography>
-      <ModalLayout open={open} onModalCloseClick={handleModalCloseClick}>
+      <ModalLayout open={open} onClose={handleModalCloseClick}>
         <TripSaveModalContainer label={'등록'} onModalCloseClick={handleModalCloseClick} />
       </ModalLayout>
     </ProductLayout>

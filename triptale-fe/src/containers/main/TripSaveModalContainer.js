@@ -14,6 +14,7 @@ import Button from '@material-ui/core/Button';
 import ImageFileUpload from 'components/main/ImageFileUpload';
 import DateUtils from 'utils/DateUtils';
 
+/*global kakao*/
 import Map from 'components/kakaoMap/Map';
 import Circle from 'components/kakaoMap/Circle';
 import MapUtils from 'utils/MapUtils';
@@ -75,7 +76,6 @@ const useStyles = makeStyles((theme) => ({
  * @desc [여행 등록 모달 컨테이너 컴포넌트]
  */
 function TripSaveModalContainer({ label, trip, onModalCloseClick }) {
-  const { kakao } = window;
   const classes = useStyles();
 
   const [textField, setTextField] = useState({

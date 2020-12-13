@@ -114,7 +114,7 @@ function TripListContainer() {
           ))}
         </Grid>
       </Container>
-      <ModalLayout open={isTripInfo}>
+      <ModalLayout open={isTripInfo} onClose={handleCloseInfoModalClick}>
         <TripInfoModalContainer
           trip={selectTrip}
           onCloseInfoModalClick={handleCloseInfoModalClick}
@@ -122,7 +122,7 @@ function TripListContainer() {
           onTripDeleteClick={handleTripDeleteClick}
         />
       </ModalLayout>
-      <ModalLayout open={isTripModify}>
+      <ModalLayout open={isTripModify} onClose={handleCloseModifyModalClick}>
         <TripSaveModalContainer
           label={'수정'}
           trip={selectTrip}

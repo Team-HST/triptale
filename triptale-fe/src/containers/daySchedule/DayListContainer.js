@@ -120,7 +120,7 @@ function DayListContainer() {
           ))}
         </Grid>
       </Container>
-      <ModalLayout open={isDayScheduleSave}>
+      <ModalLayout open={isDayScheduleSave} onClose={handleSaveModalClose}>
         <DaySaveModalContainer label={saveLabel} onSaveModalClose={handleSaveModalClose} />
       </ModalLayout>
     </React.Fragment>
