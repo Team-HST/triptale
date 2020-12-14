@@ -113,10 +113,10 @@ public class TripService {
 	 * @return 등록된 여행 일차 정보
 	 */
 	@Transactional
-	public DayScheduleResponse addTripDaySchedule(Long tripNo) {
+	public DayScheduleResponse addTripDaySchedule(Long tripNo, TripDayScheduleModifyRequest request) {
 		Trip trip = getTripEntity(tripNo);
 		permissionChecker.checkPermission(trip);
-		DaySchedule addedDaySchedule = trip.addNewDaySchedule(ApplicationConstants.Trips.DEFAULT_DESCRIPTION);
+		DaySchedule addedDaySchedule = trip.addNewDaySchedule(request.getDescription());
 		dayScheduleRepository.save(addedDaySchedule);
 		return DayScheduleResponse.from(addedDaySchedule);
 	}
@@ -133,9 +133,28 @@ public class TripService {
 	 */
 	@Transactional
 	public DayScheduleResponse modifyTripDaySchedule(Long dayScheduleNo, TripDayScheduleModifyRequest request) {
-		DaySchedule daySchedule = dayScheduleRepository.findById(dayScheduleNo)
-			.orElseThrow(() -> new DayScheduleNotFoundException(dayScheduleNo));
-		daySchedule.changeDescription(request.getDescription());
+		DaySchedule daySchedule = getDayScheduleEntity(dayScheduleNo);
+		daySchedule.changeContent(request.getDescription());
 		return DayScheduleResponse.from(daySchedule);
 	}
+
+	/**
+	 * 여행 일차 삭제
+	 * @param dayScheduleNo 여행 일차 번호
+	 */
+	@Transactional
+	public DayScheduleResponse deleteTripDaySchedule(long dayScheduleNo) {
+		DaySchedule daySchedule = getDayScheduleEntity(dayScheduleNo);
+		Trip trip = daySchedule.getTrip();
+		trip.deleteDaySchedule(daySchedule);
+		tripRepository.save(trip);
+		dayScheduleRepository.delete(daySchedule);
+		return DayScheduleResponse.from(daySchedule);
+	}
+
+	private DaySchedule getDayScheduleEntity(long dayScheduleNo) {
+		return dayScheduleRepository.findById(dayScheduleNo)
+			.orElseThrow(() -> new DayScheduleNotFoundException(dayScheduleNo));
+	}
+
 }

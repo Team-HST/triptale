@@ -25,6 +25,7 @@ import com.hst.triptale.content.trip.exception.TripNotFoundException;
 import com.hst.triptale.content.trip.repository.DayScheduleRepository;
 import com.hst.triptale.content.trip.repository.TripRepository;
 import com.hst.triptale.content.trip.service.TripService;
+import com.hst.triptale.content.trip.ui.request.TripDayScheduleModifyRequest;
 import com.hst.triptale.content.trip.ui.request.TripModifyingRequest;
 import com.hst.triptale.content.trip.ui.request.TripSearchRequest;
 import com.hst.triptale.content.trip.ui.response.TripListResponse;
@@ -182,42 +183,77 @@ class TripServiceTest {
 
 	@Test
 	@DisplayName("여행 일차 등록 테스트")
-	void addTripDaySchedule() {
+	void addTripDayScheduleTest() {
 		// given
 		long tripNo = 1L;
-		Trip trip = createMockTrip();
+		long tripPeriodDays = 3L;
+		Trip trip = createMockTrip(tripPeriodDays);
 
 		given(tripRepository.findById(tripNo)).willReturn(Optional.of(trip));
 		given(dayScheduleRepository.save(any(DaySchedule.class))).willReturn(DaySchedule.builder().trip(trip).build());
 
 		// when
-		tripService.addTripDaySchedule(tripNo);
+		tripService.addTripDaySchedule(tripNo, new TripDayScheduleModifyRequest());
 
 		// then
+		assertEquals(tripPeriodDays + 1, trip.getDaySchedules().getSchedules().size());
 		verify(tripRepository).findById(tripNo);
 		verify(dayScheduleRepository).save(any(DaySchedule.class));
 	}
 
 	@Test
 	@DisplayName("여행 일차 등록 테스트 - 여행이 존재하지 않는 경우")
-	void addTripDaySchedule_tripNotExist() {
+	void addTripDayScheduleTest_tripNotExist() {
 		// given
 		long tripNo = 1L;
 		given(tripRepository.findById(tripNo)).willReturn(Optional.empty());
 
 		// when, then
 		assertThrows(TripNotFoundException.class, () ->
-			tripService.addTripDaySchedule(tripNo));
+			tripService.addTripDaySchedule(tripNo, new TripDayScheduleModifyRequest()));
 
 		verify(tripRepository).findById(tripNo);
 		verify(dayScheduleRepository, never()).save(any(DaySchedule.class));
 	}
 
-	private Trip createMockTrip() {
+	@Test
+	@DisplayName("여행 일차 삭제 테스트")
+	void deleteTripDayScheduleTest() {
+		// given
+		long tripNo = 1L;
+		long dayScheduleNo = 1L;
+		Trip trip = createMockTrip(3);
+		DaySchedule daySchedule = createMockDaySchedule(trip);
+		int orderSize = trip.getDaySchedules().getSchedules().size();
+
+		given(dayScheduleRepository.findById(dayScheduleNo)).willReturn(Optional.of(daySchedule));
+
+		// when
+		tripService.deleteTripDaySchedule(dayScheduleNo);
+
+		//
+		assertEquals(orderSize - 1, trip.getDaySchedules().getSchedules().size());
+		verify(tripRepository).save(trip);
+		verify(dayScheduleRepository).delete(daySchedule);
+	}
+
+	private Trip createMockTrip(long tripPeriodDays) {
 		Trip trip = new Trip();
 		ReflectionTestUtils.setField(trip, "daySchedules", new DaySchedules());
 		ReflectionTestUtils.setField(trip, "startAt", LocalDate.now());
-		ReflectionTestUtils.setField(trip, "endAt", LocalDate.now());
+		ReflectionTestUtils.setField(trip, "endAt", LocalDate.now().plusDays(tripPeriodDays));
+		for (long i = 0; i < tripPeriodDays; i++) {
+			trip.addNewDaySchedule("테스트 일차 추가");
+		}
 		return trip;
+	}
+
+	private DaySchedule createMockDaySchedule(Trip trip) {
+		DaySchedule daySchedule = DaySchedule.builder()
+			.trip(trip)
+			.order(5)
+			.build();
+		trip.getDaySchedules().addSchedule(daySchedule);
+		return daySchedule;
 	}
 }

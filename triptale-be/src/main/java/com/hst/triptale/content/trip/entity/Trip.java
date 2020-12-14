@@ -21,6 +21,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.hst.triptale.content.ContentResource;
 import com.hst.triptale.content.schedule.entity.DaySchedule;
 import com.hst.triptale.content.schedule.entity.DaySchedules;
+import com.hst.triptale.content.schedule.exception.DayScheduleEmptyException;
 import com.hst.triptale.content.schedule.exception.DayScheduleExceedException;
 import com.hst.triptale.content.trip.ui.request.TripModifyingRequest;
 import com.hst.triptale.content.user.entity.User;
@@ -85,19 +86,6 @@ public class Trip implements ContentResource {
 		return Period.between(this.startAt, this.endAt).getDays() + 1;
 	}
 
-	public DaySchedule addNewDaySchedule(String description) {
-		if (getTripPeriodDays() < daySchedules.getNextOrder()) {
-			throw new DayScheduleExceedException();
-		}
-		DaySchedule appendedDaySchedule = DaySchedule.builder()
-			.trip(this)
-			.order(daySchedules.getNextOrder())
-			.description(description)
-			.build();
-		this.daySchedules.addDaySchedule(appendedDaySchedule);
-		return appendedDaySchedule;
-	}
-
 	public void changeContent(TripModifyingRequest request) {
 		this.title = request.getTitle();
 		this.description = request.getDescription();
@@ -107,6 +95,26 @@ public class Trip implements ContentResource {
 		this.startAt = request.getStartAt();
 		this.endAt = request.getEndAt();
 		this.materials = request.getMaterials();
+	}
+
+	public DaySchedule addNewDaySchedule(String description) {
+		if (getTripPeriodDays() < daySchedules.getNextOrder()) {
+			throw new DayScheduleExceedException();
+		}
+		DaySchedule appendedDaySchedule = DaySchedule.builder()
+			.trip(this)
+			.order(daySchedules.getNextOrder())
+			.description(description)
+			.build();
+		this.daySchedules.addSchedule(appendedDaySchedule);
+		return appendedDaySchedule;
+	}
+
+	public void deleteDaySchedule(DaySchedule schedule) {
+		if (daySchedules.isEmpty()) {
+			throw new DayScheduleEmptyException(this.no);
+		}
+		this.daySchedules.deleteSchedule(schedule);
 	}
 
 	public static Trip createTrip(TripModifyingRequest request, User registrar) {
