@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
   },
   dayListGridItem: {
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       height: '60%',
     },
     height: '100%',
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
   },
   mapGridItem: {
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       height: '40%',
     },
   },
@@ -36,10 +36,10 @@ function DaySchedulePage() {
   return (
     <React.Fragment>
       <Grid className={classes.root} container>
-        <Grid className={classes.dayListGridItem} item xs={12} sm={5} md={5}>
+        <Grid className={classes.dayListGridItem} item xs={12} sm={12} md={12} lg={5}>
           <DayListContainer />
         </Grid>
-        <Grid className={classes.mapGridItem} item xs={12} sm={7} md={7}>
+        <Grid className={classes.mapGridItem} item xs={12} sm={12} md={12} lg={7}>
           <PlaceMapContainer />
         </Grid>
       </Grid>

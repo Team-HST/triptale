@@ -14,6 +14,9 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import DayCard from 'components/daySchedule/DayCard';
 
+import { dayScheduleService } from 'lib/axios/services';
+import DateUtils from 'utils/DateUtils';
+
 const useStyles = makeStyles((theme) => ({
   headerPaper: {
     maxWidth: '80%',
@@ -25,9 +28,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'green',
   },
   addButton: {
-    [theme.breakpoints.down('md')]: {
-      fontSize: '12px',
-    },
+    fontSize: '12px',
     color: 'green',
     borderColor: 'green',
   },
@@ -52,7 +53,8 @@ function DayListContainer() {
   const [isDayScheduleSave, setIsDayScheduleSave] = useState(false);
   const [selectDayShedule, setSelectDaySchedule] = useState();
   const [saveLabel, setSaveLabel] = useState('');
-  const { daySchedules } = useSelector((state) => ({
+  const { daySchedules, trip } = useSelector((state) => ({
+    trip: state.daySchedule.trip,
     daySchedules: state.daySchedule.daySchedules,
   }));
   const dispatch = useDispatch();
@@ -75,6 +77,14 @@ function DayListContainer() {
 
   // 일차 등록 모달 표출 이벤트
   const handleDayAddClick = () => {
+    const differnceDay =
+      Math.abs(DateUtils.getStrDayDifference(new Date(trip.startAt), new Date(trip.endAt))) + 1;
+
+    // 일차 갯수 제한 검사
+    if (differnceDay === daySchedules.length) {
+      alert('더이상 일차를 추가할 수 없습니다.');
+      return;
+    }
     setSaveLabel('등록');
     setIsDayScheduleSave(true);
   };
@@ -93,6 +103,14 @@ function DayListContainer() {
     setIsDayScheduleSave(true);
   };
 
+  // 일차 삭제 이벤트
+  const handleDayDeleteClick = async (daySchedule) => {
+    if (window.confirm('일차를 삭제하시겠습니까?')) {
+      await dayScheduleService.deleteDaySchedule(trip.no, daySchedule.no);
+      getDaySchedules(srno);
+    }
+  };
+
   useEffect(() => {
     getDaySchedules(srno);
     gettTrip(srno);
@@ -103,18 +121,16 @@ function DayListContainer() {
       <Container>
         <Paper className={classes.headerPaper}>
           <Grid container wrap="nowrap" spacing={2}>
-            <Grid item>
+            <Grid item md={2}>
               <Avatar className={classes.avatar}>T</Avatar>
             </Grid>
-            <Grid item>
+            <Grid item md={9}>
               <Typography variant="subtitle2">
-                오른쪽 추가하기 버튼을 눌러 여행 일자 별 장소, 숙소를 등록하고
-              </Typography>
-              <Typography variant="subtitle2">
-                당신의 여행의 이야기를 자유롭게 표출하여 보세요.
+                오른쪽 추가하기 버튼을 눌러 여행 일자 별 장소, 숙소를 등록하고 당신의 여행의
+                이야기를 자유롭게 표출하여 보세요.
               </Typography>
             </Grid>
-            <Grid item>
+            <Grid item md={2}>
               <Button
                 className={classes.addButton}
                 size="small"
@@ -129,7 +145,11 @@ function DayListContainer() {
         <Grid className={classes.dayContainer} container>
           {daySchedules.map((daySchedule) => (
             <Grid key={daySchedule.order} item xs={12}>
-              <DayCard daySchedule={daySchedule} onDayModifyClick={handleDayModifyClick} />
+              <DayCard
+                daySchedule={daySchedule}
+                onDayModifyClick={handleDayModifyClick}
+                onDeleteDaySchedule={handleDayDeleteClick}
+              />
             </Grid>
           ))}
         </Grid>

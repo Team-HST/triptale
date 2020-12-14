@@ -64,11 +64,6 @@ function DaySaveModalContainer({ daySchedule, label, onSaveModalClose }) {
 
   // 여행 일차 정보 등록, 수정 이벤트
   const handleSaveDaySheduleClick = async () => {
-    if (!description) {
-      alert('일차 설명을 입력하여 주세요.');
-      return;
-    }
-
     if (!daySchedule) {
       await dayScheduleService.createDaySchedule(trip.no, description);
     } else {

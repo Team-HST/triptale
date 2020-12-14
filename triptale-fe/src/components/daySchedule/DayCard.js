@@ -8,17 +8,18 @@ import CardContent from '@material-ui/core/CardContent';
 import Avatar from '@material-ui/core/Avatar';
 import CreateIcon from '@material-ui/icons/Create';
 import MapIcon from '@material-ui/icons/Map';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin: theme.spacing(1.3),
-    maxWidth: 500,
+    margin: `${theme.spacing(0.5)}px auto`,
+    width: '100%',
   },
   avatar: {
     backgroundColor: '#ECA726',
   },
   icon: {
-    padding: theme.spacing(1),
+    padding: theme.spacing(0.5),
   },
 }));
 
@@ -29,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
  * @modify date 2020-12-08 23:27:46
  * @desc 일자 별 카드 컴포넌트
  */
-function DayCard({ daySchedule, onDayModifyClick }) {
+function DayCard({ daySchedule, onDayModifyClick, onDeleteDaySchedule }) {
   const classes = useStyles();
   const { order, description, date } = daySchedule;
 
@@ -53,12 +54,19 @@ function DayCard({ daySchedule, onDayModifyClick }) {
             <IconButton className={classes.icon} aria-label="place">
               <MapIcon />
             </IconButton>
+            <IconButton
+              className={classes.icon}
+              aria-label="delete"
+              onClick={(e) => onDeleteDaySchedule(daySchedule)}
+            >
+              <DeleteIcon />
+            </IconButton>
           </React.Fragment>
         }
         title="일차"
         subheader={date}
       />
-      <CardContent>{description}</CardContent>
+      <CardContent>{description || `${order}일차 여행 설명을 등록해주세요!`}</CardContent>
     </Card>
   );
 }

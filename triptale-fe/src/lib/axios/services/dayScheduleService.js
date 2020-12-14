@@ -17,6 +17,11 @@ const dayScheduleService = {
       description: description,
     });
   },
+
+  // 여행 일차 삭제
+  deleteDaySchedule: (tripNo, dayScheduleNo) => {
+    return http.delete(`/api/content/trips/${tripNo}/day-schedules/${dayScheduleNo}`);
+  },
 };
 
 export default dayScheduleService;

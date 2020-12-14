@@ -10,7 +10,7 @@ import AuthRoute from './AuthRoute';
  * @author hoons
  * @email dudgns0612@gmail.com
  * @create date 2020-11-05 23:54:26
- * @modify date 2020-12-03 21:28:24
+ * @modify date 2020-12-14 20:38:23
  * @desc [앱 기본, 라우터 설정]
  */
 function App() {
@@ -22,8 +22,8 @@ function App() {
       </Helmet>
       <Switch>
         <OAuth2Route path="/login-callback"></OAuth2Route>
-        <Route exact path="/" component={loginPage}></Route>
         <Route exact path="/login" component={loginPage}></Route>
+        <AuthRoute exact path="/" component={MainPage}></AuthRoute>
         <AuthRoute exact path="/trip" component={MainPage}></AuthRoute>
         <AuthRoute exact path="/trip/:srno" component={DaySchedulePage}></AuthRoute>
       </Switch>

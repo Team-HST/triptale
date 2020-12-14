@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
  * @author hoons
  * @email dudgns0612@gmail.com
  * @create date 2020-12-03 00:16:47
- * @modify date 2020-12-03 23:29:53
+ * @modify date 2020-12-14 21:02:32
  * @desc [일자 별 장소 지도 컨테이너 컴포넌트]
  */
 function PlaceMapContainer() {
