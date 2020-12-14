@@ -129,7 +129,7 @@ public class TripController {
 	@DeleteMapping("{tripNo}/day-schedules/{dayScheduleNo}")
 	public ResponseEntity<DayScheduleResponse> deleteTripDaySchedule(@PathVariable Long tripNo,
 		@PathVariable Long dayScheduleNo) {
-		return ResponseEntity.ok(tripService.deleteTripDaySchedule(dayScheduleNo));
+		return ResponseEntity.ok(tripService.deleteTripDaySchedule(tripNo, dayScheduleNo));
 	}
 
 }

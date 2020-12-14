@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.Embeddable;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import com.hst.triptale.content.schedule.exception.DayScheduleAlreadyExistException;
 
@@ -18,6 +19,7 @@ import lombok.Getter;
 public class DaySchedules {
 
 	@OneToMany(mappedBy = "trip")
+	@OrderBy("order")
 	private final Set<DaySchedule> schedules = new HashSet<>();
 
 	public void addSchedule(DaySchedule schedule) {

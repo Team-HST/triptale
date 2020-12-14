@@ -143,9 +143,9 @@ public class TripService {
 	 * @param dayScheduleNo 여행 일차 번호
 	 */
 	@Transactional
-	public DayScheduleResponse deleteTripDaySchedule(long dayScheduleNo) {
+	public DayScheduleResponse deleteTripDaySchedule(long tripNo, long dayScheduleNo) {
+		Trip trip = getTripEntity(tripNo);
 		DaySchedule daySchedule = getDayScheduleEntity(dayScheduleNo);
-		Trip trip = daySchedule.getTrip();
 		trip.deleteDaySchedule(daySchedule);
 		tripRepository.save(trip);
 		dayScheduleRepository.delete(daySchedule);
