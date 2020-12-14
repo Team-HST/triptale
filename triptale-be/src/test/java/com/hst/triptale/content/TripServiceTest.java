@@ -20,6 +20,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import com.hst.triptale.content.schedule.entity.DaySchedule;
 import com.hst.triptale.content.schedule.entity.DaySchedules;
+import com.hst.triptale.content.trip.entity.Location;
 import com.hst.triptale.content.trip.entity.Trip;
 import com.hst.triptale.content.trip.exception.TripNotFoundException;
 import com.hst.triptale.content.trip.repository.DayScheduleRepository;
@@ -116,7 +117,7 @@ class TripServiceTest {
 	void getTripTest() {
 		// given
 		Long tripNo = 1L;
-		Trip trip = Trip.createTrip(createTripModifyingRequest(), new User());
+		Trip trip = createMockTrip(3);
 		given(tripRepository.findById(1L)).willReturn(Optional.of(trip));
 
 		// when
@@ -226,10 +227,11 @@ class TripServiceTest {
 		DaySchedule daySchedule = createMockDaySchedule(trip);
 		int orderSize = trip.getDaySchedules().getSchedules().size();
 
+		given(tripRepository.findById(tripNo)).willReturn(Optional.of(trip));
 		given(dayScheduleRepository.findById(dayScheduleNo)).willReturn(Optional.of(daySchedule));
 
 		// when
-		tripService.deleteTripDaySchedule(dayScheduleNo);
+		tripService.deleteTripDaySchedule(tripNo, dayScheduleNo);
 
 		//
 		assertEquals(orderSize - 1, trip.getDaySchedules().getSchedules().size());
@@ -238,10 +240,11 @@ class TripServiceTest {
 	}
 
 	private Trip createMockTrip(long tripPeriodDays) {
-		Trip trip = new Trip();
+		Trip trip = Trip.builder().build();
 		ReflectionTestUtils.setField(trip, "daySchedules", new DaySchedules());
 		ReflectionTestUtils.setField(trip, "startAt", LocalDate.now());
 		ReflectionTestUtils.setField(trip, "endAt", LocalDate.now().plusDays(tripPeriodDays));
+		ReflectionTestUtils.setField(trip, "location", Location.of(1.0,2.0));
 		for (long i = 0; i < tripPeriodDays; i++) {
 			trip.addNewDaySchedule("테스트 일차 추가");
 		}

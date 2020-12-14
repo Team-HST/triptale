@@ -5,9 +5,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hst.triptale.configuration.ApplicationConstants;
 import com.hst.triptale.content.schedule.entity.DaySchedule;
 import com.hst.triptale.content.schedule.exception.DayScheduleNotFoundException;
+import com.hst.triptale.content.trip.entity.Location;
 import com.hst.triptale.content.trip.entity.Trip;
 import com.hst.triptale.content.trip.entity.TripSpecifications;
 import com.hst.triptale.content.trip.exception.TripNotFoundException;
@@ -47,9 +47,29 @@ public class TripService {
 	public TripResponse createTrip(TripModifyingRequest request) {
 		User user = userRepository.findById(request.getUserNo())
 			.orElseThrow(() -> new UserNotFoundException(request.getUserNo()));
-		Trip trip = Trip.createTrip(request, user);
+		Trip trip = createTripEntity(request, user);
 		tripRepository.save(trip);
 		return TripResponse.from(trip);
+	}
+
+	// 신규 여행 객체 생성
+	private Trip createTripEntity(TripModifyingRequest request, User registrar) {
+		// Require
+		Trip trip = Trip.builder()
+			.title(request.getTitle())
+			.description(request.getDescription())
+			.area(request.getArea())
+			.location(Location.of(request.getLatitude(), request.getLongitude()))
+			.startAt(request.getStartAt())
+			.endAt(request.getEndAt())
+			.registrar(registrar)
+			.build();
+
+		// Optional
+		trip.changeThumbnailFileNo(request.getThumbnailFileNo());
+		trip.changeMaterials(request.getMaterials());
+
+		return trip;
 	}
 
 	/**
@@ -95,8 +115,18 @@ public class TripService {
 	public void modifyTrip(TripModifyingRequest request, Long tripNo) {
 		Trip trip = getTripEntity(tripNo);
 		permissionChecker.checkPermission(trip);
-		trip.changeContent(request);
+		changeTripContent(trip, request);
 		tripRepository.save(trip);
+	}
+
+	// 여행 내용 변경
+	private void changeTripContent(Trip trip, TripModifyingRequest request) {
+		trip.changeTitle(request.getTitle());
+		trip.changeDescription(request.getDescription());
+		trip.changeArea(request.getArea());
+		trip.changeLocation(Location.of(request.getLatitude(), request.getLongitude()));
+		trip.changeThumbnailFileNo(request.getThumbnailFileNo());
+		trip.changeTravelPeriod(request.getStartAt(), request.getEndAt());
 	}
 
 	/**
