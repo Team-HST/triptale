@@ -4,9 +4,11 @@ import { tripService, dayScheduleService } from 'lib/axios/services';
 
 const SET_TRIP = 'daySchedule/SET_TRIP';
 const SET_DAY_SCHEDULES = 'daySchedule/SET_DAY_SCHEDULES';
+const SET_MAP = 'daySchedule/SET_MAP';
 
 export const setTrip = createAction(SET_TRIP);
 export const setDaySchedules = createAction(SET_DAY_SCHEDULES);
+export const setMap = createAction(SET_MAP);
 
 // 상세 여행정보 조회
 export const setTripAsync = (tripNo) => async (dispatch) => {
@@ -23,6 +25,11 @@ export const setDaySchedulesAsync = (tripNo) => async (dispatch) => {
 const initialize = {
   trip: {},
   daySchedules: [],
+  map: {
+    mapId: 'tripDayMap',
+    center: [33.450701, 126.570667],
+    level: 8,
+  },
 };
 
 export default handleActions(
@@ -34,6 +41,10 @@ export default handleActions(
     [SET_DAY_SCHEDULES]: (state, { payload: daySchedules }) =>
       produce(state, (draft) => {
         draft.daySchedules = daySchedules;
+      }),
+    [SET_MAP]: (state, { payload: map }) =>
+      produce(state, (draft) => {
+        draft.map = map;
       }),
   },
   initialize,

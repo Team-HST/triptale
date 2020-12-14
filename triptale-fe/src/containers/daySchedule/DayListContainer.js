@@ -112,6 +112,16 @@ function DayListContainer() {
   };
 
   useEffect(() => {
+    dispatch(
+      DayScheduleActions.setMap({
+        mapId: 'tripDayMap',
+        center: [trip.latitude, trip.longitude],
+        level: 8,
+      }),
+    );
+  }, [dispatch, trip]);
+
+  useEffect(() => {
     getDaySchedules(srno);
     gettTrip(srno);
   }, [getDaySchedules, gettTrip, srno]);

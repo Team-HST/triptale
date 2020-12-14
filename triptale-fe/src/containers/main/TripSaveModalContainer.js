@@ -96,7 +96,7 @@ function TripSaveModalContainer({ label, trip, onModalCloseClick }) {
   });
   const [mapOptions, setMapOptions] = useState({
     mapId: 'createMap',
-    center: trip ? [trip.longitude, trip.latitude] : [33.450701, 126.570667],
+    center: trip ? [trip.latitude, trip.longitude] : [33.450701, 126.570667],
     level: 8,
   });
 
@@ -112,7 +112,7 @@ function TripSaveModalContainer({ label, trip, onModalCloseClick }) {
       setEndDate(new Date(trip.endAt));
       setSearchArea({
         name: trip.area,
-        position: [trip.longitude, trip.latitude],
+        position: [trip.latitude, trip.longitude],
       });
       setFile({
         thumbnailFile: null,
@@ -201,8 +201,8 @@ function TripSaveModalContainer({ label, trip, onModalCloseClick }) {
       title: textField.title,
       description: textField.description,
       area: searchArea.name,
-      latitude: searchArea.position[1],
-      longitude: searchArea.position[0],
+      latitude: searchArea.position[0],
+      longitude: searchArea.position[1],
       thumbnailFileNo: fileSrno,
       startAt: DateUtils.getDateToStr(startDate),
       endAt: DateUtils.getDateToStr(endDate),
@@ -327,7 +327,7 @@ function TripSaveModalContainer({ label, trip, onModalCloseClick }) {
               <Circle
                 options={{
                   center: searchArea.position,
-                  radius: 1500,
+                  radius: 2000,
                   strokeWeight: 4,
                   strokeColor: '#2671EC',
                   strokeOpacity: 1,
