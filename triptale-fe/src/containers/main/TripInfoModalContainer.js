@@ -86,14 +86,14 @@ function TripInfoModalContainer({
 
   const [mapOptions, setMapOptions] = useState({
     mapId: 'infoMap',
-    center: [trip.longitude, trip.latitude],
+    center: [trip.latitude, trip.longitude],
     level: 8,
   });
 
   useEffect(() => {
     setMapOptions((state) => ({
       ...state,
-      center: [trip.longitude, trip.latitude],
+      center: [trip.latitude, trip.longitude],
     }));
   }, [trip.latitude, trip.longitude]);
 
@@ -167,8 +167,8 @@ function TripInfoModalContainer({
             <Map className={classes.map} options={mapOptions}>
               <Circle
                 options={{
-                  center: [trip.longitude, trip.latitude],
-                  radius: 1500,
+                  center: [trip.latitude, trip.longitude],
+                  radius: 2000,
                   strokeWeight: 4,
                   strokeColor: '#2671EC',
                   strokeOpacity: 1,
