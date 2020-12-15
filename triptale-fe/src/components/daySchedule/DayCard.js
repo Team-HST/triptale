@@ -9,6 +9,7 @@ import Avatar from '@material-ui/core/Avatar';
 import CreateIcon from '@material-ui/icons/Create';
 import MapIcon from '@material-ui/icons/Map';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,23 +45,29 @@ function DayCard({ daySchedule, onDayModifyClick, onDeleteDaySchedule }) {
         }
         action={
           <React.Fragment>
-            <IconButton
-              className={classes.icon}
-              aria-label="create"
-              onClick={(e) => onDayModifyClick(daySchedule)}
-            >
-              <CreateIcon />
-            </IconButton>
-            <IconButton className={classes.icon} aria-label="place">
-              <MapIcon />
-            </IconButton>
-            <IconButton
-              className={classes.icon}
-              aria-label="delete"
-              onClick={(e) => onDeleteDaySchedule(daySchedule)}
-            >
-              <DeleteIcon />
-            </IconButton>
+            <Tooltip title="수정">
+              <IconButton
+                className={classes.icon}
+                aria-label="create"
+                onClick={(e) => onDayModifyClick(daySchedule)}
+              >
+                <CreateIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="장소설정">
+              <IconButton className={classes.icon} aria-label="place">
+                <MapIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="삭제">
+              <IconButton
+                className={classes.icon}
+                aria-label="delete"
+                onClick={(e) => onDeleteDaySchedule(daySchedule)}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
           </React.Fragment>
         }
         title="일차"
