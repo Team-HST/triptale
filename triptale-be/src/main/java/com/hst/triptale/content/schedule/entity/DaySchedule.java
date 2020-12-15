@@ -50,7 +50,7 @@ public class DaySchedule {
 
 	public LocalDate getScheduleDate() {
 		long dayIndex = this.order - 1L;
-		return this.trip.getStartAt().plusDays(dayIndex);
+		return this.trip.getTravelPeriod().getStartAt().plusDays(dayIndex);
 	}
 
 	void changeOrder(int newOrder) {

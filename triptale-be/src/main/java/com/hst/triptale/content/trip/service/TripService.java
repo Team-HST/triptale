@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hst.triptale.content.schedule.entity.DaySchedule;
 import com.hst.triptale.content.schedule.exception.DayScheduleNotFoundException;
 import com.hst.triptale.content.trip.entity.Location;
+import com.hst.triptale.content.trip.entity.TravelPeriod;
 import com.hst.triptale.content.trip.entity.Trip;
 import com.hst.triptale.content.trip.entity.TripSpecifications;
 import com.hst.triptale.content.trip.exception.TripNotFoundException;
@@ -60,8 +61,7 @@ public class TripService {
 			.description(request.getDescription())
 			.area(request.getArea())
 			.location(Location.of(request.getLatitude(), request.getLongitude()))
-			.startAt(request.getStartAt())
-			.endAt(request.getEndAt())
+			.travelPeriod(TravelPeriod.of(request.getStartAt(), request.getEndAt()))
 			.registrar(registrar)
 			.build();
 
@@ -126,7 +126,7 @@ public class TripService {
 		trip.changeArea(request.getArea());
 		trip.changeLocation(Location.of(request.getLatitude(), request.getLongitude()));
 		trip.changeThumbnailFileNo(request.getThumbnailFileNo());
-		trip.changeTravelPeriod(request.getStartAt(), request.getEndAt());
+		trip.changeTravelPeriod(TravelPeriod.of(request.getStartAt(), request.getEndAt()));
 	}
 
 	/**

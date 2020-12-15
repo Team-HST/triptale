@@ -1,8 +1,6 @@
 package com.hst.triptale.content.trip.entity;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Period;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -60,11 +58,8 @@ public class Trip implements ContentResource {
 	@Column(name = "TRIP_THUMBNAIL_NO")
 	private Long thumbnailFileNo;
 
-	@Column(name = "TRIP_START_DATE")
-	private LocalDate startAt;
-
-	@Column(name = "TRIP_END_DATE")
-	private LocalDate endAt;
+	@Embedded
+	private TravelPeriod travelPeriod;
 
 	@Column(name = "TRIP_MATERIALS")
 	private String materials;
@@ -81,23 +76,18 @@ public class Trip implements ContentResource {
 	private DaySchedules daySchedules = new DaySchedules();
 
 	@Builder
-	private Trip(String title, String description, String area, Location location, LocalDate startAt, LocalDate endAt, User registrar) {
+	private Trip(String title, String description, String area, Location location, TravelPeriod travelPeriod, User registrar) {
 		this.title = title;
 		this.description = description;
 		this.area = area;
 		this.location = location;
-		this.startAt = startAt;
-		this.endAt = endAt;
+		this.travelPeriod = travelPeriod;
 		this.registrar = registrar;
 	}
 
 	@Override
 	public User getResourceOwner() {
 		return this.registrar;
-	}
-
-	public int getTravelPeriodDays() {
-		return Period.between(this.startAt, this.endAt).getDays() + 1;
 	}
 
 	public void changeTitle(String title) {
@@ -116,9 +106,8 @@ public class Trip implements ContentResource {
 		this.location = location;
 	}
 
-	public void changeTravelPeriod(LocalDate startAt, LocalDate endAt) {
-		this.startAt = startAt;
-		this.endAt = endAt;
+	public void changeTravelPeriod(TravelPeriod travelPeriod) {
+		this.travelPeriod = travelPeriod;
 	}
 
 	public void changeThumbnailFileNo(Long thumbnailFileNo) {
@@ -130,7 +119,7 @@ public class Trip implements ContentResource {
 	}
 
 	public DaySchedule addNewDaySchedule(String description) {
-		if (getTravelPeriodDays() < daySchedules.getNextOrder()) {
+		if (this.travelPeriod.getDays() < daySchedules.getNextOrder()) {
 			throw new DayScheduleExceedException();
 		}
 		DaySchedule appendedDaySchedule = DaySchedule.builder()
