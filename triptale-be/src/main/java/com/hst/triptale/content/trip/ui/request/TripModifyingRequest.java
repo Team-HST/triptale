@@ -2,8 +2,6 @@ package com.hst.triptale.content.trip.ui.request;
 
 import java.time.LocalDate;
 
-import javax.validation.constraints.NotEmpty;
-
 import com.hst.triptale.base.ui.request.BaseModifyingRequest;
 
 import io.swagger.v3.oas.annotations.media.Schema;
