@@ -16,6 +16,7 @@ public class DayScheduleResponse {
 	private final Long no;
 	private final Integer order;
 	private final String description;
+	private final String colorCode;
 	private final LocalDate date;
 
 	public static DayScheduleResponse from(DaySchedule daySchedule) {
@@ -23,6 +24,7 @@ public class DayScheduleResponse {
 			.no(daySchedule.getNo())
 			.order(daySchedule.getOrder())
 			.description(daySchedule.getDescription())
+			.colorCode(daySchedule.getColorCode())
 			.date(daySchedule.getScheduleDate())
 			.build();
 	}
