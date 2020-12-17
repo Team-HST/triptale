@@ -33,13 +33,17 @@ const useStyles = makeStyles((theme) => ({
  */
 function DayCard({ daySchedule, onDayModifyClick, onDeleteDaySchedule }) {
   const classes = useStyles();
-  const { order, description, date } = daySchedule;
+  const { order, description, colorCode, date } = daySchedule;
 
   return (
     <Card className={classes.root}>
       <CardHeader
         avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
+          <Avatar
+            aria-label="recipe"
+            className={classes.avatar}
+            style={{ backgroundColor: colorCode ? colorCode : '#ECA726' }}
+          >
             {order}
           </Avatar>
         }

@@ -60,7 +60,7 @@ function DaySaveModalContainer({ daySchedule, label, onSaveModalClose }) {
   const classes = useStyles();
   const { trip } = useSelector((state) => ({ trip: state.daySchedule.trip }));
   const [description, setDescription] = useState('');
-  const [color, setColor] = useState('#000');
+  const [colorCode, setColorCode] = useState(null);
 
   // 일차 설명 변경 이벤트
   const handleDescriptionChange = (e) => {
@@ -69,15 +69,23 @@ function DaySaveModalContainer({ daySchedule, label, onSaveModalClose }) {
 
   // 색상 변경 이벤트
   const handleColorChange = (color) => {
-    setColor(color);
+    setColorCode(color);
   };
 
   // 여행 일차 정보 등록, 수정 이벤트
   const handleSaveDaySheduleClick = async () => {
+    if (!colorCode) {
+      alert('일차 색상을 선택하여 주세요,');
+      return;
+    }
+
     if (!daySchedule) {
-      await dayScheduleService.createDaySchedule(trip.no, description);
+      await dayScheduleService.createDaySchedule(trip.no, { description, colorCode });
     } else {
-      await dayScheduleService.updateDaySchedule(trip.no, daySchedule.no, description);
+      await dayScheduleService.updateDaySchedule(trip.no, daySchedule.no, {
+        description,
+        colorCode,
+      });
     }
 
     alert(`여행 일차가 ${label}되었습니다.`);
@@ -87,6 +95,7 @@ function DaySaveModalContainer({ daySchedule, label, onSaveModalClose }) {
   useEffect(() => {
     if (daySchedule) {
       setDescription(daySchedule.description);
+      setColorCode(daySchedule.colorCode);
     }
   }, [daySchedule]);
 
@@ -108,7 +117,7 @@ function DaySaveModalContainer({ daySchedule, label, onSaveModalClose }) {
           />
         </Grid>
         <Grid className={classes.colorGrid} item xs={10}>
-          <ColorCode value={color} onColorChange={handleColorChange} />
+          <ColorCode value={colorCode} onColorChange={handleColorChange} />
         </Grid>
       </Grid>
       <div className={classes.footerBtn}>

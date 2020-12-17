@@ -7,15 +7,13 @@ const dayScheduleService = {
   },
 
   // 여행 일차 등록
-  createDaySchedule: (tripNo, description) => {
-    return http.post(`/api/content/trips/${tripNo}/day-schedules`, { description: description });
+  createDaySchedule: (tripNo, dayScheduleInfo) => {
+    return http.post(`/api/content/trips/${tripNo}/day-schedules`, dayScheduleInfo);
   },
 
   // 여행 일차 수정
-  updateDaySchedule: (tripNo, dayScheduleNo, description) => {
-    return http.put(`/api/content/trips/${tripNo}/day-schedules/${dayScheduleNo}`, {
-      description: description,
-    });
+  updateDaySchedule: (tripNo, dayScheduleNo, dayScheduleInfo) => {
+    return http.put(`/api/content/trips/${tripNo}/day-schedules/${dayScheduleNo}`, dayScheduleInfo);
   },
 
   // 여행 일차 삭제
