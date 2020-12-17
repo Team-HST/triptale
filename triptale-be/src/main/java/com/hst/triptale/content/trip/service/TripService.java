@@ -146,7 +146,7 @@ public class TripService {
 	public DayScheduleResponse addTripDaySchedule(Long tripNo, TripDayScheduleModifyRequest request) {
 		Trip trip = getTripEntity(tripNo);
 		permissionChecker.checkPermission(trip);
-		DaySchedule addedDaySchedule = trip.addNewDaySchedule(request.getDescription());
+		DaySchedule addedDaySchedule = trip.addNewDaySchedule(request.getDescription(), request.getColorCode());
 		dayScheduleRepository.save(addedDaySchedule);
 		return DayScheduleResponse.from(addedDaySchedule);
 	}
@@ -164,8 +164,13 @@ public class TripService {
 	@Transactional
 	public DayScheduleResponse modifyTripDaySchedule(Long dayScheduleNo, TripDayScheduleModifyRequest request) {
 		DaySchedule daySchedule = getDayScheduleEntity(dayScheduleNo);
-		daySchedule.changeContent(request.getDescription());
+		modifyDayScheduleContent(daySchedule, request);
 		return DayScheduleResponse.from(daySchedule);
+	}
+
+	private void modifyDayScheduleContent(DaySchedule daySchedule, TripDayScheduleModifyRequest request) {
+		daySchedule.changeDescription(request.getDescription());
+		daySchedule.changeColorCode(request.getColorCode());
 	}
 
 	/**

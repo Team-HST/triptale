@@ -118,7 +118,7 @@ public class Trip implements ContentResource {
 		this.materials = materials;
 	}
 
-	public DaySchedule addNewDaySchedule(String description) {
+	public DaySchedule addNewDaySchedule(String description, String colorCode) {
 		if (this.travelPeriod.getDays() < daySchedules.getNextOrder()) {
 			throw new DayScheduleExceedException();
 		}
@@ -126,6 +126,7 @@ public class Trip implements ContentResource {
 			.trip(this)
 			.order(daySchedules.getNextOrder())
 			.description(description)
+			.colorCode(colorCode)
 			.build();
 		this.daySchedules.addSchedule(appendedDaySchedule);
 		return appendedDaySchedule;

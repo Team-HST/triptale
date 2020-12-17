@@ -37,14 +37,18 @@ public class DaySchedule {
 	@Column(name = "DAY_SKED_DESC")
 	private String description;
 
+	@Column(name = "COLOR_CODE")
+	private String colorCode;
+
 	@ManyToOne
 	@JoinColumn(name = "TRIP_NO", nullable = false)
 	private Trip trip;
 
 	@Builder
-	public DaySchedule(Integer order, String description, Trip trip) {
+	public DaySchedule(Integer order, String description, String colorCode, Trip trip) {
 		this.order = order;
 		this.description = description;
+		this.colorCode = colorCode;
 		this.trip = trip;
 	}
 
@@ -57,7 +61,11 @@ public class DaySchedule {
 		this.order = newOrder;
 	}
 
-	public void changeContent(String description) {
+	public void changeDescription(String description) {
 		this.description = description;
+	}
+
+	public void changeColorCode(String colorCode) {
+		this.colorCode = colorCode;
 	}
 }

@@ -10,4 +10,6 @@ import lombok.Getter;
 public class TripDayScheduleModifyRequest {
 	@Schema(title = "여행 일차 설명", description = "여행 일차 설명", required = true)
 	private String description;
+	@Schema(title = "여행 일차 색상 코드", description = "여행 일차 색상 코드", required = true)
+	private String colorCode;
 }

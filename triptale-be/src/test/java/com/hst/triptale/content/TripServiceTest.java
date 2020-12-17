@@ -246,7 +246,7 @@ class TripServiceTest {
 		ReflectionTestUtils.setField(trip, "travelPeriod", TravelPeriod.of(now, now.plusDays(tripPeriodDays)));
 		ReflectionTestUtils.setField(trip, "location", Location.of(1.0,2.0));
 		for (long i = 0; i < tripPeriodDays; i++) {
-			trip.addNewDaySchedule("테스트 일차 추가");
+			trip.addNewDaySchedule("테스트 일차 추가", "#ffffff");
 		}
 		return trip;
 	}
