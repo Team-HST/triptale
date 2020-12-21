@@ -1,12 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import ErrorIcon from '@material-ui/icons/Error';
+import Button from '@material-ui/core/Button';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const useStyles = makeStyles((theme) => ({
@@ -33,7 +34,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ErrorContainer() {
+/**pπ
+ * @author hoons
+ * @email dudgns0612@gmail.com
+ * @create date 2020-12-21 20:18:20
+ * @modify date 2020-12-21 20:18:20
+ * @desc [description]
+ */
+function ErrorContainer({ errorCode, title, subTitle, button }) {
   const classes = useStyles();
 
   return (
@@ -47,14 +55,14 @@ function ErrorContainer() {
             </Avatar>
           </Grid>
           <Grid item>
-            <h1>404 ERROR</h1>
+            <h1>{errorCode} ERROR</h1>
           </Grid>
         </Grid>
         <Typography className={classes.errorContent} variant="h5" align="center">
-          서비스 이용에 불편을 드려서 죄송합니다.
+          {title}
         </Typography>
         <Typography variant="h6" align="center">
-          요청하신 페이지는 TripTale에서 찾을 수 없습니다.
+          {subTitle}
         </Typography>
         <Button
           variant="contained"
@@ -62,13 +70,17 @@ function ErrorContainer() {
           className={classes.button}
           size="large"
           startIcon={<ArrowBackIcon />}
-          // onClick={handlePageMoveClick}
+          onClick={button.onClick}
         >
-          메인 페이지로 이동
+          {button.title}
         </Button>
       </div>
     </Container>
   );
 }
+
+ErrorContainer.propTypes = {
+  btnEl: PropTypes.object,
+};
 
 export default ErrorContainer;

@@ -4,6 +4,15 @@ import MainPage from './MainPage';
 import DaySchedulePage from './DaySchedulePage';
 
 // error page
-import NotFoundPage from './error/NotFoundPage';
+import NotFoundErrorPage from './error/NotFoundErrorPage';
+import InternalServerErrorPage from './error/InternalServerErrorPage';
+import TokenNullErrorPage from './error/TokenNullErrorPage';
 
-export { loginPage, MainPage, DaySchedulePage, NotFoundPage };
+export {
+  loginPage,
+  MainPage,
+  DaySchedulePage,
+  NotFoundErrorPage,
+  InternalServerErrorPage,
+  TokenNullErrorPage,
+};

@@ -7,7 +7,7 @@ import { MapContext } from './Map';
  * @author hoons
  * @email dudgns0612@gmail.com
  * @create date 2020-11-15 19:47:52
- * @modify date 2020-12-07 22:59:02
+ * @modify date 2020-12-21 20:56:08
  * @desc [서클 생성 컴포넌트]
  */
 function Circle({ options }) {
