@@ -80,12 +80,27 @@ function DaySaveModalContainer({ daySchedule, label, onSaveModalClose }) {
     }
 
     if (!daySchedule) {
-      await dayScheduleService.createDaySchedule(trip.no, { description, colorCode });
+      try {
+        await dayScheduleService.createDaySchedule(trip.no, {
+          description,
+          colorCode,
+        });
+      } catch (error) {
+        alert('더이상 일차를 추가할 수 없습니다.');
+        onSaveModalClose();
+        return;
+      }
     } else {
-      await dayScheduleService.updateDaySchedule(trip.no, daySchedule.no, {
-        description,
-        colorCode,
-      });
+      try {
+        await dayScheduleService.updateDaySchedule(trip.no, daySchedule.no, {
+          description,
+          colorCode,
+        });
+      } catch (error) {
+        alert('해당 일차 정보를 찾을 수 없습니다.');
+        onSaveModalClose();
+        return;
+      }
     }
 
     alert(`여행 일차가 ${label}되었습니다.`);

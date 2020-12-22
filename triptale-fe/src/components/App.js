@@ -17,7 +17,7 @@ import AuthRoute from './AuthRoute';
  * @author hoons
  * @email dudgns0612@gmail.com
  * @create date 2020-11-05 23:54:26
- * @modify date 2020-12-21 21:15:19
+ * @modify date 2020-12-22 21:44:48
  * @desc [앱 기본, 라우터 설정]
  */
 function App() {
@@ -35,6 +35,7 @@ function App() {
         <AuthRoute path="/trip/:srno" component={DaySchedulePage}></AuthRoute>
         <Route path="/error/500" component={InternalServerErrorPage}></Route>
         <Route path="/error/401" component={TokenNullErrorPage}></Route>
+        <Route path="/error/404" component={NotFoundErrorPage}></Route>
         <Route component={NotFoundErrorPage}></Route>
       </Switch>
     </React.Fragment>
