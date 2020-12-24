@@ -1,6 +1,6 @@
 package com.hst.triptale.content.user.exception;
 
-import com.hst.triptale.exceptionhandling.model.NotFoundException;
+import com.hst.triptale.exceptionhandling.exception.NotFoundException;
 
 /**
  * @author dlgusrb0808@gmail.com
@@ -8,7 +8,7 @@ import com.hst.triptale.exceptionhandling.model.NotFoundException;
 public class UserNotFoundException extends NotFoundException {
 
 	public UserNotFoundException(Long invalidUserNo) {
-		super("사용자 정보가 존재하지 않습니다.");
+		super(UserBusinessExceptionStatus.USER_NOT_FOUND);
 		this.addAttribute("userNo", invalidUserNo);
 	}
 

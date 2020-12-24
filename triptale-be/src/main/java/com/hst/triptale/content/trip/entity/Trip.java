@@ -19,8 +19,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.hst.triptale.content.ContentResource;
 import com.hst.triptale.content.schedule.entity.DaySchedule;
 import com.hst.triptale.content.schedule.entity.DaySchedules;
-import com.hst.triptale.content.schedule.exception.DayScheduleEmptyException;
 import com.hst.triptale.content.schedule.exception.DayScheduleExceedException;
+import com.hst.triptale.content.schedule.exception.DayScheduleNotFoundException;
 import com.hst.triptale.content.user.entity.User;
 
 import lombok.AccessLevel;
@@ -134,7 +134,7 @@ public class Trip implements ContentResource {
 
 	public void deleteDaySchedule(DaySchedule schedule) {
 		if (daySchedules.isEmpty()) {
-			throw new DayScheduleEmptyException(this.no);
+			throw new DayScheduleNotFoundException(this.no);
 		}
 		this.daySchedules.deleteSchedule(schedule);
 	}

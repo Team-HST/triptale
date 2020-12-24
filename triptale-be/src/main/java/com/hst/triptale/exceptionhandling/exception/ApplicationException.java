@@ -1,9 +1,11 @@
-package com.hst.triptale.exceptionhandling.model;
+package com.hst.triptale.exceptionhandling.exception;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
+
+import com.hst.triptale.exceptionhandling.model.BusinessExceptionStatus;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +16,8 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class ApplicationException extends RuntimeException {
-	private final HttpStatus status;
-	private final String message;
+	private final HttpStatus httpStatus;
+	private final BusinessExceptionStatus exceptionStatus;
 	private Map<String, Object> attributes;
 
 	public final ApplicationException addAttributes(Map<String, Object> attributes) {
@@ -33,5 +35,10 @@ public class ApplicationException extends RuntimeException {
 		}
 		this.attributes.put(name, value);
 		return this;
+	}
+
+	@Override
+	public String getMessage() {
+		return exceptionStatus.getMessage();
 	}
 }

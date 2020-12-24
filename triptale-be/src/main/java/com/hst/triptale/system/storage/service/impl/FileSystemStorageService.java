@@ -39,7 +39,7 @@ public class FileSystemStorageService implements StorageService<Long> {
 		try {
 			Files.createDirectories(fileStoreDirectory);
 		} catch (IOException e) {
-			throw new StorageException(String.format("파일 저장소 초기화에 실패하였습니다. 원인: %s", e.getMessage()));
+			throw new StorageException();
 		}
 	}
 
@@ -54,7 +54,7 @@ public class FileSystemStorageService implements StorageService<Long> {
 		try {
 			Files.copy(uploadFile.getInputStream(), saveFilePath, StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
-			throw new StorageException(String.format("파일 업로드에 실패했습니다.. 원인: %s", e.getMessage()));
+			throw new StorageException();
 		}
 
 		StorageFile storageFile = StorageFile.createStorageFile(saveFilePath.toString());
@@ -66,13 +66,12 @@ public class FileSystemStorageService implements StorageService<Long> {
 	public FileBinaryData getBinaryData(Long fileNo) {
 		String storageFilePath = storageFileRepository.findById(fileNo)
 			.map(StorageFile::getName)
-			.orElseThrow(() -> new StorageFileNotFoundException("파일을 찾을 수 없습니다.", fileNo));
+			.orElseThrow(() -> new StorageFileNotFoundException(fileNo));
 		try {
 			return FileBinaryData.of(Files.readAllBytes(Paths.get(storageFilePath)),
 				FileUtils.detectFileMimeType(storageFilePath));
 		} catch (IOException e) {
-			throw new StorageException(String.format("파일 읽기에 실패했습니다.. 원인: %s", e.getMessage()))
-				.addAttribute("fileNo", fileNo);
+			throw new StorageException().addAttribute("fileNo", fileNo);
 		}
 	}
 

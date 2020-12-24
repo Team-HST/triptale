@@ -2,7 +2,7 @@ package com.hst.triptale.content.schedule.exception;
 
 import org.springframework.http.HttpStatus;
 
-import com.hst.triptale.exceptionhandling.model.ApplicationException;
+import com.hst.triptale.exceptionhandling.exception.ApplicationException;
 
 /**
  * @author dlgusrb0808@gmail.com
@@ -10,7 +10,7 @@ import com.hst.triptale.exceptionhandling.model.ApplicationException;
 public class DayScheduleAlreadyExistException extends ApplicationException {
 
 	public DayScheduleAlreadyExistException() {
-		super(HttpStatus.CONFLICT, "해당 일차에 이미 일정이 존재합니다.");
+		super(HttpStatus.CONFLICT, DayScheduleBusinessExceptionStatus.DAY_SCHEDULE_ALREADY_EXIST);
 	}
 
 }
