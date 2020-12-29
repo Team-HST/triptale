@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const serviceErrorArr = [3000, 4000, 4001];
+const serviceErrorArr = [4000, 4001];
 
 // axios requset interceptor setting
 axios.interceptors.request.use(
@@ -36,6 +36,8 @@ axios.interceptors.response.use(
           window.location = '/';
         }
         window.location = '/error/401';
+      } else if (statusCode === 403) {
+        window.location = '/error/403';
       }
     }
 

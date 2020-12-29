@@ -7,6 +7,7 @@ import DaySchedulePage from './DaySchedulePage';
 import NotFoundErrorPage from './error/NotFoundErrorPage';
 import InternalServerErrorPage from './error/InternalServerErrorPage';
 import TokenNullErrorPage from './error/TokenNullErrorPage';
+import ForbiddenErrorPage from './error/ForbiddenErrorPage';
 
 export {
   loginPage,
@@ -15,4 +16,5 @@ export {
   NotFoundErrorPage,
   InternalServerErrorPage,
   TokenNullErrorPage,
+  ForbiddenErrorPage,
 };
