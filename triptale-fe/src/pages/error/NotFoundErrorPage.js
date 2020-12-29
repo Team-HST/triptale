@@ -2,6 +2,13 @@ import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import ErrorContainer from 'containers/error/ErrorContainer';
 
+/**
+ * @author hoons
+ * @email dudgns0612@gmail.com
+ * @create date 2020-12-30 00:31:59
+ * @modify date 2020-12-30 00:32:17
+ * @desc [Not Found 에러 페이지 컴포넌트]
+ */
 function NotFoundErrorPage() {
   const history = useHistory();
 

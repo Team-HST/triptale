@@ -2,6 +2,13 @@ import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import ErrorContainer from 'containers/error/ErrorContainer';
 
+/**
+ * @author hoons
+ * @email dudgns0612@gmail.com
+ * @create date 2020-12-30 00:32:37
+ * @modify date 2020-12-30 00:32:51
+ * @desc [권한 관련 에러 페이지 컴포넌트]
+ */
 function ForbiddenErrorPage() {
   const history = useHistory();
 

@@ -5,6 +5,7 @@ import {
   loginPage,
   MainPage,
   DaySchedulePage,
+  DaySchedulePlacePage,
   NotFoundErrorPage,
   InternalServerErrorPage,
   TokenNullErrorPage,
@@ -33,7 +34,11 @@ function App() {
         <Route exact path="/login" component={loginPage}></Route>
         <AuthRoute exact path="/" component={MainPage}></AuthRoute>
         <AuthRoute exact path="/trip" component={MainPage}></AuthRoute>
-        <AuthRoute path="/trip/:srno" component={DaySchedulePage}></AuthRoute>
+        <AuthRoute exact path="/trip/:srno" component={DaySchedulePage}></AuthRoute>
+        <AuthRoute
+          path="/trip/:srno/daySchedule/:daySrno/place"
+          component={DaySchedulePlacePage}
+        ></AuthRoute>
         <Route path="/error/500" component={InternalServerErrorPage}></Route>
         <Route path="/error/401" component={TokenNullErrorPage}></Route>
         <Route path="/error/404" component={NotFoundErrorPage}></Route>

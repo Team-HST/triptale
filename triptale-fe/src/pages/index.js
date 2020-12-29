@@ -2,6 +2,7 @@
 import loginPage from './LoginPage';
 import MainPage from './MainPage';
 import DaySchedulePage from './DaySchedulePage';
+import DaySchedulePlacePage from './DaySchedulePlacePage';
 
 // error page
 import NotFoundErrorPage from './error/NotFoundErrorPage';
@@ -13,6 +14,7 @@ export {
   loginPage,
   MainPage,
   DaySchedulePage,
+  DaySchedulePlacePage,
   NotFoundErrorPage,
   InternalServerErrorPage,
   TokenNullErrorPage,
