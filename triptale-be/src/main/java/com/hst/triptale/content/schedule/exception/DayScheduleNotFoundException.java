@@ -1,16 +1,14 @@
 package com.hst.triptale.content.schedule.exception;
 
-import org.springframework.http.HttpStatus;
-
-import com.hst.triptale.exceptionhandling.model.ApplicationException;
+import com.hst.triptale.exceptionhandling.exception.NotFoundException;
 
 /**
  * @author hyungyu.lee@nhn.com
  */
-public class DayScheduleNotFoundException extends ApplicationException {
+public class DayScheduleNotFoundException extends NotFoundException {
 
 	public DayScheduleNotFoundException(Long invalidDayScheduleNo) {
-		super(HttpStatus.NOT_FOUND, "여행 일차가 존재하지 않습니다.");
+		super(DayScheduleBusinessExceptionStatus.DAY_SCHEDULE_NOT_FOUND);
 		this.addAttribute("dayScheduleNo", invalidDayScheduleNo);
 	}
 }

@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.hst.triptale.exceptionhandling.model.ApplicationException;
+import com.hst.triptale.exceptionhandling.exception.ApplicationException;
+import com.hst.triptale.exceptionhandling.model.ExceptionDescription;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,7 +32,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(ApplicationException.class)
 	public ResponseEntity<ExceptionDescription> handleApplicationException(ApplicationException e) {
 		log.warn("Handle Application Exception below.", e);
-		return ResponseEntity.status(e.getStatus())
+		return ResponseEntity.status(e.getHttpStatus())
 			.body(ExceptionDescription.fromApplicationException(e));
 	}
 

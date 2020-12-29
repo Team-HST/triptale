@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.hst.triptale.content.ContentResource;
 import com.hst.triptale.content.user.entity.User;
-import com.hst.triptale.exceptionhandling.model.PermissionDeniedException;
+import com.hst.triptale.security.permission.exception.PermissionDeniedException;
 
 /**
  * @author dlgusrb0808@gmail.com
@@ -33,7 +33,7 @@ public class ContentResourcePermissionChecker {
 	 */
 	public void checkPermission(ContentResource contentResource) {
 		if (!getCurrentAuthorizedUser().equals(contentResource.getResourceOwner())) {
-			throw new PermissionDeniedException("리소스 접근 권한이 없습니다.");
+			throw new PermissionDeniedException();
 		}
 	}
 

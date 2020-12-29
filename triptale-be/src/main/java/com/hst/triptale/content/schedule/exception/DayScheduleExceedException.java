@@ -2,7 +2,7 @@ package com.hst.triptale.content.schedule.exception;
 
 import org.springframework.http.HttpStatus;
 
-import com.hst.triptale.exceptionhandling.model.ApplicationException;
+import com.hst.triptale.exceptionhandling.exception.ApplicationException;
 
 /**
  * @author hyungyu.lee@nhn.com
@@ -10,7 +10,7 @@ import com.hst.triptale.exceptionhandling.model.ApplicationException;
 public class DayScheduleExceedException extends ApplicationException {
 
 	public DayScheduleExceedException() {
-		super(HttpStatus.CONFLICT, "더 이상 일차를 등록할 수 없습니다.");
+		super(HttpStatus.CONFLICT, DayScheduleBusinessExceptionStatus.DAY_SCHEDULE_EXCEED);
 	}
 
 }

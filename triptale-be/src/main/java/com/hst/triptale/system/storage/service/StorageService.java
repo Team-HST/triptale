@@ -23,10 +23,10 @@ public interface StorageService<T> {
 	 */
 	default void assertUploadFileIsNotNull(MultipartFile uploadFile) {
 		if (uploadFile == null || uploadFile.isEmpty()) {
-			throw new StorageException("업로드한 파일이 없습니다.");
+			throw new StorageException();
 		}
 		if (StringUtils.isBlank(uploadFile.getOriginalFilename())) {
-			throw new StorageException("업로드한 파일이 없습니다.");
+			throw new StorageException();
 		}
 	}
 

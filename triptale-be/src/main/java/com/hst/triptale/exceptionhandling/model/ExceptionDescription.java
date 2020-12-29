@@ -1,9 +1,9 @@
-package com.hst.triptale.exceptionhandling;
+package com.hst.triptale.exceptionhandling.model;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.hst.triptale.exceptionhandling.model.ApplicationException;
+import com.hst.triptale.exceptionhandling.exception.ApplicationException;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,8 @@ public class ExceptionDescription {
 	}
 
 	public static ExceptionDescription fromApplicationException(ApplicationException e) {
-		return of(e.getStatus().value(), e.getClass().getName(), e.getMessage())
+		BusinessExceptionStatus exceptionStatus = e.getExceptionStatus();
+		return of(exceptionStatus.getStatusCode(), e.getClass().getName(), exceptionStatus.getMessage())
 			.addAttributes(e.getAttributes());
 	}
 }

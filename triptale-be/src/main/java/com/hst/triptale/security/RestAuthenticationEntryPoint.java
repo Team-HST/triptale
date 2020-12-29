@@ -13,7 +13,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
-import com.hst.triptale.exceptionhandling.ExceptionDescription;
+import com.hst.triptale.exceptionhandling.model.ExceptionDescription;
 import com.hst.triptale.utils.JsonUtils;
 
 /**
