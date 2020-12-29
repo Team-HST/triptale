@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -97,9 +97,9 @@ function TripInfoModalContainer({
     }));
   }, [trip.latitude, trip.longitude]);
 
-  const handleExpandClick = () => {
+  const handleExpandClick = useCallback(() => {
     setExpanded(!expanded);
-  };
+  }, [expanded]);
 
   return (
     <div className={clsx(classes.paper, classes.modal)}>

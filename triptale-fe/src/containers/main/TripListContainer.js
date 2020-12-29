@@ -50,49 +50,58 @@ function TripListContainer() {
   };
 
   // 여행 삭제
-  const deleteTrip = async (tripNo) => {
-    const deleteTripNo = await tripService.removeTrip(tripNo);
-    if (deleteTripNo > 0) {
-      getTripList();
-    }
-  };
+  const deleteTrip = useCallback(
+    async (tripNo) => {
+      const deleteTripNo = await tripService.removeTrip(tripNo);
+      if (deleteTripNo > 0) {
+        getTripList();
+      }
+    },
+    [getTripList],
+  );
 
   // 여행 선택 이벤트
-  const handleTripCardClick = (trip) => {
-    history.push(`/trip/${trip.no}`);
-  };
+  const handleTripCardClick = useCallback(
+    (trip) => {
+      history.push(`/trip/${trip.no}`);
+    },
+    [history],
+  );
 
   // 여행 정보 표출 이벤트
-  const handleTripInfoClick = (trip) => {
+  const handleTripInfoClick = useCallback((trip) => {
     setSelectTrip(trip);
     setIsTripInfo(true);
-  };
+  }, []);
 
   // 여행 삭제 이벤트
-  const handleTripDeleteClick = (tripNo) => {
-    if (window.confirm('여행을 삭제하시겠습니까?')) {
-      deleteTrip(tripNo);
-      getTripList();
-      setIsTripInfo(false);
-    }
-  };
+  const handleTripDeleteClick = useCallback(
+    (tripNo) => {
+      if (window.confirm('여행을 삭제하시겠습니까?')) {
+        deleteTrip(tripNo);
+        getTripList();
+        setIsTripInfo(false);
+      }
+    },
+    [deleteTrip, getTripList],
+  );
 
   // 여행 정보 표출 종료 이벤트
-  const handleCloseInfoModalClick = () => {
+  const handleCloseInfoModalClick = useCallback(() => {
     setIsTripInfo(false);
-  };
+  }, []);
 
   // 여행 수정 표출 이벤트
-  const handleModifyClick = () => {
+  const handleModifyClick = useCallback(() => {
     setIsTripModify(true);
-  };
+  }, []);
 
   // 여행 수정 종료 이벤트
-  const handleCloseModifyModalClick = () => {
+  const handleCloseModifyModalClick = useCallback(() => {
     getTrip(selectTrip.no);
     getTripList();
     setIsTripModify(false);
-  };
+  }, [getTripList, selectTrip.no]);
 
   // 유저 여행 목록 조회
   useEffect(() => {

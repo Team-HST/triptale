@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
@@ -63,14 +63,14 @@ function DaySaveModalContainer({ daySchedule, label, onSaveModalClose }) {
   const [colorCode, setColorCode] = useState(null);
 
   // 일차 설명 변경 이벤트
-  const handleDescriptionChange = (e) => {
+  const handleDescriptionChange = useCallback((e) => {
     setDescription(e.target.value);
-  };
+  }, []);
 
   // 색상 변경 이벤트
-  const handleColorChange = (color) => {
+  const handleColorChange = useCallback((color) => {
     setColorCode(color);
-  };
+  }, []);
 
   // 여행 일차 정보 등록, 수정 이벤트
   const handleSaveDaySheduleClick = async () => {

@@ -61,33 +61,36 @@ function ImageBannerContainer() {
   );
 
   // 검색 인풋 변경 이벤트
-  const handlerSearchNmChange = (e) => {
+  const handlerSearchNmChange = useCallback((e) => {
     setSearchNm(e.target.value);
-  };
+  }, []);
 
   // 등록 버튼 클릭 이벤트
-  const handleRegisterClick = () => {
+  const handleRegisterClick = useCallback(() => {
     setOpen(true);
-  };
+  }, []);
 
   // 등록 모달 종료 이벤트
-  const handleModalCloseClick = () => {
+  const handleModalCloseClick = useCallback(() => {
     setOpen(false);
     getTripList(searchNm);
-  };
+  }, [getTripList, searchNm]);
 
   // 검색 버튼 이벤트
-  const handleSearchClick = () => {
+  const handleSearchClick = useCallback(() => {
     getTripList(searchNm);
-  };
+  }, [getTripList, searchNm]);
 
   // 검색 인풋 엔터 이벤트
-  const handleSearchInputKeyDwon = (e) => {
-    if (e.keyCode === 13) {
-      e.preventDefault();
-      getTripList(searchNm);
-    }
-  };
+  const handleSearchInputKeyDwon = useCallback(
+    (e) => {
+      if (e.keyCode === 13) {
+        e.preventDefault();
+        getTripList(searchNm);
+      }
+    },
+    [getTripList, searchNm],
+  );
 
   return (
     <ProductLayout backgroundClassName={classes.background}>

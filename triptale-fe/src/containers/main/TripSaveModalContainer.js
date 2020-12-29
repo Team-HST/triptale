@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -122,36 +122,45 @@ function TripSaveModalContainer({ label, trip, onModalCloseClick }) {
   }, [trip]);
 
   // 텍스트 필드 변경 이벤트
-  const handleTextChange = (e) => {
-    const { name, value } = e.target;
-    setTextField({
-      ...textField,
-      [name]: value,
-    });
-  };
+  const handleTextChange = useCallback(
+    (e) => {
+      const { name, value } = e.target;
+      setTextField({
+        ...textField,
+        [name]: value,
+      });
+    },
+    [textField],
+  );
 
   // 시작일자 변경 이벤트
-  const handleStartDateChange = (date) => {
-    if (!DateUtils.getIsDayDifference(date, endDate)) {
-      alert('시작 일자는 종료 일자보다 늦을 수 없습니다.');
-      return;
-    }
+  const handleStartDateChange = useCallback(
+    (date) => {
+      if (!DateUtils.getIsDayDifference(date, endDate)) {
+        alert('시작 일자는 종료 일자보다 늦을 수 없습니다.');
+        return;
+      }
 
-    setStartDate(date);
-  };
+      setStartDate(date);
+    },
+    [endDate],
+  );
 
   // 종료일자 변경이벤트
-  const handleEndDateChange = (date) => {
-    if (DateUtils.getIsDayDifference(date, endDate)) {
-      alert('종료 일자는 시작 일자보다 빠를 수 없습니다.');
-      return;
-    }
+  const handleEndDateChange = useCallback(
+    (date) => {
+      if (!DateUtils.getIsDayDifference(startDate, date)) {
+        alert('종료 일자는 시작 일자보다 빠를 수 없습니다.');
+        return;
+      }
 
-    setEndDate(date);
-  };
+      setEndDate(date);
+    },
+    [startDate],
+  );
 
   // 목적지 검색 클릭 이벤트
-  const handleSearchClick = () => {
+  const handleSearchClick = useCallback(() => {
     MapUtils.getAddressToCoords(textField.area, (result, status) => {
       let areaPosition = [];
       let areaName = '';
@@ -172,23 +181,26 @@ function TripSaveModalContainer({ label, trip, onModalCloseClick }) {
         center: areaPosition.length > 0 ? areaPosition : [33.450701, 126.570667],
       });
     });
-  };
+  }, [mapOptions, textField.area]);
 
   // 목적지 검색 엔터 이벤트
-  const handleSearchKeyDown = (e) => {
-    if (e.keyCode === 13) {
-      handleSearchClick();
-    }
-  };
+  const handleSearchKeyDown = useCallback(
+    (e) => {
+      if (e.keyCode === 13) {
+        handleSearchClick();
+      }
+    },
+    [handleSearchClick],
+  );
 
   // 파일 변경 이벤트
-  const handleFileChange = (e) => {
+  const handleFileChange = useCallback((e) => {
     const thumbnailFile = e.target.files[0] ? e.target.files[0] : null;
     setFile({
       thumbnailFile: thumbnailFile,
       fileSrno: null,
     });
-  };
+  }, []);
 
   const handleSaveTripClick = async () => {
     let fileSrno = file.fileSrno;

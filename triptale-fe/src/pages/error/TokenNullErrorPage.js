@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import ErrorContainer from 'containers/error/ErrorContainer';
 
 function TokenNullErrorPage() {
   const history = useHistory();
 
-  const handlePageMoveClick = () => {
+  const handlePageMoveClick = useCallback(() => {
     history.push('/login');
-  };
+  }, [history]);
 
   return (
     <React.Fragment>

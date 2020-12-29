@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
@@ -76,7 +76,7 @@ function DayListContainer() {
   );
 
   // 일차 등록 모달 표출 이벤트
-  const handleDayAddClick = () => {
+  const handleDayAddClick = useCallback(() => {
     const differnceDay =
       Math.abs(DateUtils.getStrDayDifference(new Date(trip.startAt), new Date(trip.endAt))) + 1;
 
@@ -87,14 +87,14 @@ function DayListContainer() {
     }
     setSaveLabel('등록');
     setIsDayScheduleSave(true);
-  };
+  }, [daySchedules.length, trip.endAt, trip.startAt]);
 
   // 일차 등록, 수정 모달 종료 이벤트
-  const handleSaveModalClose = () => {
+  const handleSaveModalClose = useCallback(() => {
     setIsDayScheduleSave(false);
     setSelectDaySchedule(null);
     getDaySchedules(srno);
-  };
+  }, [getDaySchedules, srno]);
 
   // 일차 수정 이벤트
   const handleDayModifyClick = (daySchedule) => {
