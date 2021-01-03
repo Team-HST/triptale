@@ -12,7 +12,7 @@ import com.hst.triptale.content.schedule.exception.DayScheduleAlreadyExistExcept
 import lombok.Getter;
 
 /**
- * @author hyungyu.lee@nhn.com
+ * @author dlgusrb0808@gmail.com
  */
 @Embeddable
 @Getter

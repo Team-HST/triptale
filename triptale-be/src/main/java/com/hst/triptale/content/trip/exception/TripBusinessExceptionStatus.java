@@ -3,7 +3,7 @@ package com.hst.triptale.content.trip.exception;
 import com.hst.triptale.exceptionhandling.model.BusinessExceptionStatus;
 
 /**
- * @author hyungyu.lee@nhn.com
+ * @author dlgusrb0808@gmail.com
  */
 public enum TripBusinessExceptionStatus implements BusinessExceptionStatus {
 	TRIP_NOT_FOUND(3000, "여행 정보가 존재하지 않습니다.")

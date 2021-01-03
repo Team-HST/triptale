@@ -3,7 +3,7 @@ package com.hst.triptale.content.schedule.exception;
 import com.hst.triptale.exceptionhandling.model.BusinessExceptionStatus;
 
 /**
- * @author hyungyu.lee@nhn.com
+ * @author dlgusrb0808@gmail.com
  */
 public enum DayScheduleBusinessExceptionStatus implements BusinessExceptionStatus {
 	DAY_SCHEDULE_NOT_FOUND(4000, "여행 정보가 존재하지 않습니다."),

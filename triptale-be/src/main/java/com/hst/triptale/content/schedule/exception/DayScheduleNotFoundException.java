@@ -3,7 +3,7 @@ package com.hst.triptale.content.schedule.exception;
 import com.hst.triptale.exceptionhandling.exception.NotFoundException;
 
 /**
- * @author hyungyu.lee@nhn.com
+ * @author dlgusrb0808@gmail.com
  */
 public class DayScheduleNotFoundException extends NotFoundException {
 
