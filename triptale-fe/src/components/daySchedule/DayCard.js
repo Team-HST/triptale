@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -31,9 +32,14 @@ const useStyles = makeStyles((theme) => ({
  * @modify date 2020-12-08 23:27:46
  * @desc 일자 별 카드 컴포넌트
  */
-function DayCard({ daySchedule, onDayModifyClick, onDeleteDaySchedule }) {
+function DayCard({ trip, daySchedule, onDayModifyClick, onDeleteDaySchedule }) {
   const classes = useStyles();
+  const history = useHistory();
   const { order, description, colorCode, date } = daySchedule;
+
+  const onMovePlace = useCallback(() => {
+    history.push(`/trip/${trip.no}/daySchedule/${daySchedule.no}/place`);
+  }, [daySchedule.no, history, trip.no]);
 
   return (
     <Card className={classes.root}>
@@ -59,7 +65,7 @@ function DayCard({ daySchedule, onDayModifyClick, onDeleteDaySchedule }) {
               </IconButton>
             </Tooltip>
             <Tooltip title="장소설정">
-              <IconButton className={classes.icon} aria-label="place">
+              <IconButton className={classes.icon} aria-label="place" onClick={onMovePlace}>
                 <MapIcon />
               </IconButton>
             </Tooltip>
@@ -83,9 +89,10 @@ function DayCard({ daySchedule, onDayModifyClick, onDeleteDaySchedule }) {
 }
 
 DayCard.propTypes = {
-  order: PropTypes.number,
-  description: PropTypes.string,
-  date: PropTypes.string,
+  trip: PropTypes.object.isRequired,
+  daySchedule: PropTypes.object.isRequired,
+  onDayModifyClick: PropTypes.func.isRequired,
+  onDeleteDaySchedule: PropTypes.func.isRequired,
 };
 
 export default React.memo(DayCard);

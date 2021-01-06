@@ -156,6 +156,7 @@ function DayListContainer() {
           {daySchedules.map((daySchedule) => (
             <Grid key={daySchedule.order} item xs={12}>
               <DayCard
+                trip={trip}
                 daySchedule={daySchedule}
                 onDayModifyClick={handleDayModifyClick}
                 onDeleteDaySchedule={handleDayDeleteClick}
