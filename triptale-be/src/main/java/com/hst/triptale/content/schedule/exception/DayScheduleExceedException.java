@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import com.hst.triptale.exceptionhandling.exception.ApplicationException;
 
 /**
- * @author hyungyu.lee@nhn.com
+ * @author dlgusrb0808@gmail.com
  */
 public class DayScheduleExceedException extends ApplicationException {
 

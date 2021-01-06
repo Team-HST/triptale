@@ -3,7 +3,7 @@ package com.hst.triptale.content.user.exception;
 import com.hst.triptale.exceptionhandling.model.BusinessExceptionStatus;
 
 /**
- * @author hyungyu.lee@nhn.com
+ * @author dlgusrb0808@gmail.com
  */
 public enum UserBusinessExceptionStatus implements BusinessExceptionStatus {
 	USER_NOT_FOUND(1000, "사용자 정보가 존재하지 않습니다.")

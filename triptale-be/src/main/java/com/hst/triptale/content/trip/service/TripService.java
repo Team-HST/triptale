@@ -54,7 +54,7 @@ public class TripService {
 	}
 
 	// 신규 여행 객체 생성
-	private Trip createTripEntity(TripModifyingRequest request, User registrar) {
+	public Trip createTripEntity(TripModifyingRequest request, User registrar) {
 		// Require
 		Trip trip = Trip.builder()
 			.title(request.getTitle())
@@ -187,7 +187,7 @@ public class TripService {
 		return DayScheduleResponse.from(daySchedule);
 	}
 
-	private DaySchedule getDayScheduleEntity(long dayScheduleNo) {
+	public DaySchedule getDayScheduleEntity(long dayScheduleNo) {
 		return dayScheduleRepository.findById(dayScheduleNo)
 			.orElseThrow(() -> new DayScheduleNotFoundException(dayScheduleNo));
 	}

@@ -1,7 +1,7 @@
 package com.hst.triptale.exceptionhandling.model;
 
 /**
- * @author hyungyu.lee@nhn.com
+ * @author dlgusrb0808@gmail.com
  */
 public interface BusinessExceptionStatus {
 

@@ -3,7 +3,7 @@ package com.hst.triptale.security.permission.exception;
 import com.hst.triptale.exceptionhandling.model.BusinessExceptionStatus;
 
 /**
- * @author hyungyu.lee@nhn.com
+ * @author dlgusrb0808@gmail.com
  */
 public enum PermissionExceptionStatus implements BusinessExceptionStatus {
 	PERMISSION_DENIED(2000, "컨텐츠 리소스 접근 권한이 없습니다.")
