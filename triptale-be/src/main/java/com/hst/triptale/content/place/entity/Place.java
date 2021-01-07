@@ -1,8 +1,10 @@
 package com.hst.triptale.content.place.entity;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,6 +19,7 @@ import com.hst.triptale.content.schedule.entity.DaySchedule;
 import com.hst.triptale.content.trip.entity.Location;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,8 +27,8 @@ import lombok.NoArgsConstructor;
  * @author dlgusrb0808@gmail.com
  */
 @Getter
-@Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
 @Table(name = "PLACE")
 public class Place {
 
@@ -44,13 +47,14 @@ public class Place {
 	private String thumbnailUrl;
 
 	@Column(name = "PLACE_TYPE")
-	private int type;
+	@Convert(converter = PlaceType.Converter.class)
+	private PlaceType type;
 
 	@Column(name = "PLACE_START_TIME")
-	private LocalDateTime startAt;
+	private LocalTime startAt;
 
 	@Column(name = "PLACE_END_TIME")
-	private LocalDateTime endAt;
+	private LocalTime endAt;
 
 	@Embedded
 	private Location location;
@@ -59,4 +63,17 @@ public class Place {
 	@JoinColumn(name = "DAY_SCHEDULE_NO", nullable = false)
 	private DaySchedule daySchedule;
 
+	@Builder
+	public Place(String name, String description, String thumbnailUrl,
+		PlaceType type, LocalTime startAt, LocalTime endAt, Location location,
+		DaySchedule daySchedule) {
+		this.name = name;
+		this.description = description;
+		this.thumbnailUrl = thumbnailUrl;
+		this.type = type;
+		this.startAt = startAt;
+		this.endAt = endAt;
+		this.location = location;
+		this.daySchedule = daySchedule;
+	}
 }

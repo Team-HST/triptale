@@ -1,6 +1,6 @@
 package com.hst.triptale.content.place.ui.response;
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import com.hst.triptale.content.place.entity.Place;
 
@@ -19,8 +19,8 @@ public class PlaceResponse {
 	private final String description;
 	private final String thumbnailUrl;
 	private final int type;
-	private final LocalDateTime startAt;
-	private final LocalDateTime endAt;
+	private final LocalTime startAt;
+	private final LocalTime endAt;
 	private final Double latitude;
 	private final Double longitude;
 
@@ -30,7 +30,7 @@ public class PlaceResponse {
 			.name(place.getName())
 			.description(place.getDescription())
 			.thumbnailUrl(place.getThumbnailUrl())
-			.type(place.getType())
+			.type(place.getType().getType())
 			.startAt(place.getStartAt())
 			.endAt(place.getEndAt())
 			.latitude(place.getLocation().getLatitude())

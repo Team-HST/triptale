@@ -1,6 +1,7 @@
 package com.hst.triptale.content.schedule.entity;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,8 +10,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.hst.triptale.content.place.entity.Place;
 import com.hst.triptale.content.trip.entity.Trip;
 
 import lombok.Builder;
@@ -44,12 +47,19 @@ public class DaySchedule {
 	@JoinColumn(name = "TRIP_NO", nullable = false)
 	private Trip trip;
 
+	@OneToMany(mappedBy = "daySchedule")
+	private List<Place> places;
+
 	@Builder
 	public DaySchedule(Integer order, String description, String colorCode, Trip trip) {
 		this.order = order;
 		this.description = description;
 		this.colorCode = colorCode;
 		this.trip = trip;
+	}
+
+	public List<Place> getPlaces() {
+		return places;
 	}
 
 	public LocalDate getScheduleDate() {
