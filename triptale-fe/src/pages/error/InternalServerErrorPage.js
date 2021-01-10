@@ -6,7 +6,7 @@ import ErrorContainer from 'containers/error/ErrorContainer';
  * @author hoons
  * @email dudgns0612@gmail.com
  * @create date 2020-12-30 00:32:21
- * @modify date 2020-12-30 00:32:21
+ * @modify date 2021-01-07 22:50:51
  * @desc [서비스 내부 오류 에러 페이지 컴포넌트]
  */
 function InternalServerErrorPage() {
@@ -17,7 +17,7 @@ function InternalServerErrorPage() {
   }, [history]);
 
   return (
-    <React.Fragment>
+    <>
       <ErrorContainer
         errorCode={500}
         title={'서비스 이용에 불편을 드려서 죄송합니다.'}
@@ -27,7 +27,7 @@ function InternalServerErrorPage() {
           onClick: handlePageMoveClick,
         }}
       />
-    </React.Fragment>
+    </>
   );
 }
 

@@ -34,7 +34,7 @@ function DaySchedulePage() {
   const classes = useStyles();
 
   return (
-    <React.Fragment>
+    <>
       <Grid className={classes.root} container>
         <Grid className={classes.dayListGridItem} item xs={12} sm={12} md={12} lg={5}>
           <DayListContainer />
@@ -43,7 +43,7 @@ function DaySchedulePage() {
           <PlaceMapContainer />
         </Grid>
       </Grid>
-    </React.Fragment>
+    </>
   );
 }
 

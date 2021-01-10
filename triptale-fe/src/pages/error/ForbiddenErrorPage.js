@@ -6,7 +6,7 @@ import ErrorContainer from 'containers/error/ErrorContainer';
  * @author hoons
  * @email dudgns0612@gmail.com
  * @create date 2020-12-30 00:32:37
- * @modify date 2020-12-30 00:32:51
+ * @modify date 2021-01-07 22:50:46
  * @desc [권한 관련 에러 페이지 컴포넌트]
  */
 function ForbiddenErrorPage() {
@@ -17,7 +17,7 @@ function ForbiddenErrorPage() {
   }, [history]);
 
   return (
-    <React.Fragment>
+    <>
       <ErrorContainer
         errorCode={403}
         title={'서비스 이용에 불편을 드려서 죄송합니다.'}
@@ -27,7 +27,7 @@ function ForbiddenErrorPage() {
           onClick: handlePageMoveClick,
         }}
       />
-    </React.Fragment>
+    </>
   );
 }
 

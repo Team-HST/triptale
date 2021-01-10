@@ -128,12 +128,12 @@ function TripInfoModalContainer({
             {trip.description}
           </Typography>
           {trip.materials && (
-            <React.Fragment>
+            <>
               <p>준비물</p>
               <Typography variant="body2" color="textSecondary" component="p">
                 {trip.materials}
               </Typography>
-            </React.Fragment>
+            </>
           )}
 
           <p>

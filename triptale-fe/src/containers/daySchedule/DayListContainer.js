@@ -7,12 +7,9 @@ import * as DayScheduleActions from 'store/modules/daySchedule';
 import ModalLayout from 'components/common/ModalLayout';
 import DaySaveModalContainer from 'containers/daySchedule/DaySaveModalContainer';
 import Container from '@material-ui/core/Container';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import DayCard from 'components/daySchedule/DayCard';
+import PageExplanHeader from 'components/common/PageExplanHeader';
 
 import { dayScheduleService } from 'lib/axios/services';
 import DateUtils from 'utils/DateUtils';
@@ -127,31 +124,15 @@ function DayListContainer() {
   }, [getDaySchedules, gettTrip, srno]);
 
   return (
-    <React.Fragment>
+    <>
       <Container>
-        <Paper className={classes.headerPaper}>
-          <Grid container wrap="nowrap" spacing={2}>
-            <Grid item md={2}>
-              <Avatar className={classes.avatar}>T</Avatar>
-            </Grid>
-            <Grid item md={9}>
-              <Typography variant="subtitle2">
-                오른쪽 추가하기 버튼을 눌러 여행 일자 별 장소, 숙소를 등록하고 당신의 여행의
-                이야기를 자유롭게 표출하여 보세요.
-              </Typography>
-            </Grid>
-            <Grid item md={2}>
-              <Button
-                className={classes.addButton}
-                size="small"
-                variant="outlined"
-                onClick={handleDayAddClick}
-              >
-                추가하기
-              </Button>
-            </Grid>
-          </Grid>
-        </Paper>
+        <PageExplanHeader
+          className={classes.headerPaper}
+          explan="오른쪽 추가하기 버튼을 눌러 여행 일자 별 장소, 숙소를 등록하고 당신의 여행 이야기를 자유롭게 표출하여 보세요."
+          avatar="D"
+          button="추가하기"
+          onButtonClick={handleDayAddClick}
+        />
         <Grid className={classes.dayContainer} container>
           {daySchedules.map((daySchedule) => (
             <Grid key={daySchedule.order} item xs={12}>
@@ -172,7 +153,7 @@ function DayListContainer() {
           onSaveModalClose={handleSaveModalClose}
         />
       </ModalLayout>
-    </React.Fragment>
+    </>
   );
 }
 

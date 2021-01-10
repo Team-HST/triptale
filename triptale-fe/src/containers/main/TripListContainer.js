@@ -109,7 +109,7 @@ function TripListContainer() {
   }, [dispatch, getTripList]);
 
   return (
-    <React.Fragment>
+    <>
       <Container className={classes.cardGrid} maxWidth="lg">
         <Grid container spacing={2}>
           {tripList.map((trip) => (
@@ -138,7 +138,7 @@ function TripListContainer() {
           onModalCloseClick={handleCloseModifyModalClick}
         />
       </ModalLayout>
-    </React.Fragment>
+    </>
   );
 }
 

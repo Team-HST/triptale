@@ -54,7 +54,7 @@ function DayCard({ trip, daySchedule, onDayModifyClick, onDeleteDaySchedule }) {
           </Avatar>
         }
         action={
-          <React.Fragment>
+          <>
             <Tooltip title="수정">
               <IconButton
                 className={classes.icon}
@@ -78,7 +78,7 @@ function DayCard({ trip, daySchedule, onDayModifyClick, onDeleteDaySchedule }) {
                 <DeleteIcon />
               </IconButton>
             </Tooltip>
-          </React.Fragment>
+          </>
         }
         title="일차"
         subheader={date}

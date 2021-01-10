@@ -24,7 +24,7 @@ import AuthRoute from './AuthRoute';
  */
 function App() {
   return (
-    <React.Fragment>
+    <>
       <Helmet>
         <meta charSet="utf-8" />
         <title>Hello TripTale</title>
@@ -45,7 +45,7 @@ function App() {
         <Route path="/error/403" component={ForbiddenErrorPage}></Route>
         <Route component={NotFoundErrorPage}></Route>
       </Switch>
-    </React.Fragment>
+    </>
   );
 }
 

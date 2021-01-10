@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
  * @author hoons
  * @email dudgns0612@gmail.com
  * @create date 2020-12-30 00:10:00
- * @modify date 2021-01-07 00:34:54
+ * @modify date 2021-01-08 00:46:05
  * @desc [일차 별 여행 등록, 수정 지도 컨테이너]
  */
 function PlaceMapContainer() {
