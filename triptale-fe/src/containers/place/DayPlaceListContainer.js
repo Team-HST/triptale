@@ -1,15 +1,9 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import PlaceListItem from 'components/place/PlaceListItem';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
-import ListItemText from '@material-ui/core/ListItemText';
-import Typography from '@material-ui/core/Typography';
-
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
+import PageExplanHeader from 'components/common/PageExplanHeader';
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,186 +20,72 @@ const useStyles = makeStyles((theme) => ({
       width: '80%',
     },
     width: '25%',
-    overflow: 'auto',
+  },
+  headerPaper: {
+    maxWidth: '100%',
+    marginTop: '10px',
+    marginBottom: '15px',
+    padding: theme.spacing(2),
+    backgroundColor: 'whitesmoke',
   },
   list: {
+    maxHeight: '90%',
     backgroundColor: 'white',
     opacity: 0.9,
-  },
-  placeImg: {
-    width: 120,
-    height: 100,
-    marginRight: 10,
+    overflow: 'auto',
   },
   divider: {
     height: 8,
   },
-  inline: {
-    display: 'inline',
-  },
 }));
 
 function DayScheduleListContainer() {
+  const dummy = [
+    {
+      placeNo: 1,
+      title: 'test',
+      name: '강식당',
+      description: '강식당 방문!',
+      thumbnailUrl: 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
+      type: 1,
+      startAt: '02:11:11',
+      endAt: '11:11:!1',
+      latitude: 1.22,
+      longitude: 3.22,
+    },
+    {
+      placeNo: 2,
+      title: 'test2',
+      name: '코카콜라집',
+      description: '코카콜라 먹으러!',
+      thumbnailUrl: 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
+      type: 1,
+      startAt: '02:11:11',
+      endAt: '11:11:!1',
+      latitude: 1.22,
+      longitude: 3.22,
+    },
+  ];
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
+      <PageExplanHeader
+        className={classes.headerPaper}
+        explan="당신의 여행 일차 별 장소 및 숙소를 자유롭게 설정하여 보세요!"
+        avatar="P"
+        button="장소등록"
+        // onButtonClick={handleDayAddClick}
+      />
       <List className={classes.list}>
-        <ListItem alignItems="flex-start">
-          <div>
-            <img
-              className={classes.placeImg}
-              alt="Remy Sharp"
-              src="https://homepages.cae.wisc.edu/~ece533/images/airplane.png"
-            />
-          </div>
-          <ListItemText
-            primary="Brunch this weekend?"
-            secondary={
-              <>
-                <Typography
-                  component="span"
-                  variant="body2"
-                  className={classes.inline}
-                  color="textPrimary"
-                >
-                  Ali Connors
-                </Typography>
-                {" — I'll be in your neighborhood doing errands this…"}
-              </>
-            }
-          />
-        </ListItem>
-        <Divider className={classes.divider} light={true} />
-        <ListItem alignItems="flex-start">
-          <div>
-            <img
-              className={classes.placeImg}
-              alt="Remy Sharp"
-              src="https://homepages.cae.wisc.edu/~ece533/images/airplane.png"
-            />
-          </div>
-          <ListItemText
-            primary="Brunch this weekend?"
-            secondary={
-              <>
-                <Typography
-                  component="span"
-                  variant="body2"
-                  className={classes.inline}
-                  color="textPrimary"
-                >
-                  Ali Connors
-                </Typography>
-                {" — I'll be in your neighborhood doing errands this…"}
-              </>
-            }
-          />
-        </ListItem>
-        <Divider className={classes.divider} light={true} />
-        <ListItem alignItems="flex-start">
-          <div>
-            <img
-              className={classes.placeImg}
-              alt="Remy Sharp"
-              src="https://homepages.cae.wisc.edu/~ece533/images/airplane.png"
-            />
-          </div>
-          <ListItemText
-            primary="Brunch this weekend?"
-            secondary={
-              <>
-                <Typography
-                  component="span"
-                  variant="body2"
-                  className={classes.inline}
-                  color="textPrimary"
-                >
-                  Ali Connors
-                </Typography>
-                {" — I'll be in your neighborhood doing errands this…"}
-              </>
-            }
-          />
-        </ListItem>
-        <Divider className={classes.divider} light={true} />
-        <ListItem alignItems="flex-start">
-          <div>
-            <img
-              className={classes.placeImg}
-              alt="Remy Sharp"
-              src="https://homepages.cae.wisc.edu/~ece533/images/airplane.png"
-            />
-          </div>
-          <ListItemText
-            primary="Brunch this weekend?"
-            secondary={
-              <>
-                <Typography
-                  component="span"
-                  variant="body2"
-                  className={classes.inline}
-                  color="textPrimary"
-                >
-                  Ali Connors
-                </Typography>
-                {" — I'll be in your neighborhood doing errands this…"}
-              </>
-            }
-          />
-        </ListItem>
-        <Divider className={classes.divider} light={true} />
-        <ListItem alignItems="flex-start">
-          <div>
-            <img
-              className={classes.placeImg}
-              alt="Remy Sharp"
-              src="https://homepages.cae.wisc.edu/~ece533/images/airplane.png"
-            />
-          </div>
-          <ListItemText
-            primary="Brunch this weekend?"
-            secondary={
-              <>
-                <Typography
-                  component="span"
-                  variant="body2"
-                  className={classes.inline}
-                  color="textPrimary"
-                >
-                  Ali Connors
-                </Typography>
-                {" — I'll be in your neighborhood doing errands this…"}
-              </>
-            }
-          />
-        </ListItem>
-        <Divider className={classes.divider} light={true} />
-        <ListItem alignItems="flex-start">
-          <div>
-            <img
-              className={classes.placeImg}
-              alt="Remy Sharp"
-              src="https://homepages.cae.wisc.edu/~ece533/images/airplane.png"
-            />
-          </div>
-          <ListItemText
-            primary="Brunch this weekend?"
-            secondary={
-              <>
-                <Typography
-                  component="span"
-                  variant="body2"
-                  className={classes.inline}
-                  color="textPrimary"
-                >
-                  Ali Connors
-                </Typography>
-                {" — I'll be in your neighborhood doing errands this…"}
-              </>
-            }
-          />
-        </ListItem>
+        {dummy.map((v, index) => {
+          return (
+            <>
+              <PlaceListItem key={v.placeNo} place={v} />
+              {index !== dummy.length - 1 && <Divider className={classes.divider} light={true} />}
+            </>
+          );
+        })}
       </List>
     </div>
   );

@@ -12,6 +12,7 @@ const useStyles = makeStyles(() => ({
     backgroundColor: 'green',
   },
   button: {
+    width: '90%',
     fontSize: '12px',
     color: 'green',
     borderColor: 'green',
@@ -37,7 +38,7 @@ function PageExplanHeader({ className, explan, avatar, button, onButtonClick }) 
         <Grid item md={9}>
           <Typography variant="subtitle2">{explan}</Typography>
         </Grid>
-        <Grid item md={2}>
+        <Grid item md={3}>
           <Button
             className={classes.button}
             size="small"
@@ -57,7 +58,7 @@ PageExplanHeader.propTypes = {
   explan: PropTypes.string.isRequired,
   avatar: PropTypes.string.isRequired,
   button: PropTypes.string.isRequired,
-  onButtonClick: PropTypes.func.isRequired,
+  onButtonClick: PropTypes.func,
 };
 
 export default PageExplanHeader;
