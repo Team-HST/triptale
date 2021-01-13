@@ -7,7 +7,7 @@ import { MapContext } from './Map';
  * @author hoons
  * @email dudgns0612@gmail.com
  * @create date 2020-11-11 23:27:28
- * @modify date 2020-12-07 22:58:32
+ * @modify date 2021-01-13 21:46:39
  * @desc [마커 생성 컴포넌트]
  */
 function Marker({ options, onClick }) {

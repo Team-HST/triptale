@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import * as PlaceActions from 'store/modules/daySchedulePlace';
 import PlaceListItem from 'components/place/PlaceListItem';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
@@ -17,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
       width: '35%',
     },
     [theme.breakpoints.down('xs')]: {
-      width: '80%',
+      width: '95%',
     },
     width: '25%',
   },
@@ -39,34 +42,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function DayScheduleListContainer() {
-  const dummy = [
-    {
-      placeNo: 1,
-      title: 'test',
-      name: '강식당',
-      description: '강식당 방문!',
-      thumbnailUrl: 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
-      type: 1,
-      startAt: '02:11:11',
-      endAt: '11:11:!1',
-      latitude: 1.22,
-      longitude: 3.22,
-    },
-    {
-      placeNo: 2,
-      title: 'test2',
-      name: '코카콜라집',
-      description: '코카콜라 먹으러!',
-      thumbnailUrl: 'https://homepages.cae.wisc.edu/~ece533/images/airplane.png',
-      type: 1,
-      startAt: '02:11:11',
-      endAt: '11:11:!1',
-      latitude: 1.22,
-      longitude: 3.22,
-    },
-  ];
+function DayPlaceListContainer() {
   const classes = useStyles();
+  const { dayPlaces } = useSelector((state) => ({ dayPlaces: state.daySchedulePlace.dayPlaces }));
+  const dispatch = useDispatch();
+  const { srno, daySrno } = useParams();
+
+  useEffect(() => {
+    dispatch(PlaceActions.setTripAsync(srno));
+    dispatch(PlaceActions.setDayPlacesAsync(srno, daySrno));
+  }, [dispatch, daySrno, srno]);
 
   return (
     <div className={classes.root}>
@@ -78,12 +63,14 @@ function DayScheduleListContainer() {
         // onButtonClick={handleDayAddClick}
       />
       <List className={classes.list}>
-        {dummy.map((v, index) => {
+        {dayPlaces.map((place, index) => {
           return (
-            <>
-              <PlaceListItem key={v.placeNo} place={v} />
-              {index !== dummy.length - 1 && <Divider className={classes.divider} light={true} />}
-            </>
+            <React.Fragment key={place.placeNo}>
+              <PlaceListItem place={place} />
+              {index !== dayPlaces.length - 1 && (
+                <Divider className={classes.divider} light={true} />
+              )}
+            </React.Fragment>
           );
         })}
       </List>
@@ -91,4 +78,4 @@ function DayScheduleListContainer() {
   );
 }
 
-export default DayScheduleListContainer;
+export default DayPlaceListContainer;

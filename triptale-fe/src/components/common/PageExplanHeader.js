@@ -54,7 +54,7 @@ function PageExplanHeader({ className, explan, avatar, button, onButtonClick }) 
 }
 
 PageExplanHeader.propTypes = {
-  className: PropTypes.object,
+  className: PropTypes.string,
   explan: PropTypes.string.isRequired,
   avatar: PropTypes.string.isRequired,
   button: PropTypes.string.isRequired,

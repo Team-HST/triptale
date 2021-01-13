@@ -39,6 +39,16 @@ const dayScheduleService = {
   deleteDaySchedule: (tripNo, dayScheduleNo) => {
     return http.delete(`/api/content/trips/${tripNo}/day-schedules/${dayScheduleNo}`);
   },
+
+  /**
+   * 여행 일차 장소 목록 검색
+   *
+   * @param tripNo (여행 번호)
+   * @param dayScheduleNo (일차 번호)
+   */
+  searchDaySchedulePlace: (tripNo, dayScheduleNo) => {
+    return http.get(`/api/content/trips/${tripNo}/day-schedules/${dayScheduleNo}/places`);
+  },
 };
 
 export default dayScheduleService;
