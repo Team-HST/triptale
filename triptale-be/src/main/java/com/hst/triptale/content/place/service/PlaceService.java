@@ -45,10 +45,11 @@ public class PlaceService {
 	public PlaceResponse addPlace(PlaceModifyingRequest request) {
 		DaySchedule daySchedule = tripService.getDayScheduleEntity(request.getDayScheduleNo());
 		Place place = Place.builder()
-			.name(request.getName())
+			.title(request.getTitle())
 			.description(request.getDescription())
-			.type(PlaceType.getType(request.getPlaceType()))
+			.name(request.getName())
 			.thumbnailUrl(placeThumbnailExtractService.extractThumbnailUrl(request.getPlaceInfoUrl()))
+			.type(PlaceType.getType(request.getPlaceType()))
 			.startAt(request.getStartAt())
 			.endAt(request.getEndAt())
 			.location(Location.of(request.getLatitude(), request.getLongitude()))

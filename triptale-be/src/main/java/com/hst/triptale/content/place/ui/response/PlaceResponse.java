@@ -15,8 +15,9 @@ import lombok.Getter;
 @Builder(access = AccessLevel.PRIVATE)
 public class PlaceResponse {
 	private final Long placeNo;
-	private final String name;
+	private final String title;
 	private final String description;
+	private final String name;
 	private final String thumbnailUrl;
 	private final int type;
 	private final LocalTime startAt;
@@ -27,8 +28,9 @@ public class PlaceResponse {
 	public static PlaceResponse from(Place place) {
 		return PlaceResponse.builder()
 			.placeNo(place.getNo())
-			.name(place.getName())
+			.title(place.getTitle())
 			.description(place.getDescription())
+			.name(place.getName())
 			.thumbnailUrl(place.getThumbnailUrl())
 			.type(place.getType().getType())
 			.startAt(place.getStartAt())

@@ -37,6 +37,9 @@ public class Place {
 	@Column(name = "PLACE_NO")
 	private Long no;
 
+	@Column(name = "PLACE_TITLE")
+	private String title;
+
 	@Column(name = "PLACE_NM")
 	private String name;
 
@@ -64,11 +67,12 @@ public class Place {
 	private DaySchedule daySchedule;
 
 	@Builder
-	public Place(String name, String description, String thumbnailUrl,
+	public Place(String title, String description, String name, String thumbnailUrl,
 		PlaceType type, LocalTime startAt, LocalTime endAt, Location location,
 		DaySchedule daySchedule) {
-		this.name = name;
+		this.title = title;
 		this.description = description;
+		this.name = name;
 		this.thumbnailUrl = thumbnailUrl;
 		this.type = type;
 		this.startAt = startAt;

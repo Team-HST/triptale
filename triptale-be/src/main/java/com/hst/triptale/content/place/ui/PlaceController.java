@@ -59,9 +59,16 @@ public class PlaceController {
 		return ResponseEntity.ok(placeService.getPlaces(dayScheduleNo));
 	}
 
-	@Operation(summary = ApplicationConstants.Documentations.REQUIRE_AUTH + "장소 등록")
+	@Operation(summary = ApplicationConstants.Documentations.REQUIRE_AUTH + "장소 등록", parameters = {
+		@Parameter(name = "tripNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class)),
+		@Parameter(name = "dayScheduleNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class))
+	})
 	@PostMapping
-	public ResponseEntity<PlaceResponse> addPlace(@RequestBody PlaceModifyingRequest request) {
+	public ResponseEntity<PlaceResponse> addPlace(
+		@PathVariable Long tripNo,
+		@PathVariable Long dayScheduleNo,
+		@RequestBody PlaceModifyingRequest request
+	) {
 		return ResponseEntity.ok(placeService.addPlace(request));
 	}
 
