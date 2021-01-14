@@ -42,11 +42,34 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * @author hoons
+ * @email dudgns0612@gmail.com
+ * @create date 2021-01-15 00:32:05
+ * @modify date 2021-01-15 00:32:05
+ * @desc [장소 목록 표출 컨테이너 컴포넌트]
+ */
 function DayPlaceListContainer() {
   const classes = useStyles();
   const { dayPlaces } = useSelector((state) => ({ dayPlaces: state.daySchedulePlace.dayPlaces }));
   const dispatch = useDispatch();
   const { srno, daySrno } = useParams();
+
+  // 목록 장소 아이템 클릭 이벤트
+  const handleListClick = (position) => {
+    dispatch(PlaceActions.setMap({ center: position, level: 3 }));
+  };
+
+  // 장소 정보 팝업 표출 이벤트
+  const handleInfoClick = (e) => {
+    e.stopPropagation();
+    alert('해당 장소, 숙소 정보 팝업 표출');
+  };
+
+  // 장소 등록 버튼 이벤트
+  const handleCreateBtnClick = () => {
+    alert('장소 등록 팝업 표출');
+  };
 
   useEffect(() => {
     dispatch(PlaceActions.setTripAsync(srno));
@@ -60,13 +83,17 @@ function DayPlaceListContainer() {
         explan="당신의 여행 일차 별 장소 및 숙소를 자유롭게 설정하여 보세요!"
         avatar="P"
         button="장소등록"
-        // onButtonClick={handleDayAddClick}
+        onButtonClick={handleCreateBtnClick}
       />
       <List className={classes.list}>
         {dayPlaces.map((place, index) => {
           return (
             <React.Fragment key={place.placeNo}>
-              <PlaceListItem place={place} />
+              <PlaceListItem
+                place={place}
+                onListClick={handleListClick}
+                onInfoClick={handleInfoClick}
+              />
               {index !== dayPlaces.length - 1 && (
                 <Divider className={classes.divider} light={true} />
               )}

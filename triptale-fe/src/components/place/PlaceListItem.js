@@ -6,12 +6,13 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
-import CreateIcon from '@material-ui/icons/Create';
 import InfoIcon from '@material-ui/icons/Info';
-import DeleteIcon from '@material-ui/icons/Delete';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    cursor: 'pointer',
+  },
   placeImg: {
     width: 120,
     height: 100,
@@ -29,15 +30,27 @@ const useStyles = makeStyles((theme) => ({
     padding: '0px',
   },
   listItemIcon: {
-    minWidth: '30px',
+    marginTop: '0px',
+    minWidth: '25px',
   },
 }));
 
-function PlaceListItem({ place }) {
+/**
+ * @author hoons
+ * @email dudgns0612@gmail.com
+ * @create date 2021-01-14 23:37:32
+ * @modify date 2021-01-14 23:37:32
+ * @desc [장소 목록 표출]
+ */
+function PlaceListItem({ place, onListClick, onInfoClick }) {
   const classes = useStyles();
 
   return (
-    <ListItem alignItems="flex-start">
+    <ListItem
+      className={classes.root}
+      alignItems="flex-start"
+      onClick={() => onListClick([place.latitude, place.longitude])}
+    >
       <div>
         <img className={classes.placeImg} alt={place.thumbnailUrl} src={place.thumbnailUrl} />
       </div>
@@ -60,11 +73,7 @@ function PlaceListItem({ place }) {
       />
       <ListItemIcon className={classes.listItemIcon}>
         <Tooltip title="정보보기">
-          <IconButton
-            className={classes.icon}
-            aria-label="create"
-            // onClick={(e) => onDayModifyClick(daySchedule)}
-          >
+          <IconButton className={classes.icon} aria-label="create" onClick={(e) => onInfoClick(e)}>
             <InfoIcon />
           </IconButton>
         </Tooltip>
@@ -85,6 +94,7 @@ PlaceListItem.propTypes = {
     latitude: PropTypes.number.isRequired,
     longitude: PropTypes.number.isRequired,
   }).isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default PlaceListItem;
