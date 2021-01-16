@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.stereotype.Component;
 
 import com.hst.triptale.configuration.props.ApplicationProps;
@@ -61,7 +62,7 @@ public class JwtAuthenticationTokenProvider implements AuthenticationTokenProvid
 				Jwts.parser().setSigningKey(applicationProps.getSecurity().getTokenSecret()).parseClaimsJws(token);
 				return true;
 			} catch (Exception e) {
-				log.error("유효하지 않은 인증토큰입니다.", e);
+				log.error(String.format("토큰을 파싱할 수 없습니다. 실패 원인 : %s", e));
 			}
 		}
 		return false;

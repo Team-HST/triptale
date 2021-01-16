@@ -99,6 +99,10 @@ public class TimeUtils {
 		return at.isAfter(start) && at.isBefore(end);
 	}
 
+	public boolean isOverlap(LocalDateTime start, LocalDateTime end, LocalDateTime start2, LocalDateTime end2) {
+		return start.isBefore(end2) && start2.isBefore(end);
+	}
+
 	private Date instantToDate(Instant instant) {
 		return Date.from(instant);
 	}

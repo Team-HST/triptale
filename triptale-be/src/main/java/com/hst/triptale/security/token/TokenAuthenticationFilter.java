@@ -39,7 +39,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
 		FilterChain filterChain) throws ServletException, IOException {
-		log.info("check token to {}", request.getRequestURI());
 
 		String token = getTokenFromRequest(request);
 		if (authenticationTokenProvider.validateToken(token)) {
@@ -49,6 +48,10 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 				user.getPassword(), user.getAuthorities());
 			authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 			SecurityContextHolder.getContext().setAuthentication(authentication);
+		} else {
+			log.error(String.format("Token Authentication failed.%sClient IP: %s%sEndpoint: %s%sRequested token: %s",
+				System.lineSeparator(), request.getRemoteAddr(), System.lineSeparator(), request.getRequestURI(),
+				System.lineSeparator(), token));
 		}
 		filterChain.doFilter(request, response);
 	}

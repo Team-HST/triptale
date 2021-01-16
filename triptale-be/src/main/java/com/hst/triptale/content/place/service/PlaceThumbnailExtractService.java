@@ -1,5 +1,6 @@
 package com.hst.triptale.content.place.service;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -23,7 +24,12 @@ public class PlaceThumbnailExtractService {
 	 */
 	public String extractThumbnailUrl(String sourceUrl) {
 		String requestUrl = String.format("%s/%s", PLACE_URL_PREFIX, getPlaceId(sourceUrl));
-		KakaoPlaceDetailModel model = restTemplate.getForEntity(requestUrl, KakaoPlaceDetailModel.class).getBody();
+		KakaoPlaceDetailModel model = null;
+		try {
+			model = restTemplate.getForEntity(requestUrl, KakaoPlaceDetailModel.class).getBody();
+		} catch (Exception e) {
+			log.error(ExceptionUtils.getStackTrace(e));
+		}
 		if (model == null || model.getBasicInfo() == null) {
 			log.warn("장소 썸네일을 가져올 수 없습니다. sourceUrl: {}", sourceUrl);
 			return null;

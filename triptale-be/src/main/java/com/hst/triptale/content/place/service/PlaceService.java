@@ -55,8 +55,8 @@ public class PlaceService {
 			.location(Location.of(request.getLatitude(), request.getLongitude()))
 			.daySchedule(daySchedule)
 			.build();
+		daySchedule.addPlace(place);
 		placeRepository.save(place);
-		daySchedule.getPlaces().add(place);
 		return PlaceResponse.from(place);
 	}
 
