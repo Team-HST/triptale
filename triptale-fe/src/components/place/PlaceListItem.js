@@ -94,7 +94,8 @@ PlaceListItem.propTypes = {
     latitude: PropTypes.number.isRequired,
     longitude: PropTypes.number.isRequired,
   }).isRequired,
-  onClick: PropTypes.func.isRequired,
+  onListClick: PropTypes.func.isRequired,
+  onInfoClick: PropTypes.func.isRequired,
 };
 
 export default PlaceListItem;
