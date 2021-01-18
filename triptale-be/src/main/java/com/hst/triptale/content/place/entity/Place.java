@@ -78,4 +78,37 @@ public class Place {
 		this.location = location;
 		this.daySchedule = daySchedule;
 	}
+
+	public void changeTitle(String title) {
+		this.title = title;
+	}
+
+	public void changeName(String name) {
+		this.name = name;
+	}
+
+	public void changeDescription(String description) {
+		this.description = description;
+	}
+
+	public void changeThumbnailUrl(String thumbnailUrl) {
+		this.thumbnailUrl = thumbnailUrl;
+	}
+
+	public void changeType(PlaceType type) {
+		this.type = type;
+	}
+
+	public void changeLocation(Location location) {
+		this.location = location;
+	}
+
+	public void changeStartAt(LocalTime startAt) {
+		this.startAt = startAt;
+	}
+
+	public void changeEndAt(LocalTime endAt) {
+		this.endAt = endAt;
+	}
+
 }

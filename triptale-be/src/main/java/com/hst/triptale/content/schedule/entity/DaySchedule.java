@@ -1,8 +1,6 @@
 package com.hst.triptale.content.schedule.entity;
 
-import java.time.Duration;
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -19,7 +17,6 @@ import javax.persistence.Table;
 import com.hst.triptale.content.place.entity.Place;
 import com.hst.triptale.content.place.exception.PlaceDurationOverlappedException;
 import com.hst.triptale.content.trip.entity.Trip;
-import com.hst.triptale.utils.TimeUtils;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -86,12 +83,18 @@ public class DaySchedule {
 	}
 
 	public void addPlace(Place newPlace) {
+		checkPlaceOverlap(newPlace);
+		this.places.add(newPlace);
+	}
+
+	public void checkPlaceOverlap(Place newPlace) {
 		for (Place place : places) {
-			if (place.getStartAt().isBefore(newPlace.getEndAt()) && newPlace.getStartAt().isBefore(place.getEndAt())) {
+			if (!place.getNo().equals(newPlace.getNo()) &&
+				place.getStartAt().isBefore(newPlace.getEndAt()) &&
+				newPlace.getStartAt().isBefore(place.getEndAt())) {
 				throw new PlaceDurationOverlappedException()
 					.addAttribute("overlappedDuration", String.format("%s ~ %s", place.getStartAt(), place.getEndAt()));
 			}
 		}
-		this.places.add(newPlace);
 	}
 }

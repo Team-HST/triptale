@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -59,6 +60,18 @@ public class PlaceController {
 		return ResponseEntity.ok(placeService.getPlaces(dayScheduleNo));
 	}
 
+	@Operation(summary = ApplicationConstants.Documentations.REQUIRE_AUTH + "장소 상세 조회", parameters = {
+		@Parameter(name = "tripNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class)),
+		@Parameter(name = "dayScheduleNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class))
+	})
+	@GetMapping
+	public ResponseEntity<PlaceListResponse> getPlaces(
+		@PathVariable Long tripNo,
+		@PathVariable Long dayScheduleNo
+	) {
+		return ResponseEntity.ok(placeService.getPlaces(dayScheduleNo));
+	}
+
 	@Operation(summary = ApplicationConstants.Documentations.REQUIRE_AUTH + "장소 등록", parameters = {
 		@Parameter(name = "tripNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class)),
 		@Parameter(name = "dayScheduleNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class))
@@ -70,6 +83,21 @@ public class PlaceController {
 		@RequestBody PlaceModifyingRequest request
 	) {
 		return ResponseEntity.ok(placeService.addPlace(request));
+	}
+
+	@Operation(summary = ApplicationConstants.Documentations.REQUIRE_AUTH + "장소 수정", parameters = {
+		@Parameter(name = "tripNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class)),
+		@Parameter(name = "dayScheduleNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class)),
+		@Parameter(name = "placeNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class)),
+	})
+	@PutMapping("{placeNo}")
+	public ResponseEntity<PlaceResponse> modifyPlace(
+		@PathVariable Long tripNo,
+		@PathVariable Long dayScheduleNo,
+		@PathVariable Long placeNo,
+		@RequestBody PlaceModifyingRequest request
+	) {
+		return ResponseEntity.ok(placeService.modifyPlace(placeNo, request));
 	}
 
 }

@@ -9,8 +9,9 @@ import com.hst.triptale.exceptionhandling.exception.ApplicationException;
  */
 public class PlaceNotFountException extends ApplicationException {
 
-	public PlaceNotFountException() {
+	public PlaceNotFountException(Long invalidPlaceNo) {
 		super(HttpStatus.NOT_FOUND, PlaceBusinessExceptionStatus.PLACE_NOT_FOUND);
+		this.addAttribute("invalidPlaceNo", invalidPlaceNo);
 	}
 
 }

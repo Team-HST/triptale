@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hst.triptale.content.place.entity.Place;
 import com.hst.triptale.content.place.entity.PlaceType;
+import com.hst.triptale.content.place.exception.PlaceNotFountException;
 import com.hst.triptale.content.place.repository.PlaceRepository;
 import com.hst.triptale.content.place.ui.request.PlaceModifyingRequest;
 import com.hst.triptale.content.place.ui.response.PlaceListResponse;
@@ -12,6 +13,7 @@ import com.hst.triptale.content.place.ui.response.PlaceResponse;
 import com.hst.triptale.content.schedule.entity.DaySchedule;
 import com.hst.triptale.content.trip.entity.Location;
 import com.hst.triptale.content.trip.service.TripService;
+import com.hst.triptale.security.permission.ContentResourcePermissionChecker;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,6 +36,19 @@ public class PlaceService {
 	public PlaceListResponse getPlaces(Long dayScheduleNo) {
 		DaySchedule daySchedule = tripService.getDayScheduleEntity(dayScheduleNo);
 		return PlaceListResponse.of(daySchedule, daySchedule.getPlaces());
+	}
+
+	/**
+	 * 장소 상세 조회
+	 * @param placeNo 장소 번호
+	 * @return 장소
+	 */
+	public PlaceResponse getPlace(Long placeNo) {
+		return PlaceResponse.from(getPlaceEntity(placeNo));
+	}
+
+	private Place getPlaceEntity(Long placeNo) {
+		return placeRepository.findById(placeNo).orElseThrow(() -> new PlaceNotFountException(placeNo));
 	}
 
 	/**
@@ -60,5 +75,30 @@ public class PlaceService {
 		return PlaceResponse.from(place);
 	}
 
+	/**
+	 * 장소 수정
+	 * @param placeNo 장소 번호
+	 * @param request 장소 수정 요청
+	 * @return 장소
+	 */
+	@Transactional
+	public PlaceResponse modifyPlace(Long placeNo, PlaceModifyingRequest request) {
+		Place place = getPlaceEntity(placeNo);
+		place.getDaySchedule().checkPlaceOverlap(place);
+		modifyPlaceContent(place, request);
+		placeRepository.save(place);
+		return PlaceResponse.from(place);
+	}
+
+	private void modifyPlaceContent(Place place, PlaceModifyingRequest request) {
+		place.changeTitle(request.getTitle());
+		place.changeDescription(request.getDescription());
+		place.changeName(request.getName());
+		place.changeThumbnailUrl(placeThumbnailExtractService.extractThumbnailUrl(request.getPlaceInfoUrl()));
+		place.changeType(PlaceType.getType(request.getPlaceType()));
+		place.changeStartAt(request.getStartAt());
+		place.changeEndAt(request.getEndAt());
+		place.changeLocation(Location.of(request.getLatitude(), request.getLongitude()));
+	}
 
 }
