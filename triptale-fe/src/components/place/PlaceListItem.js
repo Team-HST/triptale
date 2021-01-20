@@ -86,9 +86,9 @@ PlaceListItem.propTypes = {
   place: PropTypes.shape({
     title: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
+    description: PropTypes.string,
     thumbnailUrl: PropTypes.string,
-    type: PropTypes.number.isRequired,
+    placeType: PropTypes.number,
     startAt: PropTypes.string.isRequired,
     endAt: PropTypes.string.isRequired,
     latitude: PropTypes.number.isRequired,

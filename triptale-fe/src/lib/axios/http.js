@@ -5,8 +5,10 @@ const serviceErrorArr = [4000, 4001];
 // axios requset interceptor setting
 axios.interceptors.request.use(
   function (config) {
-    const token = sessionStorage.getItem('token');
-    config.headers.Authorization = `Bearer ${token}`;
+    if (config.url.indexOf('dapi.kakao.com') === -1) {
+      const token = sessionStorage.getItem('token');
+      config.headers.Authorization = `Bearer ${token}`;
+    }
 
     return config;
   },

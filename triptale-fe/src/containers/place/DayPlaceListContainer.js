@@ -76,6 +76,9 @@ function DayPlaceListContainer() {
 
   // 장소 팝업 닫기 이벤트
   const handleCloseSaveModalClick = () => {
+    // 등록, 수정 단계 및 데이터 초기화
+    dispatch(PlaceActions.setActiveStep(0));
+    dispatch(PlaceActions.initSavePlace());
     setIsSaveModal(false);
   };
 

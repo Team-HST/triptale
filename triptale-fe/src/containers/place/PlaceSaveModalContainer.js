@@ -1,4 +1,5 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import PlaceSaveDefaultFormContainer from 'containers/place/PlaceSaveDefaultFormContainer';
 import PlaceSaveMapContainer from 'containers/place/PlaceSaveMapContainer';
@@ -6,7 +7,6 @@ import Paper from '@material-ui/core/Paper';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
@@ -56,14 +56,6 @@ const useStyles = makeStyles((theme) => ({
   stepper: {
     padding: theme.spacing(3, 0, 5),
   },
-  buttons: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-  },
-  button: {
-    marginTop: theme.spacing(3),
-    marginLeft: theme.spacing(1),
-  },
 }));
 
 /**
@@ -75,14 +67,7 @@ const useStyles = makeStyles((theme) => ({
  */
 function PlaceSaveModalContainer({ onClose }) {
   const classes = useStyles();
-  const [activeStep, setActiveStep] = useState(0);
-
-  const handleBack = useCallback(() => {
-    setActiveStep(activeStep - 1);
-  }, [activeStep]);
-  const handleNext = useCallback(() => {
-    setActiveStep(activeStep + 1);
-  }, [activeStep]);
+  const { activeStep } = useSelector((state) => state.daySchedulePlace);
 
   return (
     <>
@@ -124,29 +109,7 @@ function PlaceSaveModalContainer({ onClose }) {
                 </Typography>
               </>
             ) : (
-              <>
-                {getStepContent(activeStep)}
-                <div className={classes.buttons}>
-                  {activeStep !== 0 && (
-                    <Button
-                      className={classes.button}
-                      variant="contained"
-                      color="secondary"
-                      onClick={handleBack}
-                    >
-                      이전
-                    </Button>
-                  )}
-                  <Button
-                    className={classes.button}
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                  >
-                    {activeStep === steps.length - 1 ? '확인' : '다음'}
-                  </Button>
-                </div>
-              </>
+              <>{getStepContent(activeStep)}</>
             )}
           </>
         </Paper>
