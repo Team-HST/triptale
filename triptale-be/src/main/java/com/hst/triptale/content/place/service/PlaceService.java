@@ -13,7 +13,6 @@ import com.hst.triptale.content.place.ui.response.PlaceResponse;
 import com.hst.triptale.content.schedule.entity.DaySchedule;
 import com.hst.triptale.content.trip.entity.Location;
 import com.hst.triptale.content.trip.service.TripService;
-import com.hst.triptale.security.permission.ContentResourcePermissionChecker;
 
 import lombok.RequiredArgsConstructor;
 
@@ -84,7 +83,8 @@ public class PlaceService {
 	@Transactional
 	public PlaceResponse modifyPlace(Long placeNo, PlaceModifyingRequest request) {
 		Place place = getPlaceEntity(placeNo);
-		place.getDaySchedule().checkPlaceOverlap(place);
+		DaySchedule daySchedule = place.getDaySchedule();
+		daySchedule.checkPlaceOverlap(place);
 		modifyPlaceContent(place, request);
 		placeRepository.save(place);
 		return PlaceResponse.from(place);
@@ -99,6 +99,16 @@ public class PlaceService {
 		place.changeStartAt(request.getStartAt());
 		place.changeEndAt(request.getEndAt());
 		place.changeLocation(Location.of(request.getLatitude(), request.getLongitude()));
+	}
+
+	/**
+	 * 장소 삭제
+	 * @param placeNo 장소 번호
+	 */
+	public PlaceResponse deletePlace(Long placeNo) {
+		Place place = getPlaceEntity(placeNo);
+		placeRepository.delete(place);
+		return PlaceResponse.from(place);
 	}
 
 }

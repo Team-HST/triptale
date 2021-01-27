@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -100,6 +101,14 @@ public class TimeUtils {
 	}
 
 	public boolean isOverlap(LocalDateTime start, LocalDateTime end, LocalDateTime start2, LocalDateTime end2) {
+		return start.isBefore(end2) && start2.isBefore(end);
+	}
+
+	public boolean isOverlap(LocalDate start, LocalDate end, LocalDate start2, LocalDate end2) {
+		return start.isBefore(end2) && start2.isBefore(end);
+	}
+
+	public boolean isOverlap(LocalTime start, LocalTime end, LocalTime start2, LocalTime end2) {
 		return start.isBefore(end2) && start2.isBefore(end);
 	}
 

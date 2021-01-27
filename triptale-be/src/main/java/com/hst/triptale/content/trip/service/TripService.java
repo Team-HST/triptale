@@ -129,6 +129,10 @@ public class TripService {
 		trip.changeTravelPeriod(TravelPeriod.of(request.getStartAt(), request.getEndAt()));
 	}
 
+	private Trip getTripEntity(Long tripNo) {
+		return tripRepository.findById(tripNo).orElseThrow(() -> new TripNotFoundException(tripNo));
+	}
+
 	/**
 	 * 여행 일차 조회
 	 * @return
@@ -149,10 +153,6 @@ public class TripService {
 		DaySchedule addedDaySchedule = trip.addNewDaySchedule(request.getDescription(), request.getColorCode());
 		dayScheduleRepository.save(addedDaySchedule);
 		return DayScheduleResponse.from(addedDaySchedule);
-	}
-
-	private Trip getTripEntity(Long tripNo) {
-		return tripRepository.findById(tripNo).orElseThrow(() -> new TripNotFoundException(tripNo));
 	}
 
 	/**
