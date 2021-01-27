@@ -10,9 +10,6 @@ import InfoIcon from '@material-ui/icons/Info';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    cursor: 'pointer',
-  },
   placeImg: {
     width: 120,
     height: 100,
@@ -49,6 +46,7 @@ function PlaceListItem({ place, onListClick, onInfoClick }) {
     <ListItem
       className={classes.root}
       alignItems="flex-start"
+      button
       onClick={() => onListClick([place.latitude, place.longitude])}
     >
       <div>

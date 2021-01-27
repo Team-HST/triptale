@@ -37,7 +37,7 @@ const initialize = {
   },
   dayPlaces: [],
   savePlace: {},
-  activeStep: 0,
+  activeStep: 1,
 };
 
 export default handleActions(
