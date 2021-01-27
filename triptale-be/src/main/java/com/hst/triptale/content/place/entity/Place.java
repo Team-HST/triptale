@@ -1,13 +1,11 @@
 package com.hst.triptale.content.place.entity;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -80,4 +78,37 @@ public class Place {
 		this.location = location;
 		this.daySchedule = daySchedule;
 	}
+
+	public void changeTitle(String title) {
+		this.title = title;
+	}
+
+	public void changeName(String name) {
+		this.name = name;
+	}
+
+	public void changeDescription(String description) {
+		this.description = description;
+	}
+
+	public void changeThumbnailUrl(String thumbnailUrl) {
+		this.thumbnailUrl = thumbnailUrl;
+	}
+
+	public void changeType(PlaceType type) {
+		this.type = type;
+	}
+
+	public void changeLocation(Location location) {
+		this.location = location;
+	}
+
+	public void changeStartAt(LocalTime startAt) {
+		this.startAt = startAt;
+	}
+
+	public void changeEndAt(LocalTime endAt) {
+		this.endAt = endAt;
+	}
+
 }

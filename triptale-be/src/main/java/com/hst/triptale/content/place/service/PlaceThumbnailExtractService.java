@@ -1,7 +1,12 @@
 package com.hst.triptale.content.place.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.w3c.dom.stylesheets.LinkStyle;
 
 import com.hst.triptale.content.place.model.KakaoPlaceDetailModel;
 
@@ -17,13 +22,29 @@ public class PlaceThumbnailExtractService {
 	private final RestTemplate restTemplate = new RestTemplate();
 
 	/**
+	 * 썸네일 이미지 추출 (다중)
+	 * @param sourceUrls 대상 URL 목록
+	 * @return 썸네일 목록
+	 */
+	public List<String> extractThumbnailUrls(List<String> sourceUrls) {
+		List<String> extractedUrls = new ArrayList<>();
+		sourceUrls.forEach(sourceUrl -> extractedUrls.add(extractThumbnailUrl(sourceUrl)));
+		return extractedUrls;
+	}
+
+	/**
 	 * 썸네일 이미지 추출
 	 * @param sourceUrl 대상 URL
 	 * @return 썸네일 이미지 URL
 	 */
 	public String extractThumbnailUrl(String sourceUrl) {
 		String requestUrl = String.format("%s/%s", PLACE_URL_PREFIX, getPlaceId(sourceUrl));
-		KakaoPlaceDetailModel model = restTemplate.getForEntity(requestUrl, KakaoPlaceDetailModel.class).getBody();
+		KakaoPlaceDetailModel model = null;
+		try {
+			model = restTemplate.getForEntity(requestUrl, KakaoPlaceDetailModel.class).getBody();
+		} catch (Exception e) {
+			log.error(ExceptionUtils.getStackTrace(e));
+		}
 		if (model == null || model.getBasicInfo() == null) {
 			log.warn("장소 썸네일을 가져올 수 없습니다. sourceUrl: {}", sourceUrl);
 			return null;
