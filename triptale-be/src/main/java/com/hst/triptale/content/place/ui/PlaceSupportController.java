@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hst.triptale.configuration.ApplicationConstants;
 import com.hst.triptale.content.place.service.PlaceService;
+import com.hst.triptale.content.place.service.PlaceThumbnailExtractService;
 import com.hst.triptale.content.place.ui.request.PlaceModifyingRequest;
 import com.hst.triptale.content.place.ui.response.PlaceListResponse;
 import com.hst.triptale.content.place.ui.response.PlaceResponse;
@@ -32,16 +33,16 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * @author dlgusrb0808@gmail.com
  */
-@Tag(name = "장소 API", description = "장소 관련 API")
+@Tag(name = "장소 서포트 API", description = "장소 관련 지원 API")
 @Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping({
-	ApplicationConstants.APIGroups.CONTENT_API + "/trips/{tripNo}/day-schedules/{dayScheduleNo}/places"
+	ApplicationConstants.APIGroups.CONTENT_API + "/places/support"
 })
-public class PlaceController {
+public class PlaceSupportController {
 
-	private final PlaceService placeService;
+	private final PlaceThumbnailExtractService placeThumbnailExtractService;
 
 	static {
 		SpringDocUtils.getConfig().addAnnotationsToIgnore(
@@ -51,81 +52,9 @@ public class PlaceController {
 		);
 	}
 
-	@Operation(summary = ApplicationConstants.Documentations.REQUIRE_AUTH + "장소 목록 조회", parameters = {
-		@Parameter(name = "tripNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class)),
-		@Parameter(name = "dayScheduleNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class))
-	})
-	@GetMapping
-	public ResponseEntity<PlaceListResponse> getPlaces(
-		@PathVariable Long tripNo,
-		@PathVariable Long dayScheduleNo
-	) {
-		return ResponseEntity.ok(placeService.getPlaces(dayScheduleNo));
-	}
-
-	@Operation(summary = ApplicationConstants.Documentations.REQUIRE_AUTH + "장소 상세 조회", parameters = {
-		@Parameter(name = "tripNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class)),
-		@Parameter(name = "dayScheduleNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class)),
-		@Parameter(name = "placeNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class)),
-	})
-	@GetMapping("{placeNo}")
-	public ResponseEntity<PlaceResponse> getPlace(
-		@PathVariable Long tripNo,
-		@PathVariable Long dayScheduleNo,
-		@PathVariable Long placeNo
-	) {
-		return ResponseEntity.ok(placeService.getPlace(placeNo));
-	}
-
-	@Operation(summary = ApplicationConstants.Documentations.REQUIRE_AUTH + "장소 등록", parameters = {
-		@Parameter(name = "tripNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class)),
-		@Parameter(name = "dayScheduleNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class))
-	})
-	@PostMapping
-	public ResponseEntity<PlaceResponse> addPlace(
-		@PathVariable Long tripNo,
-		@PathVariable Long dayScheduleNo,
-		@RequestBody PlaceModifyingRequest request
-	) {
-		return ResponseEntity.ok(placeService.addPlace(request));
-	}
-
-	@Operation(summary = ApplicationConstants.Documentations.REQUIRE_AUTH + "장소 수정", parameters = {
-		@Parameter(name = "tripNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class)),
-		@Parameter(name = "dayScheduleNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class)),
-		@Parameter(name = "placeNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class)),
-	})
-	@PutMapping("{placeNo}")
-	public ResponseEntity<PlaceResponse> modifyPlace(
-		@PathVariable Long tripNo,
-		@PathVariable Long dayScheduleNo,
-		@PathVariable Long placeNo,
-		@RequestBody PlaceModifyingRequest request
-	) {
-		return ResponseEntity.ok(placeService.modifyPlace(placeNo, request));
-	}
-
-	@Operation(summary = ApplicationConstants.Documentations.REQUIRE_AUTH + "장소 삭제", parameters = {
-		@Parameter(name = "tripNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class)),
-		@Parameter(name = "dayScheduleNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class)),
-		@Parameter(name = "placeNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class)),
-	})
-	@DeleteMapping("{placeNo}")
-	public ResponseEntity<PlaceResponse> deletePlace(
-		@PathVariable Long tripNo,
-		@PathVariable Long dayScheduleNo,
-		@PathVariable Long placeNo
-	) {
-		return ResponseEntity.ok(placeService.deletePlace(placeNo));
-	}
-
-	@Operation(summary = ApplicationConstants.Documentations.REQUIRE_AUTH + "장소 삭제", parameters = {
-		@Parameter(name = "tripNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class)),
-		@Parameter(name = "dayScheduleNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class)),
-		@Parameter(name = "placeNo", in = ParameterIn.PATH, schema = @Schema(implementation = Long.class)),
-	})
-	@GetMapping("extract-thumbnail")
-	public ResponseEntity<List<String>> extractThumbnails() {
-		return null;
+	@Operation(summary = ApplicationConstants.Documentations.REQUIRE_AUTH + "장소 썸네일 URL 추출")
+	@PostMapping("extract-thumbnail")
+	public ResponseEntity<List<String>> extractThumbnails(@RequestBody List<String> sourceUrls) {
+		return ResponseEntity.ok(placeThumbnailExtractService.extractThumbnailUrls(sourceUrls));
 	}
 }

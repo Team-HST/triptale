@@ -1,5 +1,7 @@
 package com.hst.triptale.content.place.ui;
 
+import java.util.List;
+
 import org.springdoc.core.SpringDocUtils;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;

@@ -1,8 +1,12 @@
 package com.hst.triptale.content.place.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.w3c.dom.stylesheets.LinkStyle;
 
 import com.hst.triptale.content.place.model.KakaoPlaceDetailModel;
 
@@ -16,6 +20,17 @@ import lombok.extern.slf4j.Slf4j;
 public class PlaceThumbnailExtractService {
 	private static final String PLACE_URL_PREFIX = "https://place.map.kakao.com/main/v";
 	private final RestTemplate restTemplate = new RestTemplate();
+
+	/**
+	 * 썸네일 이미지 추출 (다중)
+	 * @param sourceUrls 대상 URL 목록
+	 * @return 썸네일 목록
+	 */
+	public List<String> extractThumbnailUrls(List<String> sourceUrls) {
+		List<String> extractedUrls = new ArrayList<>();
+		sourceUrls.forEach(sourceUrl -> extractedUrls.add(extractThumbnailUrl(sourceUrl)));
+		return extractedUrls;
+	}
 
 	/**
 	 * 썸네일 이미지 추출
