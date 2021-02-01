@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import PlaceSaveDefaultFormContainer from 'containers/place/PlaceSaveDefaultFormContainer';
 import PlaceSaveMapContainer from 'containers/place/PlaceSaveMapContainer';
+import PlaceSaveConfirmContainer from 'containers/place/PlaceSaveConfirmContainer';
 import Paper from '@material-ui/core/Paper';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -14,23 +15,6 @@ import { makeStyles } from '@material-ui/core/styles';
 
 // 장소 등록 단계
 const steps = ['기본정보', '잠소검색', '등록완료'];
-
-function SuccessConfirmWindow() {
-  return <div>등록하시겠습니까?</div>;
-}
-
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <PlaceSaveDefaultFormContainer />;
-    case 1:
-      return <PlaceSaveMapContainer />;
-    case 2:
-      return <SuccessConfirmWindow />;
-    default:
-      throw new Error('Unknown step');
-  }
-}
 
 const useStyles = makeStyles((theme) => ({
   layout: {
@@ -69,6 +53,19 @@ function PlaceSaveModalContainer({ onClose }) {
   const classes = useStyles();
   const { activeStep } = useSelector((state) => state.daySchedulePlace);
 
+  function getStepContent(step) {
+    switch (step) {
+      case 0:
+        return <PlaceSaveDefaultFormContainer />;
+      case 1:
+        return <PlaceSaveMapContainer />;
+      case 2:
+        return <PlaceSaveConfirmContainer onClose={onClose} />;
+      default:
+        throw new Error('Unknown step');
+    }
+  }
+
   return (
     <>
       <main className={classes.layout}>
@@ -97,21 +94,7 @@ function PlaceSaveModalContainer({ onClose }) {
               </Step>
             ))}
           </Stepper>
-          <>
-            {activeStep === steps.length ? (
-              <>
-                <Typography variant="h5" gutterBottom>
-                  Thank you for your order.
-                </Typography>
-                <Typography variant="subtitle1">
-                  Your order number is #2001539. We have emailed your order confirmation, and will
-                  send you an update when your order has shipped.
-                </Typography>
-              </>
-            ) : (
-              <>{getStepContent(activeStep)}</>
-            )}
-          </>
+          {getStepContent(activeStep)}
         </Paper>
       </main>
     </>

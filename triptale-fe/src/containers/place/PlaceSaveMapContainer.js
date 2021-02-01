@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as PlaceActions from 'store/modules/daySchedulePlace';
 import SaveActiveButton from 'components/place/SaveActiveButton';
@@ -19,7 +19,7 @@ import List from '@material-ui/core/List';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '90%',
-    height: '220px',
+    height: '255px',
     overflow: 'auto',
     marginLeft: 'auto',
     marginRight: 'auto',
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
   noData: {
     textAlign: 'center',
-    height: '220px',
+    height: '255px',
     lineHeight: '5px',
   },
   noDataIcon: {
@@ -62,9 +62,36 @@ function PlaceSaveMapContainer() {
     center: [33.450701, 126.570667],
     level: 8,
   });
+  // 검색 장소
   const [searchPlaces, setSearchPlaces] = useState([]);
+  // 섬네일 이미지
   const [thumnailImgs, setThumnailImgs] = useState([]);
   const [searchText, setSearchText] = useState('');
+  // 검색 리스트 Ref
+  const searchPlaceList = useRef();
+
+  const onSearchPlace = useCallback(async () => {
+    let response = await http.get(
+      `https://dapi.kakao.com/v2/local/search/keyword.json?query=${searchText}`,
+      {
+        headers: {
+          Authorization: `KakaoAK ${process.env.REACT_APP_KAKAO_API_KEY}`,
+        },
+      },
+    );
+    const searchPlaces = response.documents;
+    const placeUrls = searchPlaces.map((place) =>
+      dayScheduleService.searchKakaoPlaceAPIThumbnails([place.place_url]),
+    );
+
+    // thumnail 이미지 조회
+    Promise.all(placeUrls).then((response) => setThumnailImgs(response));
+
+    // 섬네일 이미지 조회
+    setSearchPlaces(searchPlaces);
+    // 스크롤 상단 이동
+    searchPlaceList.current.scrollTop = 0;
+  }, [searchPlaceList, searchText]);
 
   // 다음 step 진행 이벤트
   const handleNextClick = useCallback(() => {
@@ -81,28 +108,27 @@ function PlaceSaveMapContainer() {
     setSearchText(e.target.value);
   }, []);
 
-  const onSearchPlace = useCallback(async () => {
-    let response = await http.get(
-      `https://dapi.kakao.com/v2/local/search/keyword.json?query=${searchText}`,
-      {
-        headers: {
-          Authorization: `KakaoAK ${process.env.REACT_APP_KAKAO_API_KEY}`,
-        },
-      },
-    );
-    const searchPlaces = response.documents;
-    const placeUrls = searchPlaces.map((place) => place.place_url);
-
-    // 섬네일 이미지 조회
-    response = await dayScheduleService.searchKakaoPlaceAPIThumbnails(placeUrls);
-    setThumnailImgs(response);
-    setSearchPlaces(searchPlaces);
-  }, [searchText]);
+  // 장소 Enter 검색
+  const handleSearchTextKeyDown = useCallback(
+    (e) => {
+      if (e.keyCode === 13) {
+        e.preventDefault();
+        onSearchPlace(searchText);
+      }
+    },
+    [onSearchPlace, searchText],
+  );
 
   // 검색 장소 선택
   const handleSearchPlaceClick = useCallback(
     (place) => {
-      dispatch(PlaceActions.setSavePlace({ latitude: place.x, longitude: place.y }));
+      dispatch(
+        PlaceActions.setSavePlace({
+          latitude: place.x,
+          longitude: place.y,
+          placeInfoUrl: place.place_url,
+        }),
+      );
     },
     [dispatch],
   );
@@ -112,7 +138,7 @@ function PlaceSaveMapContainer() {
       setMap((state) => ({
         ...state.map,
         center: [savePlace.longitude, savePlace.latitude],
-        level: 3,
+        level: 4,
       }));
     }
   }, [savePlace]);
@@ -129,6 +155,7 @@ function PlaceSaveMapContainer() {
         fullWidth
         value={searchText}
         onChange={(e) => handleSearchTextChange(e)}
+        onKeyDown={(e) => handleSearchTextKeyDown(e)}
         endAdornment={
           <InputAdornment position="end">
             <IconButton aria-label="map search" onClick={onSearchPlace}>
@@ -138,12 +165,12 @@ function PlaceSaveMapContainer() {
         }
       />
       {searchPlaces.length > 0 ? (
-        <List className={classes.root} disablePadding={true}>
+        <List className={classes.root} disablePadding={true} ref={searchPlaceList}>
           {searchPlaces.map((place, index) => (
             <SearchListItem
               key={place.id}
               place={place}
-              img={thumnailImgs[index]}
+              img={thumnailImgs[index] ? thumnailImgs[index][0] : null}
               onItemClick={handleSearchPlaceClick}
             />
           ))}
@@ -158,7 +185,6 @@ function PlaceSaveMapContainer() {
       )}
 
       <Map className={classes.map} options={map}>
-        {' '}
         {savePlace.latitude && savePlace.longitude && (
           <IconMarker options={{ position: [savePlace.longitude, savePlace.latitude] }} />
         )}
