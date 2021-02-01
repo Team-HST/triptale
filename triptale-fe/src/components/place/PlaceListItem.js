@@ -10,9 +10,6 @@ import InfoIcon from '@material-ui/icons/Info';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    cursor: 'pointer',
-  },
   placeImg: {
     width: 120,
     height: 100,
@@ -49,6 +46,7 @@ function PlaceListItem({ place, onListClick, onInfoClick }) {
     <ListItem
       className={classes.root}
       alignItems="flex-start"
+      button
       onClick={() => onListClick([place.latitude, place.longitude])}
     >
       <div>
@@ -86,15 +84,16 @@ PlaceListItem.propTypes = {
   place: PropTypes.shape({
     title: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
+    description: PropTypes.string,
     thumbnailUrl: PropTypes.string,
-    type: PropTypes.number.isRequired,
+    placeType: PropTypes.number,
     startAt: PropTypes.string.isRequired,
     endAt: PropTypes.string.isRequired,
     latitude: PropTypes.number.isRequired,
     longitude: PropTypes.number.isRequired,
   }).isRequired,
-  onClick: PropTypes.func.isRequired,
+  onListClick: PropTypes.func.isRequired,
+  onInfoClick: PropTypes.func.isRequired,
 };
 
 export default PlaceListItem;

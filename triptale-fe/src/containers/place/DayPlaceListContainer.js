@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import * as PlaceActions from 'store/modules/daySchedulePlace';
+import PlaceSaveModalContainer from 'containers/place/PlaceSaveModalContainer';
 import PlaceListItem from 'components/place/PlaceListItem';
+import ModalLayout from 'components/common/ModalLayout';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import PageExplanHeader from 'components/common/PageExplanHeader';
@@ -51,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
  */
 function DayPlaceListContainer() {
   const classes = useStyles();
+  const [isSaveModal, setIsSaveModal] = useState(false);
   const { dayPlaces } = useSelector((state) => ({ dayPlaces: state.daySchedulePlace.dayPlaces }));
   const dispatch = useDispatch();
   const { srno, daySrno } = useParams();
@@ -68,7 +71,15 @@ function DayPlaceListContainer() {
 
   // 장소 등록 버튼 이벤트
   const handleCreateBtnClick = () => {
-    alert('장소 등록 팝업 표출');
+    setIsSaveModal(true);
+  };
+
+  // 장소 팝업 닫기 이벤트
+  const handleCloseSaveModalClick = () => {
+    // 등록, 수정 단계 및 데이터 초기화
+    dispatch(PlaceActions.setActiveStep(0));
+    dispatch(PlaceActions.initSavePlace());
+    setIsSaveModal(false);
   };
 
   useEffect(() => {
@@ -101,6 +112,9 @@ function DayPlaceListContainer() {
           );
         })}
       </List>
+      <ModalLayout open={isSaveModal} onClose={handleCloseSaveModalClick}>
+        <PlaceSaveModalContainer onClose={handleCloseSaveModalClick} />
+      </ModalLayout>
     </div>
   );
 }

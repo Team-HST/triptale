@@ -49,6 +49,15 @@ const dayScheduleService = {
   searchDaySchedulePlace: (tripNo, dayScheduleNo) => {
     return http.get(`/api/content/trips/${tripNo}/day-schedules/${dayScheduleNo}/places`);
   },
+
+  /**
+   * Kakao 장소검색 API 섬네일 검색
+   *
+   * @param placeUrls (여행 번호)
+   */
+  searchKakaoPlaceAPIThumbnails: (placeUrls) => {
+    return http.post('/api//content/places/support/extract-thumbnail', placeUrls);
+  },
 };
 
 export default dayScheduleService;

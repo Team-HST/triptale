@@ -5,12 +5,13 @@ import { MapContext } from './Map';
 
 const place = require('styles/images/place.png');
 const rooms = require('styles/images/rooms3.png');
+const location = require('styles/images/location.png');
 
 /**
  * @author hoons
  * @email dudgns0612@gmail.com
  * @create date 2021-01-14 22:03:30
- * @modify date 2021-01-15 00:21:34
+ * @modify date 2021-01-29 01:00:36
  * @desc [아이콘 마커 생성 컴포넌트]
  */
 function IconMarker({ options, onClick }) {
@@ -20,7 +21,7 @@ function IconMarker({ options, onClick }) {
 
   useEffect(() => {
     const icon = new kakao.maps.MarkerImage(
-      options.type === 1 ? place : rooms,
+      !options.type ? location : options.type === 1 ? place : rooms,
       new kakao.maps.Size(40, 40),
       {
         offset: new kakao.maps.Point(16, 34),
