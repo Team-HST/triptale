@@ -16,11 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hst.triptale.configuration.ApplicationConstants;
-import com.hst.triptale.content.place.service.PlaceService;
 import com.hst.triptale.content.place.service.PlaceThumbnailExtractService;
-import com.hst.triptale.content.place.ui.request.PlaceModifyingRequest;
-import com.hst.triptale.content.place.ui.response.PlaceListResponse;
-import com.hst.triptale.content.place.ui.response.PlaceResponse;
+import com.hst.triptale.content.place.ui.response.PlaceThumbnailResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -52,9 +49,18 @@ public class PlaceSupportController {
 		);
 	}
 
-	@Operation(summary = ApplicationConstants.Documentations.REQUIRE_AUTH + "장소 썸네일 URL 추출")
-	@PostMapping("extract-thumbnail")
-	public ResponseEntity<List<String>> extractThumbnails(@RequestBody List<String> sourceUrls) {
+	@Operation(summary = ApplicationConstants.Documentations.REQUIRE_AUTH + "장소 썸네일 URL 다 건 추출")
+	@PostMapping("extract-thumbnails")
+	public ResponseEntity<List<PlaceThumbnailResponse>> extractThumbnails(@RequestBody List<String> sourceUrls) {
 		return ResponseEntity.ok(placeThumbnailExtractService.extractThumbnailUrls(sourceUrls));
 	}
+
+	@Operation(summary = ApplicationConstants.Documentations.REQUIRE_AUTH + "장소 썸네일 URL 추출", parameters = {
+		@Parameter(name = "sourceUrl", in = ParameterIn.QUERY, schema = @Schema(implementation = String.class))
+	})
+	@GetMapping("extract-thumbnail")
+	public ResponseEntity<PlaceThumbnailResponse> extractThumbnails(@RequestParam String sourceUrl) {
+		return ResponseEntity.ok(placeThumbnailExtractService.extractThumbnailUrl(sourceUrl));
+	}
+
 }

@@ -1,5 +1,7 @@
 package com.hst.triptale.content.place.service;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,6 +12,7 @@ import com.hst.triptale.content.place.repository.PlaceRepository;
 import com.hst.triptale.content.place.ui.request.PlaceModifyingRequest;
 import com.hst.triptale.content.place.ui.response.PlaceListResponse;
 import com.hst.triptale.content.place.ui.response.PlaceResponse;
+import com.hst.triptale.content.place.ui.response.PlaceThumbnailResponse;
 import com.hst.triptale.content.schedule.entity.DaySchedule;
 import com.hst.triptale.content.trip.entity.Location;
 import com.hst.triptale.content.trip.service.TripService;
@@ -62,7 +65,11 @@ public class PlaceService {
 			.title(request.getTitle())
 			.description(request.getDescription())
 			.name(request.getName())
-			.thumbnailUrl(placeThumbnailExtractService.extractThumbnailUrl(request.getPlaceInfoUrl()))
+			.thumbnailUrl(
+				Optional.ofNullable(placeThumbnailExtractService.extractThumbnailUrl(request.getPlaceInfoUrl()))
+				.map(PlaceThumbnailResponse::getThumbnailUrl)
+				.orElse(null)
+			)
 			.infoUrl(request.getPlaceInfoUrl())
 			.address(request.getAddress())
 			.type(PlaceType.getType(request.getPlaceType()))
@@ -96,7 +103,11 @@ public class PlaceService {
 		place.changeTitle(request.getTitle());
 		place.changeDescription(request.getDescription());
 		place.changeName(request.getName());
-		place.changeThumbnailUrl(placeThumbnailExtractService.extractThumbnailUrl(request.getPlaceInfoUrl()));
+		place.changeThumbnailUrl(
+			Optional.ofNullable(placeThumbnailExtractService.extractThumbnailUrl(request.getPlaceInfoUrl()))
+				.map(PlaceThumbnailResponse::getThumbnailUrl)
+				.orElse(null)
+		);
 		place.changeInfoUrl(request.getPlaceInfoUrl());
 		place.changeAddress(request.getAddress());
 		place.changeType(PlaceType.getType(request.getPlaceType()));

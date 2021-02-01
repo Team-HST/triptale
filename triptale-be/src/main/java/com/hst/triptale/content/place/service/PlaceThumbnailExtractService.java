@@ -9,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 import org.w3c.dom.stylesheets.LinkStyle;
 
 import com.hst.triptale.content.place.model.KakaoPlaceDetailModel;
+import com.hst.triptale.content.place.ui.response.PlaceThumbnailResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,8 +27,8 @@ public class PlaceThumbnailExtractService {
 	 * @param sourceUrls 대상 URL 목록
 	 * @return 썸네일 목록
 	 */
-	public List<String> extractThumbnailUrls(List<String> sourceUrls) {
-		List<String> extractedUrls = new ArrayList<>();
+	public List<PlaceThumbnailResponse> extractThumbnailUrls(List<String> sourceUrls) {
+		List<PlaceThumbnailResponse> extractedUrls = new ArrayList<>();
 		sourceUrls.forEach(sourceUrl -> extractedUrls.add(extractThumbnailUrl(sourceUrl)));
 		return extractedUrls;
 	}
@@ -37,7 +38,7 @@ public class PlaceThumbnailExtractService {
 	 * @param sourceUrl 대상 URL
 	 * @return 썸네일 이미지 URL
 	 */
-	public String extractThumbnailUrl(String sourceUrl) {
+	public PlaceThumbnailResponse extractThumbnailUrl(String sourceUrl) {
 		String requestUrl = String.format("%s/%s", PLACE_URL_PREFIX, getPlaceId(sourceUrl));
 		KakaoPlaceDetailModel model = null;
 		try {
@@ -49,7 +50,7 @@ public class PlaceThumbnailExtractService {
 			log.warn("장소 썸네일을 가져올 수 없습니다. sourceUrl: {}", sourceUrl);
 			return null;
 		}
-		return model.getBasicInfo().getMainPhotoUrl();
+		return PlaceThumbnailResponse.from(model.getBasicInfo().getMainPhotoUrl());
 	}
 
 	private String getPlaceId(String sourceUrl) {
