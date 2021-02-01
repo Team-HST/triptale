@@ -47,6 +47,12 @@ public class Place {
 	@Column(name = "PLACE_THUMBNAIL_URL")
 	private String thumbnailUrl;
 
+	@Column(name = "PLACE_INFO_URL")
+	private String infoUrl;
+
+	@Column(name = "PLACE_ADDRESS")
+	private String address;
+
 	@Column(name = "PLACE_TYPE")
 	@Convert(converter = PlaceType.Converter.class)
 	private PlaceType type;
@@ -66,12 +72,14 @@ public class Place {
 
 	@Builder
 	public Place(String title, String description, String name, String thumbnailUrl,
-		PlaceType type, LocalTime startAt, LocalTime endAt, Location location,
-		DaySchedule daySchedule) {
+		String infoUrl, String address, PlaceType type, LocalTime startAt,
+		LocalTime endAt, Location location, DaySchedule daySchedule) {
 		this.title = title;
 		this.description = description;
 		this.name = name;
 		this.thumbnailUrl = thumbnailUrl;
+		this.infoUrl = infoUrl;
+		this.address = address;
 		this.type = type;
 		this.startAt = startAt;
 		this.endAt = endAt;
@@ -109,6 +117,14 @@ public class Place {
 
 	public void changeEndAt(LocalTime endAt) {
 		this.endAt = endAt;
+	}
+
+	public void changeAddress(String address) {
+		this.address = address;
+	}
+
+	public void changeInfoUrl(String infoUrl) {
+		this.infoUrl = infoUrl;
 	}
 
 }

@@ -63,6 +63,8 @@ public class PlaceService {
 			.description(request.getDescription())
 			.name(request.getName())
 			.thumbnailUrl(placeThumbnailExtractService.extractThumbnailUrl(request.getPlaceInfoUrl()))
+			.infoUrl(request.getPlaceInfoUrl())
+			.address(request.getAddress())
 			.type(PlaceType.getType(request.getPlaceType()))
 			.startAt(request.getStartAt())
 			.endAt(request.getEndAt())
@@ -95,6 +97,8 @@ public class PlaceService {
 		place.changeDescription(request.getDescription());
 		place.changeName(request.getName());
 		place.changeThumbnailUrl(placeThumbnailExtractService.extractThumbnailUrl(request.getPlaceInfoUrl()));
+		place.changeInfoUrl(request.getPlaceInfoUrl());
+		place.changeAddress(request.getAddress());
 		place.changeType(PlaceType.getType(request.getPlaceType()));
 		place.changeStartAt(request.getStartAt());
 		place.changeEndAt(request.getEndAt());

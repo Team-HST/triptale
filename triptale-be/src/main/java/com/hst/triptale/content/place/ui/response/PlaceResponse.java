@@ -19,6 +19,8 @@ public class PlaceResponse {
 	private final String description;
 	private final String name;
 	private final String thumbnailUrl;
+	private final String infoUrl;
+	private final String address;
 	private final int type;
 	private final LocalTime startAt;
 	private final LocalTime endAt;
@@ -32,6 +34,8 @@ public class PlaceResponse {
 			.description(place.getDescription())
 			.name(place.getName())
 			.thumbnailUrl(place.getThumbnailUrl())
+			.infoUrl(place.getInfoUrl())
+			.address(place.getAddress())
 			.type(place.getType().getType())
 			.startAt(place.getStartAt())
 			.endAt(place.getEndAt())

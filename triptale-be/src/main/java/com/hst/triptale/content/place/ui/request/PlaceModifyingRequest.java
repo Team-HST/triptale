@@ -20,6 +20,8 @@ public class PlaceModifyingRequest extends BaseModifyingRequest {
 	private String placeInfoUrl;
 	@Schema(title = "장소명", description = "장소명 (가게, 숙소 등 이름)", required = true)
 	private String name;
+	@Schema(title = "장소주소", description = "장소주소", required = true)
+	private String address;
 	@Schema(title = "장소 타입", description = "1: 여행지, 2: 숙소", required = true)
 	private Integer placeType;
 	@Schema(title = "장소 시작 시간", description = "hh:mm", required = true)
