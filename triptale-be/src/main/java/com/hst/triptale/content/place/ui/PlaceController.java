@@ -87,7 +87,7 @@ public class PlaceController {
 		@PathVariable Long dayScheduleNo,
 		@RequestBody PlaceModifyingRequest request
 	) {
-		return ResponseEntity.ok(placeService.addPlace(request));
+		return ResponseEntity.ok(placeService.addPlace(dayScheduleNo, request));
 	}
 
 	@Operation(summary = ApplicationConstants.Documentations.REQUIRE_AUTH + "장소 수정", parameters = {

@@ -55,12 +55,13 @@ public class PlaceService {
 
 	/**
 	 * 장소 추가
+	 * @param dayScheduleNo 추가할 일차 번호
 	 * @param request 장소 추가 요청
 	 * @return 장소
 	 */
 	@Transactional
-	public PlaceResponse addPlace(PlaceModifyingRequest request) {
-		DaySchedule daySchedule = tripService.getDayScheduleEntity(request.getDayScheduleNo());
+	public PlaceResponse addPlace(Long dayScheduleNo, PlaceModifyingRequest request) {
+		DaySchedule daySchedule = tripService.getDayScheduleEntity(dayScheduleNo);
 		Place place = Place.builder()
 			.title(request.getTitle())
 			.description(request.getDescription())
