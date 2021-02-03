@@ -96,22 +96,25 @@ function DayPlaceListContainer() {
         button="장소등록"
         onButtonClick={handleCreateBtnClick}
       />
-      <List className={classes.list}>
-        {dayPlaces.map((place, index) => {
-          return (
-            <React.Fragment key={place.placeNo}>
-              <PlaceListItem
-                place={place}
-                onListClick={handleListClick}
-                onInfoClick={handleInfoClick}
-              />
-              {index !== dayPlaces.length - 1 && (
-                <Divider className={classes.divider} light={true} />
-              )}
-            </React.Fragment>
-          );
-        })}
-      </List>
+      {dayPlaces.length > 0 && (
+        <List className={classes.list}>
+          {dayPlaces.map((place, index) => {
+            return (
+              <React.Fragment key={place.placeNo}>
+                <PlaceListItem
+                  place={place}
+                  onListClick={handleListClick}
+                  onInfoClick={handleInfoClick}
+                />
+                {index !== dayPlaces.length - 1 && (
+                  <Divider className={classes.divider} light={true} />
+                )}
+              </React.Fragment>
+            );
+          })}
+        </List>
+      )}
+
       <ModalLayout open={isSaveModal} onClose={handleCloseSaveModalClick}>
         <PlaceSaveModalContainer onClose={handleCloseSaveModalClick} />
       </ModalLayout>

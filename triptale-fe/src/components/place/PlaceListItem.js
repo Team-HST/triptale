@@ -11,11 +11,11 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   placeImg: {
-    width: 120,
-    height: 100,
+    width: 130,
+    height: 120,
     marginRight: 10,
   },
-  description: {
+  wordBreak: {
     display: 'block',
     wordBreak: 'break-all',
     width: '100%',
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
  * @email dudgns0612@gmail.com
  * @create date 2021-01-14 23:37:32
  * @modify date 2021-01-14 23:37:32
- * @desc [장소 목록 표출]
+ * @desc [장소 정보 컴포넌트]
  */
 function PlaceListItem({ place, onListClick, onInfoClick }) {
   const classes = useStyles();
@@ -50,20 +50,33 @@ function PlaceListItem({ place, onListClick, onInfoClick }) {
       onClick={() => onListClick([place.latitude, place.longitude])}
     >
       <div>
-        <img className={classes.placeImg} alt={place.thumbnailUrl} src={place.thumbnailUrl} />
+        {place.thumbnailUrl ? (
+          <img className={classes.placeImg} alt={place.thumbnailUrl} src={place.thumbnailUrl} />
+        ) : (
+          <img
+            className={classes.placeImg}
+            alt={'기본 이미지'}
+            src={require('styles/images/no-image.png')}
+          />
+        )}
       </div>
       <ListItemText
-        primary={place.title}
+        primary={
+          <Typography variant="subtitle1" className={classes.wordBreak}>
+            {place.title}
+          </Typography>
+        }
         secondary={
           <>
             <Typography
               component="span"
               variant="body2"
-              className={classes.description}
+              className={classes.wordBreak}
               color="textPrimary"
             >
               {place.description}
             </Typography>
+            <br />
             {place.name} <br />
             {`${place.startAt} - ${place.endAt}`}
           </>

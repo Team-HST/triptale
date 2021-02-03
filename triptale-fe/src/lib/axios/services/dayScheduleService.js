@@ -53,10 +53,21 @@ const dayScheduleService = {
   /**
    * Kakao 장소검색 API 섬네일 검색
    *
-   * @param placeUrls (여행 번호)
+   * @param placeUrl (여행 번호)
    */
-  searchKakaoPlaceAPIThumbnails: (placeUrls) => {
-    return http.post('/api//content/places/support/extract-thumbnail', placeUrls);
+  searchKakaoPlaceAPIThumbnails: (placeUrl) => {
+    return http.get(`/api//content/places/support/extract-thumbnail?sourceUrl=${placeUrl}`);
+  },
+
+  /**
+   * 여행 일차 별 장소 등록
+   *
+   * @param tripNo (여행 번호)
+   * @param dayScheduleNo (일차 번호)
+   * @param place (등록 장소 정보)
+   */
+  createDaySchedulePlace: (tripNo, dayScheduleNo, place) => {
+    return http.post(`/api/content/trips/${tripNo}/day-schedules/${dayScheduleNo}/places`, place);
   },
 };
 

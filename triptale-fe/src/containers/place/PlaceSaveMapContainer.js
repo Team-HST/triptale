@@ -85,18 +85,26 @@ function PlaceSaveMapContainer() {
     );
 
     // thumnail 이미지 조회
-    Promise.all(placeUrls).then((response) => setThumnailImgs(response));
+    Promise.all(placeUrls).then((response) =>
+      setThumnailImgs(response.map((placeThumnail) => placeThumnail.thumbnailUrl)),
+    );
 
     // 섬네일 이미지 조회
     setSearchPlaces(searchPlaces);
     // 스크롤 상단 이동
-    searchPlaceList.current.scrollTop = 0;
+    if (searchPlaces.length > 0) searchPlaceList.current.scrollTop = 0;
   }, [searchPlaceList, searchText]);
 
   // 다음 step 진행 이벤트
   const handleNextClick = useCallback(() => {
+    const { latitude, longitude } = savePlace;
+    if (!(latitude || longitude)) {
+      alert('장소를 선택하여 주세요.');
+      return;
+    }
+
     dispatch(PlaceActions.setActiveStep(activeStep + 1));
-  }, [activeStep, dispatch]);
+  }, [activeStep, dispatch, savePlace]);
 
   // 이전 step 이동 이벤트
   const handleBackClick = useCallback(() => {
@@ -124,8 +132,10 @@ function PlaceSaveMapContainer() {
     (place) => {
       dispatch(
         PlaceActions.setSavePlace({
-          latitude: place.x,
-          longitude: place.y,
+          name: place.place_name,
+          latitude: place.y,
+          longitude: place.x,
+          address: place.address_name,
           placeInfoUrl: place.place_url,
         }),
       );
@@ -137,7 +147,7 @@ function PlaceSaveMapContainer() {
     if (savePlace.latitude && savePlace.longitude) {
       setMap((state) => ({
         ...state.map,
-        center: [savePlace.longitude, savePlace.latitude],
+        center: [savePlace.latitude, savePlace.longitude],
         level: 4,
       }));
     }
@@ -170,7 +180,7 @@ function PlaceSaveMapContainer() {
             <SearchListItem
               key={place.id}
               place={place}
-              img={thumnailImgs[index] ? thumnailImgs[index][0] : null}
+              img={thumnailImgs[index]}
               onItemClick={handleSearchPlaceClick}
             />
           ))}
@@ -186,7 +196,7 @@ function PlaceSaveMapContainer() {
 
       <Map className={classes.map} options={map}>
         {savePlace.latitude && savePlace.longitude && (
-          <IconMarker options={{ position: [savePlace.longitude, savePlace.latitude] }} />
+          <IconMarker options={{ position: [savePlace.latitude, savePlace.longitude] }} />
         )}
       </Map>
       <SaveActiveButton

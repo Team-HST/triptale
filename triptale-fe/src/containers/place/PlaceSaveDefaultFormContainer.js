@@ -43,9 +43,9 @@ function PlaceSaveDefaultFormContainer() {
   const dispatch = useDispatch();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [placeType, setPlaceType] = useState('1');
-  const [startAt, setStartAt] = useState(DateUtils.getDateToStr(new Date(), 'HH:mm'));
-  const [endAt, setEndAt] = useState(DateUtils.getDateToStr(new Date(), 'HH:mm'));
+  const [type, setType] = useState('1');
+  const [startAt, setStartAt] = useState('00:00');
+  const [endAt, setEndAt] = useState('00:00');
 
   // 장소 명 변경 이벤트
   const handleTitleChange = useCallback((e) => {
@@ -85,7 +85,7 @@ function PlaceSaveDefaultFormContainer() {
 
   // 장소 타입 변경 이벤트
   const handleTypeChange = useCallback((e) => {
-    setPlaceType(e.target.value);
+    setType(e.target.value);
   }, []);
 
   const handleNextClick = () => {
@@ -101,7 +101,7 @@ function PlaceSaveDefaultFormContainer() {
       PlaceActions.setSavePlace({
         title,
         description,
-        placeType,
+        placeType: Number(type),
         startAt,
         endAt,
       }),
@@ -110,13 +110,13 @@ function PlaceSaveDefaultFormContainer() {
   };
 
   useEffect(() => {
-    const { title, description, placeType, startAt, endAt } = savePlace;
+    const { title, description, type, startAt, endAt } = savePlace;
 
     setTitle(title ? title : '');
     setDescription(description ? description : '');
-    setPlaceType(placeType ? placeType : '1');
-    setStartAt(startAt ? startAt : DateUtils.getDateToStr(new Date(), 'HH:mm'));
-    setEndAt(endAt ? endAt : DateUtils.getDateToStr(new Date(), 'HH:mm'));
+    setType(type ? type : '1');
+    setStartAt(startAt ? startAt : '00:00');
+    setEndAt(endAt ? endAt : '00:00');
   }, [savePlace]);
 
   return (
@@ -128,7 +128,7 @@ function PlaceSaveDefaultFormContainer() {
         <Grid item xs={12} sm={12}>
           <TextField
             required
-            label="장소명"
+            label="장소제목"
             value={title}
             fullWidth
             autoComplete="given-name"
@@ -186,7 +186,7 @@ function PlaceSaveDefaultFormContainer() {
             className={classes.radioGroup}
             area-label="placeType"
             name="placeType"
-            value={placeType}
+            value={type}
             row
             onChange={(e) => handleTypeChange(e)}
           >

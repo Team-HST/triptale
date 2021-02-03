@@ -15,6 +15,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * @author hoons
+ * @email dudgns0612@gmail.com
+ * @create date 2021-02-03 23:50:47
+ * @modify date 2021-02-03 23:50:47
+ * @desc [검색 장소 정보 컴포넌트]
+ */
 function SearchListItem({ place, img, onItemClick }) {
   const classes = useStyles();
 

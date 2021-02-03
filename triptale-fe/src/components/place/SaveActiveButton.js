@@ -17,6 +17,13 @@ const useStyles = makeStyles((theme) => ({
 // 장소 등록 단계
 const steps = ['기본정보', '잠소검색', '등록완료'];
 
+/**
+ * @author hoons
+ * @email dudgns0612@gmail.com
+ * @create date 2021-02-03 23:51:47
+ * @modify date 2021-02-03 23:51:47
+ * @desc [장소 등록, 수정 단계 이동 버튼 컴포넌트]
+ */
 function SaveActiveButton({ activeStep, onNextClick, onBackClick }) {
   const classes = useStyles();
 
