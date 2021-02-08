@@ -3,11 +3,13 @@ import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import * as PlaceActions from 'store/modules/daySchedulePlace';
 import PlaceSaveModalContainer from 'containers/place/PlaceSaveModalContainer';
+import PlaceInfoModalContainer from 'containers/place/PlaceInfoModalContainer';
 import PlaceListItem from 'components/place/PlaceListItem';
 import ModalLayout from 'components/common/ModalLayout';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import PageExplanHeader from 'components/common/PageExplanHeader';
+
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -54,6 +56,8 @@ const useStyles = makeStyles((theme) => ({
 function DayPlaceListContainer() {
   const classes = useStyles();
   const [isSaveModal, setIsSaveModal] = useState(false);
+  const [isInfoModal, setIsInfoModal] = useState(false);
+  const [selectPlace, setSelectPlace] = useState();
   const { dayPlaces } = useSelector((state) => ({ dayPlaces: state.daySchedulePlace.dayPlaces }));
   const dispatch = useDispatch();
   const { srno, daySrno } = useParams();
@@ -64,8 +68,10 @@ function DayPlaceListContainer() {
   };
 
   // 장소 정보 팝업 표출 이벤트
-  const handleInfoClick = (e) => {
+  const handleInfoClick = (e, place) => {
     e.stopPropagation();
+    setSelectPlace(place);
+    setIsInfoModal(true);
     alert('해당 장소, 숙소 정보 팝업 표출');
   };
 
@@ -88,37 +94,41 @@ function DayPlaceListContainer() {
   }, [dispatch, daySrno, srno]);
 
   return (
-    <div className={classes.root}>
-      <PageExplanHeader
-        className={classes.headerPaper}
-        explan="당신의 여행 일차 별 장소 및 숙소를 자유롭게 설정하여 보세요!"
-        avatar="P"
-        button="장소등록"
-        onButtonClick={handleCreateBtnClick}
-      />
-      {dayPlaces.length > 0 && (
-        <List className={classes.list}>
-          {dayPlaces.map((place, index) => {
-            return (
-              <React.Fragment key={place.placeNo}>
-                <PlaceListItem
-                  place={place}
-                  onListClick={handleListClick}
-                  onInfoClick={handleInfoClick}
-                />
-                {index !== dayPlaces.length - 1 && (
-                  <Divider className={classes.divider} light={true} />
-                )}
-              </React.Fragment>
-            );
-          })}
-        </List>
-      )}
-
+    <>
+      <div className={classes.root}>
+        <PageExplanHeader
+          className={classes.headerPaper}
+          explan="당신의 여행 일차 별 장소 및 숙소를 자유롭게 설정하여 보세요!"
+          avatar="P"
+          button="장소등록"
+          onButtonClick={handleCreateBtnClick}
+        />
+        {dayPlaces.length > 0 && (
+          <List className={classes.list}>
+            {dayPlaces.map((place, index) => {
+              return (
+                <React.Fragment key={place.placeNo}>
+                  <PlaceListItem
+                    place={place}
+                    onListClick={handleListClick}
+                    onInfoClick={(e) => handleInfoClick(e, place)}
+                  />
+                  {index !== dayPlaces.length - 1 && (
+                    <Divider className={classes.divider} light={true} />
+                  )}
+                </React.Fragment>
+              );
+            })}
+          </List>
+        )}
+      </div>
       <ModalLayout open={isSaveModal} onClose={handleCloseSaveModalClick}>
         <PlaceSaveModalContainer onClose={handleCloseSaveModalClick} />
       </ModalLayout>
-    </div>
+      <ModalLayout open={isInfoModal}>
+        <PlaceInfoModalContainer place={selectPlace} />
+      </ModalLayout>
+    </>
   );
 }
 

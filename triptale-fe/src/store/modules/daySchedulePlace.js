@@ -15,7 +15,7 @@ export const setMap = createAction(SET_MAP);
 export const setTrip = createAction(SET_TRIP);
 export const setDayPlaces = createAction(SET_DAY_PLACES);
 export const setSavePlace = createAction(SET_SAVE_PLACE);
-export const setSavePlaceDpne = createAction(SET_SAVE_PLACE_DONE);
+export const setSavePlaceDone = createAction(SET_SAVE_PLACE_DONE);
 export const setSavePlaceError = createAction(SET_SAVE_PLACE_ERROR);
 export const initSavePlace = createAction(INIT_SAVE_PLACE);
 export const setActiveStep = createAction(SET_ACTIVE_STEP);
@@ -38,7 +38,7 @@ export const saveDayPlaceAsync = (tripNo, dayScheduleNo, place) => async (dispat
     await dayScheduleService.createDaySchedulePlace(tripNo, dayScheduleNo, place);
     // 목록 새로고침 후 저장 데이터 삭제
     dispatch(setDayPlacesAsync(tripNo, dayScheduleNo));
-    dispatch(setSavePlaceDpne());
+    dispatch(setSavePlaceDone());
   } catch (error) {
     console.error(error.response.data);
     dispatch(setSavePlaceError(error.response.data));
