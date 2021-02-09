@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import * as PlaceActions from 'store/modules/daySchedulePlace';
+import { dayScheduleService } from 'lib/axios/services';
 import PlaceSaveModalContainer from 'containers/place/PlaceSaveModalContainer';
 import PlaceInfoModalContainer from 'containers/place/PlaceInfoModalContainer';
 import PlaceListItem from 'components/place/PlaceListItem';
@@ -62,31 +63,69 @@ function DayPlaceListContainer() {
   const dispatch = useDispatch();
   const { srno, daySrno } = useParams();
 
+  // 여행 목록 조회
+  const getPlaceList = useCallback(() => {
+    dispatch(PlaceActions.setDayPlacesAsync(srno, daySrno));
+  }, [dispatch, srno, daySrno]);
+
+  // 여행 삭제
+  const deletePlace = useCallback(
+    async (placeNo) => {
+      try {
+        const response = await dayScheduleService.deleteDaySchedulePlace(srno, daySrno, placeNo);
+        if (response.placeNo > 0) {
+          getPlaceList();
+        }
+      } catch (error) {
+        console.error(error.response.data);
+      }
+    },
+    [getPlaceList, srno, daySrno]
+  );
+
   // 목록 장소 아이템 클릭 이벤트
-  const handleListClick = (position) => {
-    dispatch(PlaceActions.setMap({ center: position, level: 3 }));
-  };
+  const handleListClick = useCallback(
+    (position) => {
+      dispatch(PlaceActions.setMap({ center: position, level: 3 }));
+    },
+    [dispatch]
+  );
 
   // 장소 정보 팝업 표출 이벤트
-  const handleInfoClick = (e, place) => {
+  const handleInfoClick = useCallback((e, place) => {
     e.stopPropagation();
     setSelectPlace(place);
     setIsInfoModal(true);
-    alert('해당 장소, 숙소 정보 팝업 표출');
-  };
+  }, []);
 
   // 장소 등록 버튼 이벤트
-  const handleCreateBtnClick = () => {
+  const handleCreateBtnClick = useCallback(() => {
     setIsSaveModal(true);
-  };
+  }, []);
 
-  // 장소 팝업 닫기 이벤트
-  const handleCloseSaveModalClick = () => {
+  // 장소 등록, 수정 모달 닫기 이벤트
+  const handleCloseSaveModalClick = useCallback(() => {
     // 등록, 수정 단계 및 데이터 초기화
     dispatch(PlaceActions.setActiveStep(0));
     dispatch(PlaceActions.initSavePlace());
     setIsSaveModal(false);
-  };
+  }, [dispatch]);
+
+  // 장소 삭제 이벤트
+  const handleDeletePlaceClick = useCallback(
+    (placeNo) => {
+      if (window.confirm('장소를 삭제하시겠습니까?')) {
+        deletePlace(placeNo);
+        setIsInfoModal(false);
+      }
+    },
+    [deletePlace]
+  );
+
+  // 장소 상세 모달 닫기
+  const handleClosePlaceModalClick = useCallback(() => {
+    setIsInfoModal(false);
+  }, []);
 
   useEffect(() => {
     dispatch(PlaceActions.setTripAsync(srno));
@@ -126,7 +165,11 @@ function DayPlaceListContainer() {
         <PlaceSaveModalContainer onClose={handleCloseSaveModalClick} />
       </ModalLayout>
       <ModalLayout open={isInfoModal}>
-        <PlaceInfoModalContainer place={selectPlace} />
+        <PlaceInfoModalContainer
+          place={selectPlace}
+          onClosePlaceModalClick={handleClosePlaceModalClick}
+          onPlcaeDeleteClick={handleDeletePlaceClick}
+        />
       </ModalLayout>
     </>
   );

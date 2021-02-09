@@ -87,7 +87,7 @@ function PlaceInfoModalContainer({
   const [mapOptions, setMapOptions] = useState({
     mapId: 'placeInfoMap',
     center: [place.latitude, place.longitude],
-    level: 6,
+    level: 4,
   });
 
   const handleExpandClick = useCallback(() => {
@@ -118,9 +118,11 @@ function PlaceInfoModalContainer({
               {place.description}
             </Typography>
           )}
-          <p>장소 타입</p>
+          <p>장소 정보</p>
           <Typography variant="body2" color="textSecondary" component="p">
-            {place.type === 1 ? '장소' : '숙소'}
+            <a href={place.infoUrl} target="_blank">
+              {place.infoUrl}
+            </a>
           </Typography>
 
           <p>

@@ -28,8 +28,12 @@ export const setTripAsync = (tripNo) => async (dispatch) => {
 
 // 여행 일차 별 장소 목록 조회
 export const setDayPlacesAsync = (tripNo, dayScheduleNo) => async (dispatch) => {
-  const response = await dayScheduleService.searchDaySchedulePlace(tripNo, dayScheduleNo);
-  dispatch(setDayPlaces(response.places));
+  try {
+    const response = await dayScheduleService.searchDaySchedulePlace(tripNo, dayScheduleNo);
+    dispatch(setDayPlaces(response.places));
+  } catch (error) {
+    console.error(error.response.data);
+  }
 };
 
 // 여행 일차 별 장소 등록 & 수정
@@ -105,5 +109,5 @@ export default handleActions(
         draft.activeStep = step;
       }),
   },
-  initialize,
+  initialize
 );

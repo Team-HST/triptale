@@ -51,6 +51,19 @@ const dayScheduleService = {
   },
 
   /**
+   * 여행 장소 삭제
+   *
+   * @param tripNo (여행번호)
+   * @param dayScheduleNo (일차 번호)
+   * @param placeNo (장소 번호)
+   */
+  deleteDaySchedulePlace: (tripNo, dayScheduleNo, placeNo) => {
+    return http.delete(
+      `/api/content/trips/${tripNo}/day-schedules/${dayScheduleNo}/places/${placeNo}`
+    );
+  },
+
+  /**
    * Kakao 장소검색 API 섬네일 검색
    *
    * @param placeUrl (여행 번호)
