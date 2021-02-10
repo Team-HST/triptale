@@ -64,6 +64,7 @@ app:
         - /swagger-ui.html
         # Public apis
         - /system/storage/files/**
+        - /content/weather/**
 ---
 spring:
   profiles: local,develop
