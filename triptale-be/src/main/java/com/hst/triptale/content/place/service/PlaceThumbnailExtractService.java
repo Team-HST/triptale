@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.w3c.dom.stylesheets.LinkStyle;
 
 import com.hst.triptale.content.place.model.KakaoPlaceDetailModel;
 import com.hst.triptale.content.place.ui.response.PlaceThumbnailResponse;
