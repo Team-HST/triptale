@@ -67,7 +67,7 @@ function PlaceSaveDefaultFormContainer() {
 
       setStartAt(e.target.value);
     },
-    [endAt],
+    [endAt]
   );
 
   // 종료 시간 변경 이벤트
@@ -80,7 +80,7 @@ function PlaceSaveDefaultFormContainer() {
 
       setEndAt(e.target.value);
     },
-    [startAt],
+    [startAt]
   );
 
   // 장소 타입 변경 이벤트
@@ -104,7 +104,7 @@ function PlaceSaveDefaultFormContainer() {
         placeType: Number(type),
         startAt,
         endAt,
-      }),
+      })
     );
     dispatch(PlaceActions.setActiveStep(activeStep + 1));
   };
@@ -114,7 +114,7 @@ function PlaceSaveDefaultFormContainer() {
 
     setTitle(title ? title : '');
     setDescription(description ? description : '');
-    setType(type ? type : '1');
+    setType(type ? String(type) : '1');
     setStartAt(startAt ? startAt : '00:00');
     setEndAt(endAt ? endAt : '00:00');
   }, [savePlace]);

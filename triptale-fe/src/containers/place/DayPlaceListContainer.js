@@ -56,9 +56,10 @@ const useStyles = makeStyles((theme) => ({
  */
 function DayPlaceListContainer() {
   const classes = useStyles();
+  const [label, setLabel] = useState('등록');
   const [isSaveModal, setIsSaveModal] = useState(false);
   const [isInfoModal, setIsInfoModal] = useState(false);
-  const [selectPlace, setSelectPlace] = useState();
+  const [selectPlace, setSelectPlace] = useState({});
   const { dayPlaces } = useSelector((state) => ({ dayPlaces: state.daySchedulePlace.dayPlaces }));
   const dispatch = useDispatch();
   const { srno, daySrno } = useParams();
@@ -100,16 +101,16 @@ function DayPlaceListContainer() {
 
   // 장소 등록 버튼 이벤트
   const handleCreateBtnClick = useCallback(() => {
+    setLabel('등록');
     setIsSaveModal(true);
   }, []);
 
-  // 장소 등록, 수정 모달 닫기 이벤트
-  const handleCloseSaveModalClick = useCallback(() => {
-    // 등록, 수정 단계 및 데이터 초기화
-    dispatch(PlaceActions.setActiveStep(0));
-    dispatch(PlaceActions.initSavePlace());
-    setIsSaveModal(false);
-  }, [dispatch]);
+  // 장소 수정 이벤트
+  const handleModifyPlaceClick = useCallback(() => {
+    dispatch(PlaceActions.setSavePlace(selectPlace));
+    setLabel('수정');
+    setIsSaveModal(true);
+  }, [dispatch, selectPlace]);
 
   // 장소 삭제 이벤트
   const handleDeletePlaceClick = useCallback(
@@ -122,9 +123,18 @@ function DayPlaceListContainer() {
     [deletePlace]
   );
 
+  // 장소 등록, 수정 모달 닫기 이벤트
+  const handleCloseSaveModalClick = useCallback(() => {
+    // 등록, 수정 단계 및 데이터 초기화
+    dispatch(PlaceActions.setActiveStep(0));
+    dispatch(PlaceActions.initSavePlace());
+    setIsSaveModal(false);
+  }, [dispatch]);
+
   // 장소 상세 모달 닫기
   const handleClosePlaceModalClick = useCallback(() => {
     setIsInfoModal(false);
+    setSelectPlace({});
   }, []);
 
   useEffect(() => {
@@ -162,12 +172,17 @@ function DayPlaceListContainer() {
         )}
       </div>
       <ModalLayout open={isSaveModal} onClose={handleCloseSaveModalClick}>
-        <PlaceSaveModalContainer onClose={handleCloseSaveModalClick} />
+        <PlaceSaveModalContainer
+          place={selectPlace}
+          label={label}
+          onClose={handleCloseSaveModalClick}
+        />
       </ModalLayout>
       <ModalLayout open={isInfoModal}>
         <PlaceInfoModalContainer
           place={selectPlace}
           onClosePlaceModalClick={handleClosePlaceModalClick}
+          onPlaceModifyClick={handleModifyPlaceClick}
           onPlcaeDeleteClick={handleDeletePlaceClick}
         />
       </ModalLayout>

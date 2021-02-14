@@ -9,7 +9,7 @@ function PlaceSaveConfirmContainer({ onClose }) {
   const dispatch = useDispatch();
   const { srno, daySrno } = useParams();
   const { activeStep, savePlace, savePlaceDone, savePlaceError } = useSelector(
-    (state) => state.daySchedulePlace,
+    (state) => state.daySchedulePlace
   );
 
   // 확인 step 진행 이벤트
