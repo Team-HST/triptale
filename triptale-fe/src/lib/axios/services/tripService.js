@@ -45,7 +45,7 @@ const tripService = {
    *
    * @param tripNo (여행 번호)
    */
-  removeTrip: (tripNo) => {
+  deleteTrip: (tripNo) => {
     return http.delete(`/api/content/trips/${tripNo}`);
   },
 };

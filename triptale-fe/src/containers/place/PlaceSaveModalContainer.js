@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
  * @modify date 2021-01-16 19:14:49
  * @desc [일차 별 장소 등록 컴포넌트]
  */
-function PlaceSaveModalContainer({ onClose }) {
+function PlaceSaveModalContainer({ label, onClose }) {
   const classes = useStyles();
   const { activeStep } = useSelector((state) => state.daySchedulePlace);
 
@@ -77,7 +77,7 @@ function PlaceSaveModalContainer({ onClose }) {
               align="center"
               style={{ flex: 'auto', marginLeft: '25px' }}
             >
-              장소 등록
+              장소 {label}
             </Typography>
             <IconButton
               aria-label="settings"
@@ -102,6 +102,7 @@ function PlaceSaveModalContainer({ onClose }) {
 }
 
 PlaceSaveModalContainer.propTypes = {
+  label: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 

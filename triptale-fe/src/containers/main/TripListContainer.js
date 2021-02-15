@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { tripService } from 'lib/axios/services';
+import * as TripActions from 'store/modules/trip';
 import ModalLayout from 'components/common/ModalLayout';
 import TripInfoModalContainer from 'containers/main/TripInfoModalContainer';
 import TripSaveModalContainer from 'containers/main/TripSaveModalContainer';
@@ -8,9 +10,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import TripCard from 'components/main/TripCard';
-
-import { tripService } from 'lib/axios/services';
-import * as TripActions from 'store/modules/trip';
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
@@ -52,12 +51,12 @@ function TripListContainer() {
   // 여행 삭제
   const deleteTrip = useCallback(
     async (tripNo) => {
-      const deleteTripNo = await tripService.removeTrip(tripNo);
+      const deleteTripNo = await tripService.deleteTrip(tripNo);
       if (deleteTripNo > 0) {
         getTripList();
       }
     },
-    [getTripList],
+    [getTripList]
   );
 
   // 여행 선택 이벤트
@@ -65,7 +64,7 @@ function TripListContainer() {
     (trip) => {
       history.push(`/trip/${trip.no}`);
     },
-    [history],
+    [history]
   );
 
   // 여행 정보 표출 이벤트
@@ -79,11 +78,10 @@ function TripListContainer() {
     (tripNo) => {
       if (window.confirm('여행을 삭제하시겠습니까?')) {
         deleteTrip(tripNo);
-        getTripList();
         setIsTripInfo(false);
       }
     },
-    [deleteTrip, getTripList],
+    [deleteTrip]
   );
 
   // 여행 정보 표출 종료 이벤트

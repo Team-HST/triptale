@@ -77,16 +77,16 @@ function PlaceSaveMapContainer() {
         headers: {
           Authorization: `KakaoAK ${process.env.REACT_APP_KAKAO_API_KEY}`,
         },
-      },
+      }
     );
     const searchPlaces = response.documents;
     const placeUrls = searchPlaces.map((place) =>
-      dayScheduleService.searchKakaoPlaceAPIThumbnails([place.place_url]),
+      dayScheduleService.searchKakaoPlaceAPIThumbnails([place.place_url])
     );
 
     // thumnail 이미지 조회
     Promise.all(placeUrls).then((response) =>
-      setThumnailImgs(response.map((placeThumnail) => placeThumnail.thumbnailUrl)),
+      setThumnailImgs(response.map((placeThumnail) => placeThumnail.thumbnailUrl))
     );
 
     // 섬네일 이미지 조회
@@ -124,7 +124,7 @@ function PlaceSaveMapContainer() {
         onSearchPlace(searchText);
       }
     },
-    [onSearchPlace, searchText],
+    [onSearchPlace, searchText]
   );
 
   // 검색 장소 선택
@@ -137,10 +137,10 @@ function PlaceSaveMapContainer() {
           longitude: place.x,
           address: place.address_name,
           placeInfoUrl: place.place_url,
-        }),
+        })
       );
     },
-    [dispatch],
+    [dispatch]
   );
 
   useEffect(() => {
