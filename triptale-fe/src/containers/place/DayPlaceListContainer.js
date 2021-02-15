@@ -59,10 +59,17 @@ function DayPlaceListContainer() {
   const [label, setLabel] = useState('등록');
   const [isSaveModal, setIsSaveModal] = useState(false);
   const [isInfoModal, setIsInfoModal] = useState(false);
-  const [selectPlace, setSelectPlace] = useState({});
-  const { dayPlaces } = useSelector((state) => ({ dayPlaces: state.daySchedulePlace.dayPlaces }));
+  const { dayPlaces, selectPlace } = useSelector((state) => state.daySchedulePlace);
   const dispatch = useDispatch();
   const { srno, daySrno } = useParams();
+
+  // const getPlace = useCallback(
+  //   async (placeNo) => {
+  //     const place = await dayScheduleService.searchDaySchedulePlace(srno, daySrno, placeNo);
+  //     // setSelectPlace(place);
+  //   },
+  //   [daySrno, srno]
+  // );
 
   // 여행 목록 조회
   const getPlaceList = useCallback(() => {
@@ -93,17 +100,21 @@ function DayPlaceListContainer() {
   );
 
   // 장소 정보 팝업 표출 이벤트
-  const handleInfoClick = useCallback((e, place) => {
-    e.stopPropagation();
-    setSelectPlace(place);
-    setIsInfoModal(true);
-  }, []);
+  const handleInfoClick = useCallback(
+    (e, place) => {
+      e.stopPropagation();
+      dispatch(PlaceActions.setSelectPlace(place));
+      setIsInfoModal(true);
+    },
+    [dispatch]
+  );
 
   // 장소 등록 버튼 이벤트
   const handleCreateBtnClick = useCallback(() => {
     setLabel('등록');
+    dispatch(PlaceActions.initSavePlace());
     setIsSaveModal(true);
-  }, []);
+  }, [dispatch]);
 
   // 장소 수정 이벤트
   const handleModifyPlaceClick = useCallback(() => {
@@ -127,16 +138,16 @@ function DayPlaceListContainer() {
   const handleCloseSaveModalClick = useCallback(() => {
     // 등록, 수정 단계 및 데이터 초기화
     dispatch(PlaceActions.setActiveStep(0));
-    dispatch(PlaceActions.initSavePlace());
     setIsSaveModal(false);
   }, [dispatch]);
 
   // 장소 상세 모달 닫기
   const handleClosePlaceModalClick = useCallback(() => {
     setIsInfoModal(false);
-    setSelectPlace({});
-  }, []);
+    dispatch(PlaceActions.setSelectPlace({}));
+  }, [dispatch]);
 
+  // 여행, 일차 변경 데이터 재렌더링
   useEffect(() => {
     dispatch(PlaceActions.setTripAsync(srno));
     dispatch(PlaceActions.setDayPlacesAsync(srno, daySrno));
@@ -171,21 +182,25 @@ function DayPlaceListContainer() {
           </List>
         )}
       </div>
-      <ModalLayout open={isSaveModal} onClose={handleCloseSaveModalClick}>
-        <PlaceSaveModalContainer
-          place={selectPlace}
-          label={label}
-          onClose={handleCloseSaveModalClick}
-        />
-      </ModalLayout>
-      <ModalLayout open={isInfoModal}>
-        <PlaceInfoModalContainer
-          place={selectPlace}
-          onClosePlaceModalClick={handleClosePlaceModalClick}
-          onPlaceModifyClick={handleModifyPlaceClick}
-          onPlcaeDeleteClick={handleDeletePlaceClick}
-        />
-      </ModalLayout>
+      {selectPlace.placeNo && (
+        <>
+          <ModalLayout open={isSaveModal} onClose={handleCloseSaveModalClick}>
+            <PlaceSaveModalContainer
+              place={selectPlace}
+              label={label}
+              onClose={handleCloseSaveModalClick}
+            />
+          </ModalLayout>
+          <ModalLayout open={isInfoModal}>
+            <PlaceInfoModalContainer
+              place={selectPlace}
+              onClosePlaceModalClick={handleClosePlaceModalClick}
+              onPlaceModifyClick={handleModifyPlaceClick}
+              onPlcaeDeleteClick={handleDeletePlaceClick}
+            />
+          </ModalLayout>
+        </>
+      )}
     </>
   );
 }

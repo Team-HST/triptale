@@ -41,13 +41,50 @@ const dayScheduleService = {
   },
 
   /**
-   * 여행 일차 장소 목록 검색
+   * 여행 일차 장소 목록 조회
    *
    * @param tripNo (여행 번호)
    * @param dayScheduleNo (일차 번호)
    */
-  searchDaySchedulePlace: (tripNo, dayScheduleNo) => {
+  searchDaySchedulePlaces: (tripNo, dayScheduleNo) => {
     return http.get(`/api/content/trips/${tripNo}/day-schedules/${dayScheduleNo}/places`);
+  },
+
+  /**
+   * 여행 일차 장소 상세 조회
+   *
+   * @param tripNo (여행 번호)
+   * @param dayScheduleNo (일차 번호)
+   */
+  searchDaySchedulePlace: (tripNo, dayScheduleNo, placeNo) => {
+    return http.get(
+      `/api/content/trips/${tripNo}/day-schedules/${dayScheduleNo}/places/${placeNo}`
+    );
+  },
+
+  /**
+   * 여행 일차 별 장소 등록
+   *
+   * @param tripNo (여행 번호)
+   * @param dayScheduleNo (일차 번호)
+   * @param place (등록 장소 정보)
+   */
+  createDaySchedulePlace: (tripNo, dayScheduleNo, place) => {
+    return http.post(`/api/content/trips/${tripNo}/day-schedules/${dayScheduleNo}/places`, place);
+  },
+
+  /**
+   * 여행 일차 별 장소 수정
+   *
+   * @param tripNo (여행 번호)
+   * @param dayScheduleNo (일차 번호)
+   * @param place (등록 장소 정보)
+   */
+  updateDaySchedulePlace: (tripNo, dayScheduleNo, place) => {
+    return http.put(
+      `/api/content/trips/${tripNo}/day-schedules/${dayScheduleNo}/places/${place.placeNo}`,
+      place
+    );
   },
 
   /**
@@ -70,17 +107,6 @@ const dayScheduleService = {
    */
   searchKakaoPlaceAPIThumbnails: (placeUrl) => {
     return http.get(`/api//content/places/support/extract-thumbnail?sourceUrl=${placeUrl}`);
-  },
-
-  /**
-   * 여행 일차 별 장소 등록
-   *
-   * @param tripNo (여행 번호)
-   * @param dayScheduleNo (일차 번호)
-   * @param place (등록 장소 정보)
-   */
-  createDaySchedulePlace: (tripNo, dayScheduleNo, place) => {
-    return http.post(`/api/content/trips/${tripNo}/day-schedules/${dayScheduleNo}/places`, place);
   },
 };
 

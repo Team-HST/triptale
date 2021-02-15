@@ -25,7 +25,6 @@ function PlaceSaveConfirmContainer({ onClose }) {
   useEffect(() => {
     if (savePlaceDone) {
       alert('장소가 저장되었습니다.');
-      dispatch(PlaceActions.setActiveStep(0));
       onClose();
     }
   }, [dispatch, onClose, savePlaceDone]);

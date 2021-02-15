@@ -55,9 +55,9 @@ function ImageBannerContainer() {
   // 여행 목록 조회 메서드
   const getTripList = useCallback(
     (search) => {
-      dispatch(TripActions.setTripListAsync(search));
+      dispatch(TripActions.setTripsAsync(search));
     },
-    [dispatch],
+    [dispatch]
   );
 
   // 검색 인풋 변경 이벤트
@@ -89,7 +89,7 @@ function ImageBannerContainer() {
         getTripList(searchNm);
       }
     },
-    [getTripList, searchNm],
+    [getTripList, searchNm]
   );
 
   return (
