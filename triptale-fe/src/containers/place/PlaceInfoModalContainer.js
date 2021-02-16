@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import Map from 'components/kakaoMap/Map';
@@ -94,6 +94,13 @@ function PlaceInfoModalContainer({
     setExpanded(!expanded);
   }, [expanded]);
 
+  useEffect(() => {
+    setMapOptions((state) => ({
+      ...state,
+      center: [place.latitude, place.longitude],
+    }));
+  }, [place.latitude, place.longitude]);
+
   return (
     <div className={clsx(classes.paper, classes.modal)}>
       <Card>
@@ -120,8 +127,8 @@ function PlaceInfoModalContainer({
           )}
           <p>장소 정보</p>
           <Typography variant="body2" color="textSecondary" component="p">
-            <a href={place.infoUrl} target="_blank">
-              {place.infoUrl}
+            <a href={place.placeInfoUrl} target="_blank">
+              {place.placeInfoUrl}
             </a>
           </Typography>
 
@@ -171,7 +178,7 @@ PlaceInfoModalContainer.propTypes = {
     title: PropTypes.string.isRequired,
     name: PropTypes.string,
     thumbnailUrl: PropTypes.string,
-    infoUrl: PropTypes.string,
+    placeInfoUrl: PropTypes.string,
     address: PropTypes.string,
     type: PropTypes.number.isRequired,
     startAt: PropTypes.string.isRequired,

@@ -10,6 +10,7 @@ const SET_SAVE_PLACE_DONE = 'daySchedulePlace/SET_SAVE_PLACE_DONE';
 const SET_SAVE_PLACE_ERROR = 'dayShedulePlace/SET_SAvE_PLACE_ERROR';
 const INIT_SAVE_PLACE = 'daySchedulePlace/INIT_SAVE_PLACE';
 const SET_ACTIVE_STEP = 'daySchedulePlace/SET_ACTIVE_STEP';
+const SET_SELECT_PLACE = 'daySchedulePlace/SET_SELECT_PLACE';
 
 export const setMap = createAction(SET_MAP);
 export const setTrip = createAction(SET_TRIP);
@@ -19,6 +20,7 @@ export const setSavePlaceDone = createAction(SET_SAVE_PLACE_DONE);
 export const setSavePlaceError = createAction(SET_SAVE_PLACE_ERROR);
 export const initSavePlace = createAction(INIT_SAVE_PLACE);
 export const setActiveStep = createAction(SET_ACTIVE_STEP);
+export const setSelectPlace = createAction(SET_SELECT_PLACE);
 
 // 상세 여행정보 조회
 export const setTripAsync = (tripNo) => async (dispatch) => {
@@ -29,7 +31,7 @@ export const setTripAsync = (tripNo) => async (dispatch) => {
 // 여행 일차 별 장소 목록 조회
 export const setDayPlacesAsync = (tripNo, dayScheduleNo) => async (dispatch) => {
   try {
-    const response = await dayScheduleService.searchDaySchedulePlace(tripNo, dayScheduleNo);
+    const response = await dayScheduleService.searchDaySchedulePlaces(tripNo, dayScheduleNo);
     dispatch(setDayPlaces(response.places));
   } catch (error) {
     console.error(error.response.data);
@@ -39,7 +41,13 @@ export const setDayPlacesAsync = (tripNo, dayScheduleNo) => async (dispatch) => 
 // 여행 일차 별 장소 등록 & 수정
 export const saveDayPlaceAsync = (tripNo, dayScheduleNo, place) => async (dispatch) => {
   try {
-    await dayScheduleService.createDaySchedulePlace(tripNo, dayScheduleNo, place);
+    if (place.placeNo) {
+      await dayScheduleService.updateDaySchedulePlace(tripNo, dayScheduleNo, place);
+      dispatch(setSavePlace(place));
+      dispatch(setSelectPlace(place));
+    } else {
+      await dayScheduleService.createDaySchedulePlace(tripNo, dayScheduleNo, place);
+    }
     // 목록 새로고침 후 저장 데이터 삭제
     dispatch(setDayPlacesAsync(tripNo, dayScheduleNo));
     dispatch(setSavePlaceDone());
@@ -60,6 +68,7 @@ const initialize = {
   savePlace: {},
   savePlaceDone: false,
   savePlaceError: null,
+  selectPlace: {},
   activeStep: 0,
 };
 
@@ -107,6 +116,10 @@ export default handleActions(
     [SET_ACTIVE_STEP]: (state, { payload: step }) =>
       produce(state, (draft) => {
         draft.activeStep = step;
+      }),
+    [SET_SELECT_PLACE]: (state, { payload: place }) =>
+      produce(state, (draft) => {
+        draft.selectPlace = place;
       }),
   },
   initialize

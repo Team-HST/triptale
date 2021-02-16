@@ -33,13 +33,13 @@ function TripListContainer() {
   const [isTripInfo, setIsTripInfo] = useState(false);
   // 여행 수정 모달 료출 여부
   const [isTripModify, setIsTripModify] = useState(false);
-  const { tripList } = useSelector((state) => ({ tripList: state.trip.list }));
+  const trips = useSelector((state) => state.trip.trips);
   const history = useHistory();
   const dispatch = useDispatch();
 
   // 여행 목록 조회
   const getTripList = useCallback(() => {
-    dispatch(TripActions.setTripListAsync());
+    dispatch(TripActions.setTripsAsync());
   }, [dispatch]);
 
   // 여행 상세 조회
@@ -110,7 +110,7 @@ function TripListContainer() {
     <>
       <Container className={classes.cardGrid} maxWidth="lg">
         <Grid container spacing={2}>
-          {tripList.map((trip) => (
+          {trips.map((trip) => (
             <Grid key={trip.no} item xs={12} sm={6} md={4}>
               <TripCard
                 trip={trip}
