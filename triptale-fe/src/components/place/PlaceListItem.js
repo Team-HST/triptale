@@ -99,7 +99,7 @@ PlaceListItem.propTypes = {
     name: PropTypes.string.isRequired,
     description: PropTypes.string,
     thumbnailUrl: PropTypes.string,
-    placeType: PropTypes.number,
+    type: PropTypes.number,
     startAt: PropTypes.string.isRequired,
     endAt: PropTypes.string.isRequired,
     latitude: PropTypes.number.isRequired,

@@ -101,7 +101,7 @@ function PlaceSaveDefaultFormContainer() {
       PlaceActions.setSavePlace({
         title,
         description,
-        placeType: Number(type),
+        type: Number(type),
         startAt,
         endAt,
       })

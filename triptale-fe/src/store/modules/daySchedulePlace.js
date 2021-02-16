@@ -42,9 +42,13 @@ export const setDayPlacesAsync = (tripNo, dayScheduleNo) => async (dispatch) => 
 export const saveDayPlaceAsync = (tripNo, dayScheduleNo, place) => async (dispatch) => {
   try {
     if (place.placeNo) {
-      await dayScheduleService.updateDaySchedulePlace(tripNo, dayScheduleNo, place);
-      dispatch(setSavePlace(place));
-      dispatch(setSelectPlace(place));
+      const response = await dayScheduleService.updateDaySchedulePlace(
+        tripNo,
+        dayScheduleNo,
+        place
+      );
+      dispatch(setSavePlace(response));
+      dispatch(setSelectPlace(response));
     } else {
       await dayScheduleService.createDaySchedulePlace(tripNo, dayScheduleNo, place);
     }

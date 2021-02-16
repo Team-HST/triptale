@@ -119,23 +119,25 @@ function PlaceInfoModalContainer({
           title="Paella dish"
         />
         <CardContent className={classes.cardContent}>
-          <p>여행 내용</p>
+          <p>장소 설명</p>
           {place.description && (
             <Typography variant="body2" color="textSecondary" component="p">
               {place.description}
             </Typography>
           )}
-          <p>장소 정보</p>
+          <p>장소 상세 정보</p>
           <Typography variant="body2" color="textSecondary" component="p">
             <a href={place.placeInfoUrl} target="_blank">
               {place.placeInfoUrl}
             </a>
           </Typography>
-
           <p>
             목적지{' '}
             <span className={classes.areaSpan}>(위치를 보시려면 아래 화살표를 눌러주세요!)</span>
           </p>
+          <Typography variant="body1" color="textSecondary" component="p">
+            <b>{place.name}</b>
+          </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
             {place.address}
           </Typography>

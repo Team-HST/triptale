@@ -63,14 +63,6 @@ function DayPlaceListContainer() {
   const dispatch = useDispatch();
   const { srno, daySrno } = useParams();
 
-  // const getPlace = useCallback(
-  //   async (placeNo) => {
-  //     const place = await dayScheduleService.searchDaySchedulePlace(srno, daySrno, placeNo);
-  //     // setSelectPlace(place);
-  //   },
-  //   [daySrno, srno]
-  // );
-
   // 여행 목록 조회
   const getPlaceList = useCallback(() => {
     dispatch(PlaceActions.setDayPlacesAsync(srno, daySrno));
@@ -111,8 +103,8 @@ function DayPlaceListContainer() {
 
   // 장소 등록 버튼 이벤트
   const handleCreateBtnClick = useCallback(() => {
-    setLabel('등록');
     dispatch(PlaceActions.initSavePlace());
+    setLabel('등록');
     setIsSaveModal(true);
   }, [dispatch]);
 
@@ -182,24 +174,22 @@ function DayPlaceListContainer() {
           </List>
         )}
       </div>
+      <ModalLayout open={isSaveModal} onClose={handleCloseSaveModalClick}>
+        <PlaceSaveModalContainer
+          place={selectPlace}
+          label={label}
+          onClose={handleCloseSaveModalClick}
+        />
+      </ModalLayout>
       {selectPlace.placeNo && (
-        <>
-          <ModalLayout open={isSaveModal} onClose={handleCloseSaveModalClick}>
-            <PlaceSaveModalContainer
-              place={selectPlace}
-              label={label}
-              onClose={handleCloseSaveModalClick}
-            />
-          </ModalLayout>
-          <ModalLayout open={isInfoModal}>
-            <PlaceInfoModalContainer
-              place={selectPlace}
-              onClosePlaceModalClick={handleClosePlaceModalClick}
-              onPlaceModifyClick={handleModifyPlaceClick}
-              onPlcaeDeleteClick={handleDeletePlaceClick}
-            />
-          </ModalLayout>
-        </>
+        <ModalLayout open={isInfoModal}>
+          <PlaceInfoModalContainer
+            place={selectPlace}
+            onClosePlaceModalClick={handleClosePlaceModalClick}
+            onPlaceModifyClick={handleModifyPlaceClick}
+            onPlcaeDeleteClick={handleDeletePlaceClick}
+          />
+        </ModalLayout>
       )}
     </>
   );
