@@ -73,7 +73,7 @@ public class PlaceService {
 			)
 			.infoUrl(request.getPlaceInfoUrl())
 			.address(request.getAddress())
-			.type(PlaceType.getType(request.getPlaceType()))
+			.type(PlaceType.getType(request.getType()))
 			.startAt(request.getStartAt())
 			.endAt(request.getEndAt())
 			.location(Location.of(request.getLatitude(), request.getLongitude()))
@@ -111,7 +111,7 @@ public class PlaceService {
 		);
 		place.changeInfoUrl(request.getPlaceInfoUrl());
 		place.changeAddress(request.getAddress());
-		place.changeType(PlaceType.getType(request.getPlaceType()));
+		place.changeType(PlaceType.getType(request.getType()));
 		place.changeStartAt(request.getStartAt());
 		place.changeEndAt(request.getEndAt());
 		place.changeLocation(Location.of(request.getLatitude(), request.getLongitude()));

@@ -23,7 +23,7 @@ public class PlaceModifyingRequest extends BaseModifyingRequest {
 	@Schema(title = "장소주소", description = "장소주소", required = true)
 	private String address;
 	@Schema(title = "장소 타입", description = "1: 여행지, 2: 숙소", required = true)
-	private Integer placeType;
+	private Integer type;
 	@Schema(title = "장소 시작 시간", description = "hh:mm", required = true)
 	private LocalTime startAt;
 	@Schema(title = "장소 종료 시간", description = "장소 종료 시간", required = true)
