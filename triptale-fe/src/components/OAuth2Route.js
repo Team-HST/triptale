@@ -6,7 +6,7 @@ import { userService } from 'lib/axios/services';
  * @author hoons
  * @email dudgns0612@gmail.com
  * @create date 2020-11-05 23:55:31
- * @modify date 2020-12-03 00:08:57
+ * @modify date 2021-02-20 17:09:13
  * @desc [라우터 OAuth 검사]
  */
 function OAuth2Route() {

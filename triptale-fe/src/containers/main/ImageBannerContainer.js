@@ -1,15 +1,18 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import ProductLayout from 'components/main/ProductLayout';
 import SearchBox from 'components/common/SearchBox';
 import ModalLayout from 'components/common/ModalLayout';
+import UserProfileAvatar from 'components/main/UserProfileAvatar';
+import UserProfileCard from 'components/main/UserProfileCard';
 import TripSaveModalContainer from 'containers/main/TripSaveModalContainer';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 import * as TripActions from 'store/modules/trip';
 import { useDispatch } from 'react-redux';
+import userService from 'lib/axios/services/userService';
 
 const useStyles = makeStyles((theme) => ({
   background: {
@@ -48,9 +51,16 @@ const useStyles = makeStyles((theme) => ({
  */
 function ImageBannerContainer() {
   const classes = useStyles();
+  const [user, setUser] = useState({});
   const [searchNm, setSearchNm] = useState('');
   const [open, setOpen] = useState(false);
+  const [isUserProfile, setIsUserProfile] = useState(false);
   const dispatch = useDispatch();
+
+  const getUser = useCallback(async () => {
+    const user = await userService.searchUser(sessionStorage.getItem('userNo'));
+    setUser(user);
+  }, []);
 
   // 여행 목록 조회 메서드
   const getTripList = useCallback(
@@ -92,8 +102,20 @@ function ImageBannerContainer() {
     [getTripList, searchNm]
   );
 
+  // 유저 프로필 클릭 이벤트
+  const handleUserProfileClick = useCallback(() => {
+    setIsUserProfile(!isUserProfile);
+  }, [isUserProfile]);
+
+  useEffect(() => {
+    getUser();
+  }, [getUser]);
+
   return (
     <ProductLayout backgroundClassName={classes.background}>
+      <UserProfileAvatar user={user} onClick={handleUserProfileClick} />
+      {isUserProfile && <UserProfileCard user={user} />}
+
       <Typography
         className={classes.h2}
         color="inherit"
