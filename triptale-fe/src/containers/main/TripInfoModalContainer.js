@@ -18,6 +18,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CreateIcon from '@material-ui/icons/Create';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CloseIcon from '@material-ui/icons/Close';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -111,7 +112,7 @@ function TripInfoModalContainer({
             </IconButton>
           }
           title={trip.title}
-          subheader={`${trip.startAt}`}
+          subheader={`${trip.startAt} - ${trip.endAt}`}
         />
         <CardMedia
           className={classes.media}
@@ -145,12 +146,16 @@ function TripInfoModalContainer({
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          <IconButton aria-label="modify trip" onClick={onTripModifyClick}>
-            <CreateIcon />
-          </IconButton>
-          <IconButton aria-label="modify trip" onClick={(e) => onTripDeleteClick(trip.no)}>
-            <DeleteIcon />
-          </IconButton>
+          <Tooltip title="수정" placement="top">
+            <IconButton aria-label="modify trip" onClick={onTripModifyClick}>
+              <CreateIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="삭제" placement="top">
+            <IconButton aria-label="modify trip" onClick={(e) => onTripDeleteClick(trip.no)}>
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
           <IconButton
             className={clsx(classes.expand, {
               [classes.expandOpen]: expanded,

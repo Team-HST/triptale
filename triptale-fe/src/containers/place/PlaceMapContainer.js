@@ -5,6 +5,9 @@ import IconMarker from 'components/kakaoMap/IconMarker';
 import * as PlaceActions from 'store/modules/daySchedulePlace';
 import { makeStyles } from '@material-ui/core/styles';
 
+const locale = require('styles/images/place.png');
+const rooms = require('styles/images/rooms3.png');
+
 const useStyles = makeStyles((theme) => ({
   map: {
     height: '100%',
@@ -15,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
  * @author hoons
  * @email dudgns0612@gmail.com
  * @create date 2020-12-30 00:10:00
- * @modify date 2021-01-15 00:20:50
+ * @modify date 2021-02-20 15:54:20
  * @desc [일차 별 여행 등록, 수정 지도 컨테이너]
  */
 function PlaceMapContainer() {
@@ -35,7 +38,7 @@ function PlaceMapContainer() {
     dispatch(
       PlaceActions.setMap({
         center: [trip.latitude, trip.longitude],
-      }),
+      })
     );
   }, [dispatch, trip.latitude, trip.longitude]);
 
@@ -44,7 +47,11 @@ function PlaceMapContainer() {
       {dayPlaces.map((place) => (
         <IconMarker
           key={place.placeNo}
-          options={{ type: place.type, position: [place.latitude, place.longitude] }}
+          options={{
+            icon: place.type === 1 ? locale : rooms,
+            position: [place.latitude, place.longitude],
+            size: 40,
+          }}
           onClick={handleMarkerClick}
         />
       ))}

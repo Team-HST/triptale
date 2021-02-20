@@ -45,7 +45,7 @@ function PlaceSaveDefaultFormContainer() {
   const [description, setDescription] = useState('');
   const [type, setType] = useState('1');
   const [startAt, setStartAt] = useState('00:00');
-  const [endAt, setEndAt] = useState('00:00');
+  const [endAt, setEndAt] = useState('24:00');
 
   // 장소 명 변경 이벤트
   const handleTitleChange = useCallback((e) => {
@@ -116,7 +116,7 @@ function PlaceSaveDefaultFormContainer() {
     setDescription(description ? description : '');
     setType(type ? String(type) : '1');
     setStartAt(startAt ? startAt : '00:00');
-    setEndAt(endAt ? endAt : '00:00');
+    setEndAt(endAt ? endAt : '23:59');
   }, [savePlace]);
 
   return (

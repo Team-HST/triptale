@@ -16,6 +16,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfied';
 import List from '@material-ui/core/List';
 
+const location = require('styles/images/location.png');
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '90%',
@@ -196,7 +198,13 @@ function PlaceSaveMapContainer() {
 
       <Map className={classes.map} options={map}>
         {savePlace.latitude && savePlace.longitude && (
-          <IconMarker options={{ position: [savePlace.latitude, savePlace.longitude] }} />
+          <IconMarker
+            options={{
+              position: [savePlace.latitude, savePlace.longitude],
+              icon: location,
+              size: 40,
+            }}
+          />
         )}
       </Map>
       <SaveActiveButton

@@ -3,15 +3,11 @@ import PropTypes from 'prop-types';
 import { MapContext } from './Map';
 /*global kakao*/
 
-const place = require('styles/images/place.png');
-const rooms = require('styles/images/rooms3.png');
-const location = require('styles/images/location.png');
-
 /**
  * @author hoons
  * @email dudgns0612@gmail.com
  * @create date 2021-01-14 22:03:30
- * @modify date 2021-01-29 01:00:36
+ * @modify date 2021-02-20 15:55:20
  * @desc [아이콘 마커 생성 컴포넌트]
  */
 function IconMarker({ options, onClick }) {
@@ -21,14 +17,14 @@ function IconMarker({ options, onClick }) {
 
   useEffect(() => {
     const icon = new kakao.maps.MarkerImage(
-      !options.type ? location : options.type === 1 ? place : rooms,
-      new kakao.maps.Size(40, 40),
+      options.icon,
+      new kakao.maps.Size(options.size, options.size),
       {
         offset: new kakao.maps.Point(16, 34),
         alt: options.type === 1 ? '장소' : '숙소',
         shape: 'poly',
         coords: '1,20,1,9,5,2,10,0,21,0,27,3,30,9,30,20,17,33,14,33',
-      },
+      }
     );
 
     const iconMarker = new kakao.maps.Marker({

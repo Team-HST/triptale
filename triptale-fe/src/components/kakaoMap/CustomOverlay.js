@@ -7,7 +7,7 @@ import { MapContext } from './Map';
  * @author hoons
  * @email dudgns0612@gmail.com
  * @create date 2020-11-15 19:48:18
- * @modify date 2020-12-07 22:58:57
+ * @modify date 2021-02-20 14:00:21
  * @desc [커스텀 오버레이 생성 컴포넌트]
  */
 function CustomOverlay({ options }) {
@@ -16,7 +16,7 @@ function CustomOverlay({ options }) {
     new kakao.maps.CustomOverlay({
       ...options,
       position: new kakao.maps.LatLng(options.position[0], options.position[1]),
-    }),
+    })
   );
 
   useEffect(() => {

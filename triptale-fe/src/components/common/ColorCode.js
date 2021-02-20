@@ -20,13 +20,13 @@ const useStyles = makeStyles((theme) => ({
 function ColorCode({ value, onColorChange }) {
   const classes = useStyles();
   const [colorCodes, setColorCodes] = useState([
-    { color: '#FF0000', active: false },
-    { color: '#FF8B00', active: false },
-    { color: '#FFE400', active: false },
-    { color: '#01AD18', active: false },
-    { color: '#044FFC', active: false },
-    { color: '#011070', active: false },
-    { color: '#AE04FC', active: false },
+    { color: 'red', active: false },
+    { color: 'orange', active: false },
+    { color: 'yellow', active: false },
+    { color: 'green', active: false },
+    { color: 'blue', active: false },
+    { color: 'navy', active: false },
+    { color: 'purple', active: false },
   ]);
 
   useEffect(() => {
@@ -35,8 +35,8 @@ function ColorCode({ value, onColorChange }) {
         state.map((colorCode) =>
           colorCode.color === value
             ? { ...colorCode, active: true }
-            : { ...colorCode, active: false },
-        ),
+            : { ...colorCode, active: false }
+        )
       );
     }
   }, [value]);

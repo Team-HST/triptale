@@ -7,14 +7,14 @@ import { MapContext } from './Map';
  * @author hoons
  * @email dudgns0612@gmail.com
  * @create date 2020-11-11 23:27:28
- * @modify date 2021-01-14 22:14:07
+ * @modify date 2021-02-19 00:07:58
  * @desc [마커 생성 컴포넌트]
  */
 function Marker({ options, onClick }) {
   const [marker, setMarker] = useState(
     new kakao.maps.Marker({
       position: new kakao.maps.LatLng(options.position[0], options.position[1]),
-    }),
+    })
   );
 
   const map = useContext(MapContext);

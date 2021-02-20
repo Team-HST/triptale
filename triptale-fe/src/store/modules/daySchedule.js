@@ -18,8 +18,12 @@ export const setTripAsync = (tripNo) => async (dispatch) => {
 
 // 여행 일자 목록 조회
 export const setDaySchedulesAsync = (tripNo) => async (dispatch) => {
-  const response = await dayScheduleService.searchDaySchedules(tripNo);
-  dispatch(setDaySchedules(response.daySchedules));
+  try {
+    const response = await dayScheduleService.searchDaySchedules(tripNo);
+    dispatch(setDaySchedules(response.daySchedules));
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const initialize = {
@@ -47,5 +51,5 @@ export default handleActions(
         draft.map = map;
       }),
   },
-  initialize,
+  initialize
 );

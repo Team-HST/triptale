@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 
 import Grid from '@material-ui/core/Grid';
@@ -9,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import ColorCode from 'components/common/ColorCode';
+import { makeStyles } from '@material-ui/core/styles';
 
 import { dayScheduleService } from 'lib/axios/services';
 
@@ -17,14 +17,14 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     [theme.breakpoints.up('sm')]: {
       width: '40%',
-      height: '25%',
+      height: '27%',
     },
     [theme.breakpoints.up('lg')]: {
       width: '30%',
-      height: '25%',
+      height: '27%',
     },
     width: '90%',
-    height: '30%',
+    height: '28%',
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     textAlign: 'center',

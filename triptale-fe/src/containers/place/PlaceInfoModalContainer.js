@@ -16,8 +16,12 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CreateIcon from '@material-ui/icons/Create';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CloseIcon from '@material-ui/icons/Close';
+import Tooltip from '@material-ui/core/Tooltip';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
+
+const locale = require('styles/images/place.png');
+const rooms = require('styles/images/rooms3.png');
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -164,7 +168,11 @@ function PlaceInfoModalContainer({
           <CardContent>
             <Map className={classes.map} options={mapOptions}>
               <IconMarker
-                options={{ type: place.type, position: [place.latitude, place.longitude] }}
+                options={{
+                  icon: place.type === 1 ? locale : rooms,
+                  position: [place.latitude, place.longitude],
+                  size: 40,
+                }}
               />
             </Map>
           </CardContent>
