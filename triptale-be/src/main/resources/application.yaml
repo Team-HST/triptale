@@ -20,6 +20,9 @@ spring:
       enabled: true
       max-file-size: 100MB
       max-request-size: 115MB
+  cache:
+    jcache:
+      config: classpath:ehcache.xml
 
 # OpenAPI properties
 springdoc:
@@ -64,6 +67,7 @@ app:
         - /swagger-ui.html
         # Public apis
         - /system/storage/files/**
+        - /content/weather/**
 ---
 spring:
   profiles: local,develop
