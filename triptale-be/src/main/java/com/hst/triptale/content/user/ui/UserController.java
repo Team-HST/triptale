@@ -1,13 +1,14 @@
 package com.hst.triptale.content.user.ui;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hst.triptale.configuration.ApplicationConstants;
-import com.hst.triptale.content.user.entity.User;
 import com.hst.triptale.content.user.service.UserService;
+import com.hst.triptale.content.user.ui.response.UserResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -33,8 +34,8 @@ public class UserController {
 		}
 	)
 	@GetMapping("{no}")
-	public User getUser(@PathVariable Long no) {
-		return userService.loadUserByUsername(no.toString());
+	public ResponseEntity<UserResponse> getUser(@PathVariable Long no) {
+		return ResponseEntity.ok(userService.getUser(no));
 	}
 
 }

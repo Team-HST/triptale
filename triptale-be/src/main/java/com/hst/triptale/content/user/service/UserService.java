@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.hst.triptale.content.user.entity.User;
 import com.hst.triptale.content.user.exception.UserNotFoundException;
 import com.hst.triptale.content.user.repository.UserRepository;
+import com.hst.triptale.content.user.ui.response.UserResponse;
 import com.hst.triptale.security.oauth2.model.OAuthAttributes;
 
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,15 @@ public class UserService implements UserDetailsService {
 	 */
 	public User getUserEntity(Long userNo) {
 		return this.loadUserByUsername(userNo.toString());
+	}
+
+	/**
+	 * 사용자 조회
+	 * @param userNo 사용자 No
+	 * @return 사용자
+	 */
+	public UserResponse getUser(Long userNo) {
+		return UserResponse.from(getUserEntity(userNo));
 	}
 
 	/**
