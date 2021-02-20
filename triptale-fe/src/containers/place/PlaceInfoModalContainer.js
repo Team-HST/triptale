@@ -147,12 +147,16 @@ function PlaceInfoModalContainer({
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          <IconButton aria-label="modify trip" onClick={onPlaceModifyClick}>
-            <CreateIcon />
-          </IconButton>
-          <IconButton aria-label="modify trip" onClick={(e) => onPlcaeDeleteClick(place.placeNo)}>
-            <DeleteIcon />
-          </IconButton>
+          <Tooltip title="수정" placement="top">
+            <IconButton aria-label="modify trip" onClick={onPlaceModifyClick}>
+              <CreateIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="삭제" placement="top">
+            <IconButton aria-label="modify trip" onClick={(e) => onPlcaeDeleteClick(place.placeNo)}>
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
           <IconButton
             className={clsx(classes.expand, {
               [classes.expandOpen]: expanded,
