@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Avatar from '@material-ui/core/Avatar';
@@ -8,17 +8,19 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 
+import { weatherService } from 'lib/axios/services';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
   },
   image: {
-    backgroundImage: `url(${require('styles/images/login_banner.png')})`,
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
+      backgroundPosition: 'center',
+    width: '100%',
+    height: '100%'
   },
   paper: {
     margin: theme.spacing(8, 4),
@@ -46,12 +48,23 @@ const useStyles = makeStyles((theme) => ({
  * @desc [로그인 컨테이너]
  */
 function LoginContainer() {
+  const [backgroundImage, setBackgroundImage] = useState('');
+
+  useEffect(()=>{
+    weatherService.getCurrentWeatherType().then(e => {
+      setBackgroundImage(`background/${e.toLowerCase()}/${Math.floor(Math.random() * 3)}.jpeg`);
+    });
+  },[])
+
+
   const classes = useStyles();
 
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
-      <Grid item xs={12} sm={8} md={8} className={classes.image} />
+      <Grid item xs={12} sm={8} md={8}>
+        <img className={classes.image} src={backgroundImage} />
+      </Grid>
       <Grid item xs={12} sm={4} md={4} component={Paper} elevation={6} square>
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>

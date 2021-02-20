@@ -1,15 +1,11 @@
 package com.hst.triptale.content.weather.service.impl;
 
-import java.io.IOException;
-import java.util.Random;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Service;
 
 import com.hst.triptale.content.weather.service.AbstractWeatherService;
-import com.hst.triptale.content.weather.type.WeatherType;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,8 +33,5 @@ public class NaverWeatherService extends AbstractWeatherService {
 		String temperatureString = element.text();
 		return Integer.parseInt(temperatureString.substring(5, temperatureString.length() - 1));
 	}
-
-
-
 
 }

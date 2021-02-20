@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public abstract class AbstractWeatherService implements WeatherService {
 
-	protected double defaultRainyPrecipitation = 0;
+	protected double defaultRainyPrecipitation = 70;
 
 	@Override
 	@Cacheable("currentWeatherCache")
