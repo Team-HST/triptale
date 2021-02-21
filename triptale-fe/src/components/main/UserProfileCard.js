@@ -12,7 +12,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   root: {
-    position: 'fixed',
+    position: 'absolute',
     maxWidth: 345,
     top: 100,
     right: 10,
