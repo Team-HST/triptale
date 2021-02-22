@@ -21,7 +21,10 @@ const location = require('styles/images/location.png');
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '90%',
-    height: '255px',
+    height: '210px',
+    [theme.breakpoints.down('xs')]: {
+      height: '165px',
+    },
     overflow: 'auto',
     marginLeft: 'auto',
     marginRight: 'auto',
@@ -40,8 +43,11 @@ const useStyles = makeStyles((theme) => ({
   },
   noData: {
     textAlign: 'center',
-    height: '255px',
+    height: '210px',
     lineHeight: '5px',
+    [theme.breakpoints.down('xs')]: {
+      height: '165px',
+    },
   },
   noDataIcon: {
     verticalAlign: 'text-bottom',
