@@ -3,6 +3,7 @@ package com.hst.triptale.content.schedule.entity;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -54,7 +55,7 @@ public class DaySchedule {
 
 	@OneToMany(mappedBy = "daySchedule")
 	@OrderBy("startAt")
-	private List<Place> places;
+	private List<Place> places = new ArrayList<>();
 
 	@Builder
 	public DaySchedule(Integer order, String description, String colorCode, Trip trip) {
