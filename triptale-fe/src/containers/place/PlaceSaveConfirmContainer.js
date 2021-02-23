@@ -2,10 +2,18 @@ import React, { useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import * as PlaceActions from 'store/modules/daySchedulePlace';
-import Typography from '@material-ui/core/Typography';
 import SaveActiveButton from 'components/place/SaveActiveButton';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(() => ({
+  buttonGroup: {
+    magin: 'auto',
+  },
+}));
 
 function PlaceSaveConfirmContainer({ onClose }) {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const { srno, daySrno } = useParams();
   const { activeStep, savePlace, savePlaceDone, savePlaceError } = useSelector(
@@ -43,11 +51,13 @@ function PlaceSaveConfirmContainer({ onClose }) {
         해당 장소를 등록하시겠습니까?
       </Typography>
       <Typography variant="subtitle1">확인 버튼을 눌러 저장하여 주세요.</Typography>
-      <SaveActiveButton
-        activeStep={activeStep}
-        onNextClick={handleNextClick}
-        onBackClick={handleBackClick}
-      />
+      <div className={classes.buttonGroup}>
+        <SaveActiveButton
+          activeStep={activeStep}
+          onNextClick={handleNextClick}
+          onBackClick={handleBackClick}
+        />
+      </div>
     </>
   );
 }

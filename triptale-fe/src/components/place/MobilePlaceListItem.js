@@ -2,11 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Avatar from '@material-ui/core/Avatar';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
+
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -15,31 +18,30 @@ const useStyles = makeStyles((theme) => ({
     height: 120,
     marginRight: 10,
   },
-  wordBreak: {
+  listItemText: {
     display: 'block',
     wordBreak: 'break-all',
     width: '100%',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
+    marginLeft: theme.spacing(1),
   },
   icon: {
     padding: '0px',
   },
   listItemIcon: {
-    marginTop: '0px',
+    position: 'relative',
+    top: '-10px',
     minWidth: '25px',
+  },
+  avatar: {
+    width: theme.spacing(7),
+    height: theme.spacing(7),
   },
 }));
 
-/**
- * @author hoons
- * @email dudgns0612@gmail.com
- * @create date 2021-01-14 23:37:32
- * @modify date 2021-01-14 23:37:32
- * @desc [장소 정보 컴포넌트]
- */
-function PlaceListItem({ place, onListClick, onInfoClick }) {
+function MobilePlaceListItem({ place, onListClick, onInfoClick }) {
   const classes = useStyles();
 
   return (
@@ -48,37 +50,32 @@ function PlaceListItem({ place, onListClick, onInfoClick }) {
       button
       onClick={() => onListClick([place.latitude, place.longitude])}
     >
-      <div>
+      <ListItemAvatar>
         {place.thumbnailUrl ? (
-          <img className={classes.placeImg} alt={place.thumbnailUrl} src={place.thumbnailUrl} />
+          <Avatar className={classes.avatar} alt={place.thumbnailUrl} src={place.thumbnailUrl} />
         ) : (
-          <img
-            className={classes.placeImg}
+          <Avatar
+            className={classes.avatar}
             alt={'기본 이미지'}
             src={require('styles/images/no-image.png')}
           />
         )}
-      </div>
+      </ListItemAvatar>
       <ListItemText
         primary={
-          <Typography variant="subtitle1" className={classes.wordBreak}>
+          <Typography variant="subtitle1" className={classes.listItemText}>
             {place.title}
           </Typography>
         }
         secondary={
-          <>
-            <Typography
-              component="span"
-              variant="body2"
-              className={classes.wordBreak}
-              color="textPrimary"
-            >
-              {place.description}
-            </Typography>
-            <br />
-            {place.name} <br />
-            {`${place.startAt} - ${place.endAt}`}
-          </>
+          <Typography
+            component="span"
+            variant="body2"
+            className={classes.listItemText}
+            color="textPrimary"
+          >
+            {place.name}
+          </Typography>
         }
       />
       <ListItemIcon className={classes.listItemIcon}>
@@ -92,7 +89,7 @@ function PlaceListItem({ place, onListClick, onInfoClick }) {
   );
 }
 
-PlaceListItem.propTypes = {
+MobilePlaceListItem.propTypes = {
   place: PropTypes.shape({
     title: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
@@ -108,4 +105,4 @@ PlaceListItem.propTypes = {
   onInfoClick: PropTypes.func.isRequired,
 };
 
-export default PlaceListItem;
+export default MobilePlaceListItem;

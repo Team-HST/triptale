@@ -16,15 +16,15 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     position: 'absolute',
     [theme.breakpoints.up('sm')]: {
-      width: '40%',
-      height: '27%',
+      width: '60%',
+      height: '225px',
     },
     [theme.breakpoints.up('lg')]: {
       width: '30%',
-      height: '27%',
+      height: '225px',
     },
     width: '90%',
-    height: '28%',
+    height: '225px',
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     textAlign: 'center',
@@ -118,7 +118,7 @@ function DaySaveModalContainer({ daySchedule, label, onSaveModalClose }) {
     <div className={clsx(classes.paper, classes.modal)}>
       <Grid container spacing={2} justify="center">
         <Grid className={classes.header} item xs={12}>
-          <Typography variant="h6">TripTale! 일차 {label}</Typography>
+          <Typography variant="h6"> 일차 {label}</Typography>
         </Grid>
         <Grid item xs={10}>
           <TextField

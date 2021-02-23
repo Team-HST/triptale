@@ -19,6 +19,7 @@ const steps = ['기본정보', '잠소검색', '등록완료'];
 const useStyles = makeStyles((theme) => ({
   layout: {
     width: 'auto',
+    height: 'auto',
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
     [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
@@ -31,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(3),
     padding: theme.spacing(2),
+    overflow: 'auto',
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
       marginTop: theme.spacing(6),
       marginBottom: theme.spacing(6),

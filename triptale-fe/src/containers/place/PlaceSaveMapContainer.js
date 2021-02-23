@@ -40,13 +40,16 @@ const useStyles = makeStyles((theme) => ({
   },
   map: {
     height: '30vh',
+    [theme.breakpoints.down('xs')]: {
+      height: '25vh',
+    },
   },
   noData: {
     textAlign: 'center',
     height: '210px',
     lineHeight: '5px',
     [theme.breakpoints.down('xs')]: {
-      height: '165px',
+      height: '120px',
     },
   },
   noDataIcon: {

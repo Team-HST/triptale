@@ -2,7 +2,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,react
 
 # Distribution directories
-dist/
+build/
 
 ### react ###
 .DS_*

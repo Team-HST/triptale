@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: red[500],
   },
   areaSpan: {
-    fontSize: 3,
+    fontSize: 12,
     color: 'green',
   },
   map: {

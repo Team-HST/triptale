@@ -5,13 +5,19 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
+  listItem: {
+    paddingBottom: '0px',
+    [theme.breakpoints.down('xs')]: {
+      padding: 0,
+    },
+  },
   placeImg: {
     width: 110,
     height: 70,
+    [theme.breakpoints.down('xs')]: {
+      width: 80,
+    },
     marginRight: 10,
-  },
-  listItem: {
-    paddingBottom: '0px',
   },
 }));
 

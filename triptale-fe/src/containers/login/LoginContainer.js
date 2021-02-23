@@ -18,12 +18,14 @@ const useStyles = makeStyles((theme) => ({
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
-      backgroundPosition: 'center',
+    backgroundPosition: 'center',
     width: '100%',
-    height: '100%'
+    height: '100%',
   },
   paper: {
-    margin: theme.spacing(8, 4),
+    [theme.breakpoints.down('sm')]: {
+      margin: theme.spacing(8, 4),
+    },
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -50,12 +52,13 @@ const useStyles = makeStyles((theme) => ({
 function LoginContainer() {
   const [backgroundImage, setBackgroundImage] = useState('');
 
-  useEffect(()=>{
-    weatherService.getCurrentWeatherType().then(e => {
-      setBackgroundImage(`background/${e.toLowerCase()}/${Math.floor(Math.random() * 3)}.jpeg`);
+  useEffect(() => {
+    weatherService.getCurrentWeatherType().then((e) => {
+      setBackgroundImage(
+        require(`styles/images/background/${e.toLowerCase()}/${Math.floor(Math.random() * 3)}.jpeg`)
+      );
     });
-  },[])
-
+  }, []);
 
   const classes = useStyles();
 
@@ -63,7 +66,9 @@ function LoginContainer() {
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
       <Grid item xs={12} sm={8} md={8}>
-        <img className={classes.image} src={backgroundImage} />
+        {backgroundImage && (
+          <img className={classes.image} src={backgroundImage} alt="로그인 배경 이미지" />
+        )}
       </Grid>
       <Grid item xs={12} sm={4} md={4} component={Paper} elevation={6} square>
         <div className={classes.paper}>

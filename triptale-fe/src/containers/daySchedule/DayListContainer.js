@@ -16,6 +16,9 @@ import DateUtils from 'utils/DateUtils';
 
 const useStyles = makeStyles((theme) => ({
   headerPaper: {
+    [theme.breakpoints.down('xs')]: {
+      maxWidth: '90%',
+    },
     maxWidth: '80%',
     margin: `${theme.spacing(0.5)}px auto`,
     padding: theme.spacing(2),
@@ -32,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   dayContainer: {
     maxWidth: '85%',
     margin: `${theme.spacing(0.2)}px auto`,
-    marginTop: '25px',
+    marginTop: '20px',
   },
 }));
 
@@ -61,7 +64,7 @@ function DayListContainer() {
     (srno) => {
       dispatch(DayScheduleActions.setTripAsync(srno));
     },
-    [dispatch],
+    [dispatch]
   );
 
   // 여행 일자 별 목록 조회
@@ -69,7 +72,7 @@ function DayListContainer() {
     (srno) => {
       dispatch(DayScheduleActions.setDaySchedulesAsync(srno));
     },
-    [dispatch],
+    [dispatch]
   );
 
   // 일차 등록 모달 표출 이벤트
@@ -114,7 +117,7 @@ function DayListContainer() {
         mapId: 'tripDayMap',
         center: [trip.latitude, trip.longitude],
         level: 8,
-      }),
+      })
     );
   }, [dispatch, trip]);
 

@@ -6,11 +6,13 @@ import { dayScheduleService } from 'lib/axios/services';
 import PlaceSaveModalContainer from 'containers/place/PlaceSaveModalContainer';
 import PlaceInfoModalContainer from 'containers/place/PlaceInfoModalContainer';
 import PlaceListItem from 'components/place/PlaceListItem';
+import MobilePlaceListItem from 'components/place/MobilePlaceListItem';
 import ModalLayout from 'components/common/ModalLayout';
+import PageExplanHeader from 'components/common/PageExplanHeader';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
-import PageExplanHeader from 'components/common/PageExplanHeader';
 
+import WebUtils from 'utils/WebUtils';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -26,15 +28,14 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down('xs')]: {
       width: '95%',
-      height: '50%',
+      height: '25%',
       top: 0,
     },
     width: '25%',
   },
   headerPaper: {
     maxWidth: '100%',
-    marginTop: '10px',
-    marginBottom: '15px',
+    marginBottom: '5px',
     padding: theme.spacing(2),
     backgroundColor: 'whitesmoke',
   },
@@ -43,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'white',
     opacity: 0.9,
     overflow: 'auto',
+    padding: 0,
   },
   divider: {
     height: 8,
@@ -162,11 +164,19 @@ function DayPlaceListContainer() {
             {dayPlaces.map((place, index) => {
               return (
                 <React.Fragment key={place.placeNo}>
-                  <PlaceListItem
-                    place={place}
-                    onListClick={handleListClick}
-                    onInfoClick={(e) => handleInfoClick(e, place)}
-                  />
+                  {!WebUtils.getIsMobile() ? (
+                    <PlaceListItem
+                      place={place}
+                      onListClick={handleListClick}
+                      onInfoClick={(e) => handleInfoClick(e, place)}
+                    />
+                  ) : (
+                    <MobilePlaceListItem
+                      place={place}
+                      onListClick={handleListClick}
+                      onInfoClick={(e) => handleInfoClick(e, place)}
+                    />
+                  )}
                   {index !== dayPlaces.length - 1 && (
                     <Divider className={classes.divider} light={true} />
                   )}

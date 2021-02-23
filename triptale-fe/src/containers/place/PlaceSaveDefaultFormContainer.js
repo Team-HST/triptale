@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as PlaceActions from 'store/modules/daySchedulePlace';
 import DateUtils from 'utils/DateUtils';
+import SaveActiveButton from 'components/place/SaveActiveButton';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
@@ -10,7 +11,6 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import { makeStyles } from '@material-ui/core/styles';
-import SaveActiveButton from 'components/place/SaveActiveButton';
 
 const useStyles = makeStyles((theme) => ({
   timeWapper: {

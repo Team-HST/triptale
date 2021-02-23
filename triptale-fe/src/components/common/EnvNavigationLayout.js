@@ -7,11 +7,13 @@ import HomeIcon from '@material-ui/icons/Home';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { makeStyles } from '@material-ui/core/styles';
 
+import WebUtils from 'utils/WebUtils';
+
 const useStyles = makeStyles({
   root: {
     position: 'fixed',
     width: '100%',
-    bottom: 0,
+    bottom: -8,
     background: 'whitesmoke',
     zIndex: 2,
   },
@@ -34,9 +36,7 @@ function EnvNavigationLayout({ children }) {
   }, [history]);
 
   useEffect(() => {
-    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-      setIsMobile(true);
-    }
+    setIsMobile(WebUtils.getIsMobile());
   }, [history]);
 
   return (
@@ -50,7 +50,12 @@ function EnvNavigationLayout({ children }) {
             icon={<ArrowBackIcon />}
             onClick={onBackClick}
           />
-          <BottomNavigationAction label="home" icon={<HomeIcon />} onClick={onHomeClick} />
+          <BottomNavigationAction
+            className={classes.buttonNav}
+            label="home"
+            icon={<HomeIcon />}
+            onClick={onHomeClick}
+          />
         </BottomNavigation>
       )}
     </>
