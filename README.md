@@ -22,6 +22,9 @@
 - React.js  
 - Design / https://material-ui.com/
 
+## Cloud
+- AWS 
+
 ## \# CI & CD
 
 ## \# ERD
