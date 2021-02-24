@@ -1,7 +1,7 @@
 # triptale
 여행 관리 웹 서비스
 
-## Main concepts
+## \# Main concepts
 
 #### 1. Travel registration
 - Travel registration by location date
@@ -22,7 +22,7 @@
 - React.js  
 - Design / https://material-ui.com/
 
-## Cloud
+## \# Cloud
 - AWS 
 
 ## \# CI & CD
