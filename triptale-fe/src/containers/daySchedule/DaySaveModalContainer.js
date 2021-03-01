@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   closeBtn: {
-    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
   },
 }));
 
@@ -136,9 +136,6 @@ function DaySaveModalContainer({ daySchedule, label, onSaveModalClose }) {
         </Grid>
       </Grid>
       <div className={classes.footerBtn}>
-        <Button variant="contained" color="primary" onClick={handleSaveDaySheduleClick}>
-          일차 {label}
-        </Button>
         <Button
           className={classes.closeBtn}
           variant="contained"
@@ -146,6 +143,9 @@ function DaySaveModalContainer({ daySchedule, label, onSaveModalClose }) {
           onClick={onSaveModalClose}
         >
           닫기
+        </Button>
+        <Button variant="contained" color="primary" onClick={handleSaveDaySheduleClick}>
+          일차 {label}
         </Button>
       </div>
     </div>

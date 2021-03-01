@@ -66,7 +66,7 @@ const initialize = {
   map: {
     mapId: 'tripDayPlaceMap',
     center: [33.450701, 126.570667],
-    level: 6,
+    level: 8,
   },
   dayPlaces: [],
   savePlace: {},

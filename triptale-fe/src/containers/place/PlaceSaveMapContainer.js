@@ -39,14 +39,11 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: '0px',
   },
   map: {
-    height: '30vh',
-    [theme.breakpoints.down('xs')]: {
-      height: '25vh',
-    },
+    height: '25vh',
   },
   noData: {
     textAlign: 'center',
-    height: '210px',
+    height: '200px',
     lineHeight: '5px',
     [theme.breakpoints.down('xs')]: {
       height: '120px',
