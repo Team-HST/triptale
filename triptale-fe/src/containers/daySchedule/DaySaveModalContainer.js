@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import useInput from 'hooks/useInput';
 import clsx from 'clsx';
 
 import Grid from '@material-ui/core/Grid';
@@ -59,13 +60,8 @@ const useStyles = makeStyles((theme) => ({
 function DaySaveModalContainer({ daySchedule, label, onSaveModalClose }) {
   const classes = useStyles();
   const { trip } = useSelector((state) => ({ trip: state.daySchedule.trip }));
-  const [description, setDescription] = useState('');
+  const [description, onChangeDescription, setDescription] = useInput('');
   const [colorCode, setColorCode] = useState(null);
-
-  // 일차 설명 변경 이벤트
-  const handleDescriptionChange = useCallback((e) => {
-    setDescription(e.target.value);
-  }, []);
 
   // 색상 변경 이벤트
   const handleColorChange = useCallback((color) => {
@@ -112,7 +108,7 @@ function DaySaveModalContainer({ daySchedule, label, onSaveModalClose }) {
       setDescription(daySchedule.description);
       setColorCode(daySchedule.colorCode);
     }
-  }, [daySchedule]);
+  }, [daySchedule, setDescription]);
 
   return (
     <div className={clsx(classes.paper, classes.modal)}>
@@ -128,7 +124,7 @@ function DaySaveModalContainer({ daySchedule, label, onSaveModalClose }) {
             required
             label="일차 설명"
             fullWidth
-            onChange={(e) => handleDescriptionChange(e)}
+            onChange={onChangeDescription}
           />
         </Grid>
         <Grid className={classes.colorGrid} item xs={10}>

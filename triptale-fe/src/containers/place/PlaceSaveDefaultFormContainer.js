@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import useInput from 'hooks/useInput';
 import * as PlaceActions from 'store/modules/daySchedulePlace';
 import DateUtils from 'utils/DateUtils';
 import SaveActiveButton from 'components/place/SaveActiveButton';
@@ -41,21 +42,11 @@ function PlaceSaveDefaultFormContainer() {
   const classes = useStyles();
   const { savePlace, activeStep } = useSelector((state) => state.daySchedulePlace);
   const dispatch = useDispatch();
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [title, onChangeTitle, setTitle] = useInput('');
+  const [description, onChangeDescription, setDescription] = useInput('');
   const [type, setType] = useState('1');
   const [startAt, setStartAt] = useState('00:00');
   const [endAt, setEndAt] = useState('24:00');
-
-  // 장소 명 변경 이벤트
-  const handleTitleChange = useCallback((e) => {
-    setTitle(e.target.value);
-  }, []);
-
-  // 장소 설명 변경 이벤트
-  const handleDescriptionChange = useCallback((e) => {
-    setDescription(e.target.value);
-  }, []);
 
   // 시작 시간 변경 이벤트
   const handleStartTime = useCallback(
@@ -117,7 +108,7 @@ function PlaceSaveDefaultFormContainer() {
     setType(type ? String(type) : '1');
     setStartAt(startAt ? startAt : '00:00');
     setEndAt(endAt ? endAt : '23:59');
-  }, [savePlace]);
+  }, [savePlace, setDescription, setTitle]);
 
   return (
     <>
@@ -132,7 +123,7 @@ function PlaceSaveDefaultFormContainer() {
             value={title}
             fullWidth
             autoComplete="given-name"
-            onChange={(e) => handleTitleChange(e)}
+            onChange={onChangeTitle}
           />
         </Grid>
         <Grid item xs={12} sm={12}>
@@ -143,7 +134,7 @@ function PlaceSaveDefaultFormContainer() {
             rows={2}
             fullWidth
             autoComplete="given-name"
-            onChange={(e) => handleDescriptionChange(e)}
+            onChange={onChangeDescription}
           />
         </Grid>
         <Grid className={classes.timeWapper} container>
