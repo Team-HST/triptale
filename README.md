@@ -1,7 +1,7 @@
 # triptale
 여행 관리 웹 서비스
 
-## Main concepts
+## \# Main concepts
 
 #### 1. Travel registration
 - Travel registration by location date
@@ -21,6 +21,9 @@
 #### [triptale-fe](https://github.com/Team-HST/triptale/tree/develop/triptale-fe)
 - React.js  
 - Design / https://material-ui.com/
+
+## \# Cloud
+- AWS 
 
 ## \# CI & CD
 
