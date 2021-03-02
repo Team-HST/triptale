@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import useInput from 'hooks/useInput';
 import { makeStyles } from '@material-ui/core/styles';
 
 import ProductLayout from 'components/main/ProductLayout';
@@ -52,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 function ImageBannerContainer() {
   const classes = useStyles();
   const [user, setUser] = useState({});
-  const [searchNm, setSearchNm] = useState('');
+  const [searchNm, onChangeSearchNm] = useInput('');
   const [open, setOpen] = useState(false);
   const [isUserProfile, setIsUserProfile] = useState(false);
   const dispatch = useDispatch();
@@ -69,11 +70,6 @@ function ImageBannerContainer() {
     },
     [dispatch]
   );
-
-  // 검색 인풋 변경 이벤트
-  const handlerSearchNmChange = useCallback((e) => {
-    setSearchNm(e.target.value);
-  }, []);
 
   // 등록 버튼 클릭 이벤트
   const handleRegisterClick = useCallback(() => {
@@ -141,7 +137,7 @@ function ImageBannerContainer() {
         <SearchBox
           searchNm={searchNm}
           placeholder="당신의 여행을 검색하세요."
-          onSearchNmChange={handlerSearchNmChange}
+          onSearchNmChange={onChangeSearchNm}
           onSearchInputKeyDwon={handleSearchInputKeyDwon}
           onSearchClick={handleSearchClick}
         />

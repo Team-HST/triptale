@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   closeBtn: {
-    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
   },
   map: {
     height: '250px',
@@ -130,7 +130,7 @@ function TripSaveModalContainer({ label, trip, onModalCloseClick }) {
         [name]: value,
       });
     },
-    [textField],
+    [textField]
   );
 
   // 시작일자 변경 이벤트
@@ -143,7 +143,7 @@ function TripSaveModalContainer({ label, trip, onModalCloseClick }) {
 
       setStartDate(date);
     },
-    [endDate],
+    [endDate]
   );
 
   // 종료일자 변경이벤트
@@ -156,7 +156,7 @@ function TripSaveModalContainer({ label, trip, onModalCloseClick }) {
 
       setEndDate(date);
     },
-    [startDate],
+    [startDate]
   );
 
   // 목적지 검색 클릭 이벤트
@@ -190,7 +190,7 @@ function TripSaveModalContainer({ label, trip, onModalCloseClick }) {
         handleSearchClick();
       }
     },
-    [handleSearchClick],
+    [handleSearchClick]
   );
 
   // 파일 변경 이벤트
@@ -353,9 +353,6 @@ function TripSaveModalContainer({ label, trip, onModalCloseClick }) {
         </Grid>
       </Grid>
       <div className={classes.footerBtn}>
-        <Button variant="contained" color="primary" onClick={handleSaveTripClick}>
-          여행 {label}
-        </Button>
         <Button
           className={classes.closeBtn}
           variant="contained"
@@ -363,6 +360,9 @@ function TripSaveModalContainer({ label, trip, onModalCloseClick }) {
           onClick={onModalCloseClick}
         >
           닫기
+        </Button>
+        <Button variant="contained" color="primary" onClick={handleSaveTripClick}>
+          여행 {label}
         </Button>
       </div>
     </div>
