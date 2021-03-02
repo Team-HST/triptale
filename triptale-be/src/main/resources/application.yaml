@@ -83,7 +83,7 @@ spring:
         format_sql: true
 
 app:
-  fe-service-url: http://localhost:3000
+  fe-service-url: https://triptale.netlify.app
   file:
     storage: fs
     upload-dir: ${user.home}/triptale/files
