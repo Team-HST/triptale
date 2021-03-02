@@ -1,1 +1,1 @@
-/api/*            http://http://ec2-3-34-31-147.ap-northeast-2.compute.amazonaws.com:8000/:splat 301
+/api/*            http://ec2-3-34-31-147.ap-northeast-2.compute.amazonaws.com:8000/:splat 301
