@@ -106,7 +106,7 @@ const dayScheduleService = {
    * @param placeUrl (여행 번호)
    */
   searchKakaoPlaceAPIThumbnails: (placeUrl) => {
-    return http.get(`/api//content/places/support/extract-thumbnail?sourceUrl=${placeUrl}`);
+    return http.get(`/api/content/places/support/extract-thumbnail?sourceUrl=${placeUrl}`);
   },
 };
 
