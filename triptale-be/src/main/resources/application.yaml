@@ -70,7 +70,7 @@ app:
         - /content/weather/**
 ---
 spring:
-  profiles: local,develop
+  profiles: develop
   datasource:
     url: jdbc:mysql://hoons-aws-db-dev.cttkkceqgfsb.ap-northeast-2.rds.amazonaws.com:3306/triptale
     username: hst
@@ -83,7 +83,7 @@ spring:
         format_sql: true
 
 app:
-  fe-service-url: https://triptale.netlify.app
+  fe-service-url: http://localhost:3000
   file:
     storage: fs
     upload-dir: ${user.home}/triptale/files
@@ -104,7 +104,7 @@ spring:
     show-sql: false
 
 app:
-  fe-service-url: http://triptale.com
+  fe-service-url: https://triptale.netlify.app
   file:
     storage: fs
     upload-dir: ${user.home}/triptale/files
