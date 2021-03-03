@@ -18,7 +18,7 @@ const ForbiddenErrorPage = lazy(() => import('pages/error/ForbiddenErrorPage'));
  * @author hoons
  * @email dudgns0612@gmail.com
  * @create date 2020-11-05 23:54:26
- * @modify date 2021-03-03 13:33:21
+ * @modify date 2021-03-03 13:39:58
  * @desc [앱 기본, 라우터 설정]
  */
 function App() {
@@ -43,7 +43,7 @@ function App() {
           <Route path="/error/401" component={TokenNullErrorPage}></Route>
           <Route path="/error/404" component={NotFoundErrorPage}></Route>
           <Route path="/error/403" component={ForbiddenErrorPage}></Route>
-          <Route component={NotFoundErrorPage}></Route>
+          <Route exact component={NotFoundErrorPage}></Route>
         </Suspense>
       </Switch>
     </>
