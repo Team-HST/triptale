@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
   },
   button: {
-    marginTop: theme.spacing(28),
+    marginTop: theme.spacing(25),
   },
 }));
 
