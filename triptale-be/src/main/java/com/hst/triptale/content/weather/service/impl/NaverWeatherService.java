@@ -3,9 +3,11 @@ package com.hst.triptale.content.weather.service.impl;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import com.hst.triptale.content.weather.service.AbstractWeatherService;
+import com.hst.triptale.content.weather.service.WeatherService;
+import com.hst.triptale.content.weather.type.WeatherType;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,16 +16,28 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Service
-public class NaverWeatherService extends AbstractWeatherService {
+public class NaverWeatherService implements WeatherService {
 
 	private static final String WEATHER_SEARCH_URL = "https://weather.naver.com/";
 
 	@Override
-	public double getPrecipitation() throws Exception {
-		Document document = Jsoup.connect(WEATHER_SEARCH_URL).get();
-		Element element = document.selectFirst(".weather_area > .summary_list > dd");
-		String precipitationString = element.text();
-		return Double.parseDouble(precipitationString.substring(0, precipitationString.length() - 1));
+	@Cacheable("currentWeatherCache")
+	public WeatherType getCurrentWeatherType() {
+		try {
+			Document document = Jsoup.connect(WEATHER_SEARCH_URL).get();
+			Element element = document.selectFirst(".weather_area > .summary > .weather");
+			String temperatureString = element.text();
+			if (temperatureString.contains("비")) {
+				return WeatherType.RAINY;
+			}
+			if (temperatureString.contains("눈")) {
+				return WeatherType.SNOWY;
+			}
+			return WeatherType.SUNNY;
+		} catch (Exception e) {
+			log.error("날씨 조회 실패", e);
+			return WeatherType.SUNNY;
+		}
 	}
 
 	@Override

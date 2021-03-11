@@ -19,10 +19,4 @@ public interface WeatherService {
 	 */
 	int getTemperature() throws Exception;
 
-	/**
-	 * 강수 확률 조회
-	 * @return 강수 확률
-	 */
-	double getPrecipitation() throws Exception;
-
 }
